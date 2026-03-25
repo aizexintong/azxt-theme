@@ -173,211 +173,58 @@ body::before {
   transition: opacity 0.3s ease;
 }
 
-/* 动漫风格标题 */
-.anime-title {
-  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  position: relative;
-  display: inline-block;
-  padding: 0 20px;
+/* 简洁标题样式 */
+.site-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.anime-title::before,
-.anime-title::after {
-  content: '✦';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+.site-title:hover {
   color: var(--primary);
-  font-size: 1.2em;
-  opacity: 0.8;
-  animation: sparkle 2s infinite alternate;
 }
 
-.anime-title::before {
-  left: -10px;
-}
-
-.anime-title::after {
-  right: -10px;
-}
-
-@keyframes sparkle {
-  0%, 100% { opacity: 0.5; transform: translateY(-50%) scale(1); }
-  50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
-}
-
-/* 动漫风格副标题 */
-.anime-subtitle {
-  font-family: 'Comic Sans MS', 'Marker Felt', cursive;
-  font-weight: 600;
-  color: var(--primary-light);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-  display: inline-block;
-  padding: 5px 15px;
-  background: linear-gradient(45deg, 
-    rgba(138, 75, 90, 0.1), 
-    rgba(122, 106, 95, 0.1)
-  );
-  border-radius: 20px;
-  border: 2px solid rgba(138, 75, 90, 0.2);
-}
-
-/* 动漫风格按钮 */
-.btn-anime {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: white;
-  border: none;
-  border-radius: 25px;
-  padding: 12px 30px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(138, 75, 90, 0.3);
-  transition: all 0.3s ease;
-}
-
-.btn-anime::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.btn-anime:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(138, 75, 90, 0.4);
-}
-
-.btn-anime:hover::before {
-  left: 100%;
-}
-
-/* 动漫风格卡片 */
-.card-anime {
-  background: var(--surface);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-anime::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, 
-    var(--primary), 
-    var(--secondary), 
-    var(--accent)
-  );
-  border-radius: 22px;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.card-anime:hover {
-  transform: translateY(-10px) rotateX(5deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.card-anime:hover::before {
-  opacity: 1;
-  animation: gradientShift 3s ease infinite;
-}
-
-/* 动漫风格标签 */
-.tag-anime {
-  display: inline-block;
-  padding: 6px 15px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: white;
-  border-radius: 20px;
-  font-weight: bold;
+.site-subtitle {
   font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 10px rgba(138, 75, 90, 0.3);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+  color: var(--text-light);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
 }
 
-.tag-anime::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.tag-anime:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 6px 15px rgba(138, 75, 90, 0.4);
-}
-
-.tag-anime:hover::before {
-  left: 100%;
-}
-
-/* 动漫风格文章卡片 */
-.post-card-anime {
+/* 简洁卡片样式 */
+.card {
   background: var(--surface);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  position: relative;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--neutral);
+  transition: all 0.2s ease;
 }
 
-.post-card-anime::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, 
-    var(--primary), 
-    var(--secondary), 
-    var(--accent)
-  );
-  border-radius: 22px;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-light);
 }
 
-.post-card-anime:hover {
-  transform: translateY(-8px) rotateY(5deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+/* 简洁标签样式 */
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(138, 75, 90, 0.08);
+  color: var(--primary);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(138, 75, 90, 0.15);
 }
 
-.post-card-anime:hover::before {
-  opacity: 1;
-  animation: gradientShift 3s ease infinite;
+.tag:hover {
+  background: rgba(138, 75, 90, 0.15);
+  color: var(--primary-dark);
 }
 
 /* 动漫风格背景图案 - 用于body */
@@ -509,19 +356,15 @@ body.anime-bg::before {
 }
 
 .site-title {
-  font-size: 2rem;
-  font-weight: 800;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
-  transition: all 0.3s ease;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .site-title:hover {
-  transform: translateY(-1px);
-  text-shadow: 0 5px 15px rgba(124, 58, 237, 0.2);
+  color: var(--primary);
 }
 
 .site-subtitle {
@@ -617,27 +460,11 @@ body.anime-bg::before {
 }
 
 .hero-title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1.1;
-  letter-spacing: -1px;
-  animation: titleGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes titleGlow {
-  0% {
-    background-position: 0 50%;
-    text-shadow: 0 5px 20px rgba(138, 75, 90, 0.2);
-  }
-  100% {
-    background-position: 100% 50%;
-    text-shadow: 0 5px 30px rgba(138, 75, 90, 0.3);
-  }
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text);
+  line-height: 1.2;
 }
 
 .hero-subtitle {
@@ -877,22 +704,12 @@ body.anime-bg::before {
 }
 
 /* 暗黑模式下的按钮 */
-[data-theme="dark"] .btn-primary {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
 [data-theme="dark"] .btn-primary:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-[data-theme="dark"] .btn-secondary {
-  color: var(--primary-light);
-  border-color: var(--primary-light);
+  background: var(--primary-light);
 }
 
 [data-theme="dark"] .btn-secondary:hover {
-  background: var(--primary-light);
-  color: var(--surface);
+  background: rgba(138, 75, 90, 0.2);
 }
 
 /* 暗黑模式下的页脚 */
@@ -1320,66 +1137,33 @@ svg {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.8rem 2rem;
-  border-radius: 25px;
-  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.btn:hover::before {
-  left: 100%;
+  font-size: 0.95rem;
 }
 
 .btn-primary {
-  background: var(--gradient);
+  background: var(--primary);
   color: white;
-  box-shadow: 0 5px 15px rgba(138, 75, 90, 0.3);
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(138, 75, 90, 0.4);
+  background: var(--primary-dark);
 }
 
 .btn-secondary {
   background: transparent;
   color: var(--primary);
-  border: 2px solid var(--primary);
+  border: 1px solid var(--primary);
 }
 
 .btn-secondary:hover {
-  background: var(--primary);
-  color: white;
-  transform: translateY(-3px);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--text);
-  border: 2px solid var(--neutral);
-}
-
-.btn-outline:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  transform: translateY(-3px);
+  background: rgba(138, 75, 90, 0.1);
 }
 
 /* 主题切换按钮 */
@@ -1442,28 +1226,13 @@ svg {
 
 /* 区域标题 */
 .section-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-align: center;
-  margin-bottom: 1rem;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+  font-weight: 600;
   position: relative;
   display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--gradient);
-  border-radius: 2px;
 }
 
 .section-subtitle {
@@ -1500,30 +1269,16 @@ svg {
 /* 标签卡片 */
 .tag-card {
   background: var(--surface);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--neutral);
-  position: relative;
-  overflow: hidden;
-}
-
-.tag-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: var(--gradient);
-  opacity: 0.8;
+  transition: all 0.2s ease;
 }
 
 .tag-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(138, 75, 90, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-light);
 }
 
 .tag-content {
@@ -1658,20 +1413,19 @@ svg {
 /* 文章卡片 */
 .post-card {
   background: var(--surface);
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--neutral);
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
-  min-height: 480px;
+  height: 100%;
 }
 
 .post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(138, 75, 90, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-light);
 }
 
 .post-image {
@@ -2521,140 +2275,7 @@ button {
   transform: rotateY(10deg) rotateX(5deg) translateZ(20px);
 }
 
-/* 流光按钮 */
-.btn-streamer {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-  background-size: 400% 400%;
-  animation: gradientShift 3s ease infinite;
-}
 
-@keyframes gradientShift {
-  0%, 100% { background-position: 0 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* 星空背景 */
-.starry-bg {
-  position: relative;
-  overflow: hidden;
-}
-
-.starry-bg::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 50px 160px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 160px 120px, #fff, rgba(0,0,0,0));
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  animation: twinkle 4s infinite;
-  opacity: 0.3;
-  z-index: -1;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.8; }
-}
-
-/* 呼吸灯效果 */
-.breathing {
-  animation: breathing 3s ease-in-out infinite;
-}
-
-@keyframes breathing {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
-}
-
-/* 打字机光标 */
-.typewriter-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 1em;
-  background: var(--primary);
-  margin-left: 2px;
-  animation: blink 1s infinite;
-  vertical-align: middle;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* 波浪效果 */
-.wave {
-  position: relative;
-  overflow: hidden;
-}
-
-.wave::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.2), 
-    transparent
-  );
-  transform: translateX(-100%);
-  animation: wave 2s linear infinite;
-}
-
-@keyframes wave {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* 玻璃态效果 */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* 悬浮效果 */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* 渐变边框 */
-.gradient-border {
-  position: relative;
-  border: 3px solid transparent;
-  background-clip: padding-box;
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  top: -3px;
-  left: -3px;
-  right: -3px;
-  bottom: -3px;
-  background: var(--gradient);
-  border-radius: inherit;
-  z-index: -1;
-}
 
 /* 加载动画集合 */
 .loader-dots {

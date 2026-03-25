@@ -1,0 +1,178 @@
+{{- /* 
+ * 搜索弹窗组件
+ */ -}}
+
+{{- if .Site.Params.enableSearch -}}
+<div class="search-modal-overlay" id="search-modal-overlay" aria-hidden="true"></div>
+<div class="search-modal" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+  <div class="search-modal-content">
+    <div class="search-modal-header">
+      <h2 id="search-modal-title" class="search-modal-title">搜索文章</h2>
+      <button class="search-modal-close" id="search-modal-close" aria-label="关闭搜索">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="search-modal-body">
+      {{ partial "search.html" . }}
+    </div>
+  </div>
+</div>
+
+<style>
+  .search-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .search-modal-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+  
+  .search-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    background: var(--surface);
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .search-modal.active {
+    display: block;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  
+  .search-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .search-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--neutral);
+  }
+  
+  .search-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+  }
+  
+  .search-modal-close {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .search-modal-close:hover {
+    color: var(--text);
+    background: var(--neutral-light);
+  }
+  
+  .search-modal-body {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  
+  .search-toggle {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .search-toggle:hover {
+    color: var(--primary);
+    background: var(--neutral-light);
+  }
+  
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .theme-toggle:hover {
+    color: var(--primary);
+    background: var(--neutral-light);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchToggle = document.getElementById('search-toggle');
+    const searchModal = document.getElementById('search-modal');
+    const searchModalOverlay = document.getElementById('search-modal-overlay');
+    const searchModalClose = document.getElementById('search-modal-close');
+    
+    if (searchToggle && searchModal) {
+      searchToggle.addEventListener('click', function() {
+        searchModal.classList.add('active');
+        searchModalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // 聚焦搜索输入框
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+          setTimeout(() => searchInput.focus(), 100);
+        }
+      });
+      
+      function closeSearchModal() {
+        searchModal.classList.remove('active');
+        searchModalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      
+      searchModalClose.addEventListener('click', closeSearchModal);
+      searchModalOverlay.addEventListener('click', closeSearchModal);
+      
+      // ESC键关闭
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+          closeSearchModal();
+        }
+      });
+    }
+  });
+</script>
+{{- end -}}

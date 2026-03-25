@@ -1,8 +1,8 @@
 {{ define "main" }}
-  <article class="article-content anime-bg-inner" role="article">
+  <article class="article-content" role="article">
     <header class="article-header">
       {{ if .Params.image }}
-      <div class="article-hero card-anime">
+      <div class="article-hero">
         <img 
           src="{{ .Params.image }}" 
           alt="{{ .Title }}" 
@@ -14,19 +14,19 @@
       {{ end }}
       
       <div class="container">
-        <div class="article-header-content card-anime" style="padding: 2rem; margin-top: -50px; position: relative; z-index: 1;">
+        <div class="article-header-content" style="padding: 2rem 0;">
           <div class="article-meta">
             {{ if .Date }}
               {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
               {{ $dateHuman := .Date | time.Format "2006年1月2日" }}
-              <time class="article-date tag-anime" datetime="{{ $dateMachine }}" aria-label="发布日期" style="margin-right: 10px;">
+              <time class="article-date" datetime="{{ $dateMachine }}" aria-label="发布日期" style="margin-right: 1rem; color: var(--text-light); font-size: 0.9rem;">
                 <i class="fas fa-calendar" aria-hidden="true"></i>
                 {{ $dateHuman }}
               </time>
             {{ end }}
             
             {{ if .ReadingTime }}
-              <span class="article-reading-time tag-anime" aria-label="阅读时间" style="margin-right: 10px;">
+              <span class="article-reading-time" aria-label="阅读时间" style="margin-right: 1rem; color: var(--text-light); font-size: 0.9rem;">
                 <i class="fas fa-clock" aria-hidden="true"></i>
                 {{ .ReadingTime }}分钟阅读
               </span>
@@ -35,7 +35,7 @@
             {{ if .Params.categories }}
               <div class="article-categories">
                 {{ range .Params.categories }}
-                  <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="article-category tag-anime" style="margin-right: 5px;">
+                  <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="article-category tag" style="margin-right: 0.5rem;">
                     <i class="fas fa-folder" aria-hidden="true"></i>
                     {{ . }}
                   </a>
@@ -44,18 +44,18 @@
             {{ end }}
           </div>
           
-          <h1 class="article-title anime-title" style="margin: 1.5rem 0; font-size: 2.8rem;">{{ .Title }}</h1>
+          <h1 class="article-title" style="margin: 1rem 0; font-size: 2.5rem; color: var(--text); font-weight: 700; line-height: 1.3;">{{ .Title }}</h1>
           
           {{ if .Description }}
-            <p class="article-description" style="font-size: 1.3rem; color: var(--text-light); margin-bottom: 1.5rem; line-height: 1.6;">
+            <p class="article-description" style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 1.5rem; line-height: 1.6;">
               {{ .Description }}
             </p>
           {{ end }}
           
           {{ if .Params.tags }}
-            <div class="article-tags" style="margin-top: 1.5rem;">
+            <div class="article-tags" style="margin-top: 1rem;">
               {{ range .Params.tags }}
-                <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="article-tag tag-anime" style="margin-right: 8px; margin-bottom: 8px;">
+                <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="article-tag tag" style="margin-right: 0.5rem; margin-bottom: 0.5rem;">
                   <i class="fas fa-tag" aria-hidden="true"></i>
                   {{ . }}
                 </a>
@@ -68,65 +68,62 @@
 
     <div class="container">
       <div class="article-body">
-        <div class="article-content-wrapper card-anime" style="padding: 2.5rem; border-radius: 20px;">
+        <div class="article-content-wrapper" style="padding: 2rem 0;">
           {{ .Content }}
         </div>
         
         <aside class="article-sidebar">
-          <div class="sidebar-card card-anime">
-            <h3 class="sidebar-title anime-subtitle" style="font-size: 1.2rem; margin-bottom: 1.2rem;">
-              <i class="fas fa-info-circle" aria-hidden="true"></i>
+          <div class="sidebar-card card">
+            <h3 class="sidebar-title" style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--text); font-weight: 600;">
               文章信息
             </h3>
             <div class="sidebar-content">
               {{ if .Date }}
-                <div class="sidebar-item" style="padding: 0.8rem 0; border-bottom: 1px solid rgba(138, 75, 90, 0.1);">
-                  <span class="sidebar-label" style="color: var(--text-light); font-weight: 500;">📅 发布日期</span>
-                  <span class="sidebar-value" style="color: var(--primary); font-weight: 600;">{{ .Date.Format "2006-01-02" }}</span>
+                <div class="sidebar-item" style="padding: 0.5rem 0; border-bottom: 1px solid var(--neutral-light);">
+                  <span class="sidebar-label" style="color: var(--text-light); font-size: 0.9rem;">发布日期</span>
+                  <span class="sidebar-value" style="color: var(--text); font-size: 0.9rem;">{{ .Date.Format "2006-01-02" }}</span>
                 </div>
               {{ end }}
               
               {{ if .Lastmod }}
-                <div class="sidebar-item" style="padding: 0.8rem 0; border-bottom: 1px solid rgba(138, 75, 90, 0.1);">
-                  <span class="sidebar-label" style="color: var(--text-light); font-weight: 500;">🔄 最后更新</span>
-                  <span class="sidebar-value" style="color: var(--primary); font-weight: 600;">{{ .Lastmod.Format "2006-01-02" }}</span>
+                <div class="sidebar-item" style="padding: 0.5rem 0; border-bottom: 1px solid var(--neutral-light);">
+                  <span class="sidebar-label" style="color: var(--text-light); font-size: 0.9rem;">最后更新</span>
+                  <span class="sidebar-value" style="color: var(--text); font-size: 0.9rem;">{{ .Lastmod.Format "2006-01-02" }}</span>
                 </div>
               {{ end }}
               
               {{ if .WordCount }}
-                <div class="sidebar-item" style="padding: 0.8rem 0; border-bottom: 1px solid rgba(138, 75, 90, 0.1);">
-                  <span class="sidebar-label" style="color: var(--text-light); font-weight: 500;">📝 字数统计</span>
-                  <span class="sidebar-value" style="color: var(--primary); font-weight: 600;">{{ .WordCount }}字</span>
+                <div class="sidebar-item" style="padding: 0.5rem 0; border-bottom: 1px solid var(--neutral-light);">
+                  <span class="sidebar-label" style="color: var(--text-light); font-size: 0.9rem;">字数统计</span>
+                  <span class="sidebar-value" style="color: var(--text); font-size: 0.9rem;">{{ .WordCount }}字</span>
                 </div>
               {{ end }}
               
               {{ if .ReadingTime }}
-                <div class="sidebar-item" style="padding: 0.8rem 0;">
-                  <span class="sidebar-label" style="color: var(--text-light); font-weight: 500;">⏱️ 阅读时间</span>
-                  <span class="sidebar-value" style="color: var(--primary); font-weight: 600;">{{ .ReadingTime }}分钟</span>
+                <div class="sidebar-item" style="padding: 0.5rem 0;">
+                  <span class="sidebar-label" style="color: var(--text-light); font-size: 0.9rem;">阅读时间</span>
+                  <span class="sidebar-value" style="color: var(--text); font-size: 0.9rem;">{{ .ReadingTime }}分钟</span>
                 </div>
               {{ end }}
             </div>
           </div>
           
           {{ if .Params.tags }}
-            <div class="sidebar-card card-anime">
-              <h3 class="sidebar-title anime-subtitle" style="font-size: 1.2rem; margin-bottom: 1.2rem;">
-                <i class="fas fa-tags" aria-hidden="true"></i>
+            <div class="sidebar-card card">
+              <h3 class="sidebar-title" style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--text); font-weight: 600;">
                 文章标签
               </h3>
               <div class="sidebar-tags">
                 {{ range .Params.tags }}
-                  <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="sidebar-tag tag-anime" style="margin: 3px;">{{ . }}</a>
+                  <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="sidebar-tag tag" style="margin: 2px;">{{ . }}</a>
                 {{ end }}
               </div>
             </div>
           {{ end }}
           
           {{ if .Site.Params.enableTOC }}
-            <div class="sidebar-card toc-card card-anime">
-              <h3 class="sidebar-title anime-subtitle" style="font-size: 1.2rem; margin-bottom: 1.2rem;">
-                <i class="fas fa-list" aria-hidden="true"></i>
+            <div class="sidebar-card toc-card card">
+              <h3 class="sidebar-title" style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--text); font-weight: 600;">
                 目录
               </h3>
               <div class="toc-content">
@@ -148,22 +145,22 @@
         
         <div class="article-navigation">
           {{ with .PrevInSection }}
-            <a href="{{ .RelPermalink }}" class="nav-link prev-link card-anime" aria-label="上一篇: {{ .Title }}" style="padding: 1.5rem; border-radius: 15px; text-decoration: none;">
-              <i class="fas fa-arrow-left" aria-hidden="true" style="color: var(--primary); font-size: 1.2rem;"></i>
-              <div class="nav-link-content">
-                <span class="nav-link-label" style="color: var(--text-light); font-size: 0.9rem;">← 上一篇</span>
-                <span class="nav-link-title" style="color: var(--text); font-weight: 600; font-size: 1.1rem;">{{ .Title }}</span>
+            <a href="{{ .RelPermalink }}" class="nav-link prev-link" aria-label="上一篇: {{ .Title }}" style="padding: 1rem; text-decoration: none; display: block; color: var(--text); border: 1px solid var(--neutral); border-radius: 6px; transition: all 0.2s ease;">
+              <i class="fas fa-arrow-left" aria-hidden="true" style="color: var(--primary); margin-right: 0.5rem;"></i>
+              <div class="nav-link-content" style="display: inline-block;">
+                <span class="nav-link-label" style="display: block; color: var(--text-light); font-size: 0.85rem;">上一篇</span>
+                <span class="nav-link-title" style="display: block; color: var(--text); font-size: 0.95rem;">{{ .Title }}</span>
               </div>
             </a>
           {{ end }}
           
           {{ with .NextInSection }}
-            <a href="{{ .RelPermalink }}" class="nav-link next-link card-anime" aria-label="下一篇: {{ .Title }}" style="padding: 1.5rem; border-radius: 15px; text-decoration: none;">
-              <div class="nav-link-content">
-                <span class="nav-link-label" style="color: var(--text-light); font-size: 0.9rem;">下一篇 →</span>
-                <span class="nav-link-title" style="color: var(--text); font-weight: 600; font-size: 1.1rem;">{{ .Title }}</span>
+            <a href="{{ .RelPermalink }}" class="nav-link next-link" aria-label="下一篇: {{ .Title }}" style="padding: 1rem; text-decoration: none; display: block; color: var(--text); border: 1px solid var(--neutral); border-radius: 6px; transition: all 0.2s ease; text-align: right;">
+              <div class="nav-link-content" style="display: inline-block;">
+                <span class="nav-link-label" style="display: block; color: var(--text-light); font-size: 0.85rem;">下一篇</span>
+                <span class="nav-link-title" style="display: block; color: var(--text); font-size: 0.95rem;">{{ .Title }}</span>
               </div>
-              <i class="fas fa-arrow-right" aria-hidden="true" style="color: var(--primary); font-size: 1.2rem;"></i>
+              <i class="fas fa-arrow-right" aria-hidden="true" style="color: var(--primary); margin-left: 0.5rem;"></i>
             </a>
           {{ end }}
         </div>
