@@ -139,6 +139,7 @@ body {
   line-height: 1.6; /* 优化可读性行高 */
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto; /* 确保垂直滚动可用 */
   
   /* 背景纹理: 微妙的点状图案和渐变 */
   background-image: 

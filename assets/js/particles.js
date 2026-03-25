@@ -135,10 +135,10 @@ class ParticlesBackground {
     });
     
     window.addEventListener('touchmove', (e) => {
-      e.preventDefault();
+      // 不要阻止默认行为，允许滚动
       this.mouse.x = e.touches[0].clientX;
       this.mouse.y = e.touches[0].clientY;
-    }, { passive: false });
+    }, { passive: true });
   }
 }
 

@@ -243,6 +243,7 @@ function initMobileMenu() {
     mobileMenu.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
+    document.body.style.position = '';
   }
 }
 
