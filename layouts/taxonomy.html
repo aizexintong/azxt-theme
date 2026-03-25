@@ -1,33 +1,37 @@
 {{ define "main" }}
-  <div class="section-content" role="main">
-    <header class="section-header">
-      <h1 class="section-title">标签</h1>
+  <div class="section-content anime-bg" role="main">
+    <header class="section-header" style="text-align: center; margin-bottom: 3rem;">
+      <h1 class="section-title anime-title" style="font-size: 3rem; margin-bottom: 1rem;">🏷️ 标签云</h1>
       {{ if .Content }}
-        <div class="section-description">
+        <div class="section-description" style="max-width: 600px; margin: 0 auto; color: var(--text-light); font-size: 1.1rem;">
           {{ .Content }}
         </div>
+      {{ else }}
+        <p class="section-description" style="max-width: 600px; margin: 0 auto; color: var(--text-light); font-size: 1.1rem;">
+          探索所有文章标签，点击标签查看相关文章
+        </p>
       {{ end }}
     </header>
 
-    <div class="tags-grid" role="list">
+    <div class="tags-grid" role="list" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
       {{ range .Pages }}
-        <article class="tag-card" role="listitem">
-          <div class="tag-content">
-            <h2 class="tag-title">
-              <a href="{{ .RelPermalink }}" aria-label="查看标签: {{ .LinkTitle }}">
-                <i class="fas fa-tag" aria-hidden="true"></i>
+        <article class="tag-card card-anime" role="listitem" style="padding: 2rem; min-height: 220px; display: flex; flex-direction: column;">
+          <div class="tag-content" style="flex: 1; display: flex; flex-direction: column;">
+            <h2 class="tag-title" style="margin-bottom: 1rem;">
+              <a href="{{ .RelPermalink }}" aria-label="查看标签: {{ .LinkTitle }}" class="anime-title" style="font-size: 1.5rem; text-decoration: none;">
+                <i class="fas fa-tag" aria-hidden="true" style="color: var(--primary); margin-right: 8px;"></i>
                 {{ .LinkTitle }}
               </a>
             </h2>
             
-            <div class="tag-meta" aria-label="标签信息">
-              <span class="tag-count">
+            <div class="tag-meta" aria-label="标签信息" style="margin-bottom: 1rem;">
+              <span class="tag-count tag-anime" style="padding: 6px 12px; font-size: 0.9rem;">
                 <i class="fas fa-file-alt" aria-hidden="true"></i>
                 {{ len .Pages }} 篇文章
               </span>
               
               {{ if .Date }}
-                <span class="tag-updated">
+                <span class="tag-updated tag-anime" style="padding: 6px 12px; font-size: 0.9rem; margin-left: 8px;">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
                   最近更新: {{ .Date.Format "2006-01-02" }}
                 </span>
@@ -35,17 +39,21 @@
             </div>
             
             {{ if .Description }}
-              <div class="tag-description">
+              <div class="tag-description" style="flex: 1; color: var(--text-light); line-height: 1.6; margin-bottom: 1.5rem;">
                 {{ .Description | truncate 120 }}
               </div>
             {{ else if .Summary }}
-              <div class="tag-description">
+              <div class="tag-description" style="flex: 1; color: var(--text-light); line-height: 1.6; margin-bottom: 1.5rem;">
                 {{ .Summary | truncate 120 }}
+              </div>
+            {{ else }}
+              <div class="tag-description" style="flex: 1; color: var(--text-light); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">
+                点击查看所有相关文章...
               </div>
             {{ end }}
             
-            <a href="{{ .RelPermalink }}" class="view-tag" aria-label="查看标签详情: {{ .LinkTitle }}">
-              查看文章
+            <a href="{{ .RelPermalink }}" class="view-tag btn-anime" aria-label="查看标签详情: {{ .LinkTitle }}" style="align-self: flex-start; padding: 10px 20px; font-size: 0.9rem;">
+              探索标签
               <i class="fas fa-arrow-right" aria-hidden="true"></i>
             </a>
           </div>

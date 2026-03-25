@@ -3,7 +3,10 @@
 <head>
   {{ partial "head.html" . }}
 </head>
-<body>
+<body class="anime-bg">
+  <!-- 粒子背景 -->
+  <canvas id="particles-canvas"></canvas>
+  
   <header>
     {{ partial "header.html" . }}
   </header>
@@ -13,5 +16,8 @@
   <footer>
     {{ partial "footer.html" . }}
   </footer>
+  
+  <!-- 粒子特效脚本 -->
+  <script src="{{ "js/particles.js" | relURL }}"></script>
 </body>
 </html>

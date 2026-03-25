@@ -1,77 +1,91 @@
 {{ define "main" }}
-  <div class="section-content" role="main">
-    <header class="section-header">
-      <h1 class="section-title">文章</h1>
+  <div class="section-content anime-bg" role="main">
+    <header class="section-header" style="text-align: center; margin-bottom: 3rem;">
+      <h1 class="section-title anime-title" style="font-size: 3rem; margin-bottom: 1rem;">📚 文章列表</h1>
       {{ if .Content }}
-        <div class="section-description">
+        <div class="section-description" style="max-width: 700px; margin: 0 auto; color: var(--text-light); font-size: 1.1rem; line-height: 1.6;">
           {{ .Content }}
         </div>
+      {{ else }}
+        <p class="section-description" style="max-width: 700px; margin: 0 auto; color: var(--text-light); font-size: 1.1rem; line-height: 1.6;">
+          探索所有技术文章、教程和思考
+        </p>
       {{ end }}
+      <p class="anime-subtitle" style="margin-top: 1rem; font-size: 1rem;">
+        💡 提示：搜索功能已移至<a href="/" style="color: var(--primary); text-decoration: none; font-weight: 600;">首页</a>
+      </p>
     </header>
 
-    {{ if .Site.Params.enableSearch }}
-      <div class="section-search" data-aos="fade-up">
-        {{ partial "search.html" . }}
-      </div>
-    {{ end }}
-
-    <div class="posts-grid" role="list">
+    <div class="posts-grid" role="list" style="grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 2.5rem;">
       {{ range .Pages }}
-        <article class="post-card" data-aos="fade-up" role="listitem">
+        <article class="post-card post-card-anime" data-aos="fade-up" role="listitem" style="min-height: 500px; display: flex; flex-direction: column;">
           {{ if .Params.image }}
-            <div class="post-image">
+            <div class="post-image" style="height: 220px; overflow: hidden; border-radius: 15px 15px 0 0;">
               <img 
                 src="{{ .Params.image }}" 
                 alt="{{ .Title }}" 
                 loading="lazy"
                 width="400"
                 height="200"
+                style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;"
               />
               {{ if .Params.categories }}
-                <span class="post-category" aria-label="文章分类">
+                <span class="post-category tag-anime" aria-label="文章分类" style="top: 1rem; left: 1rem; padding: 6px 15px; font-size: 0.8rem;">
+                  {{ index .Params.categories 0 }}
+                </span>
+              {{ end }}
+            </div>
+          {{ else }}
+            <div class="post-image" style="height: 220px; overflow: hidden; border-radius: 15px 15px 0 0; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center;">
+              <div style="color: white; font-size: 3rem; opacity: 0.7;">📄</div>
+              {{ if .Params.categories }}
+                <span class="post-category tag-anime" aria-label="文章分类" style="top: 1rem; left: 1rem; padding: 6px 15px; font-size: 0.8rem;">
                   {{ index .Params.categories 0 }}
                 </span>
               {{ end }}
             </div>
           {{ end }}
           
-          <div class="post-content">
-            <h2 class="post-title">
-              <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}">
+          <div class="post-content" style="padding: 2rem; flex: 1; display: flex; flex-direction: column;">
+            <h2 class="post-title" style="font-size: 1.5rem; margin-bottom: 1rem; line-height: 1.4;">
+              <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}" style="color: var(--text); text-decoration: none; transition: color 0.3s ease;">
                 {{ .Title }}
               </a>
             </h2>
             
-            <div class="post-meta" aria-label="文章信息">
+            <div class="post-meta" aria-label="文章信息" style="margin-bottom: 1.2rem;">
               {{ if .Date }}
-                <span class="post-date">
+                <span class="post-date tag-anime" style="padding: 5px 10px; font-size: 0.85rem; margin-right: 8px;">
                   <i class="fas fa-calendar" aria-hidden="true"></i>
                   {{ .Date.Format "2006-01-02" }}
                 </span>
               {{ end }}
               
               {{ if .ReadingTime }}
-                <span class="post-reading-time">
+                <span class="post-reading-time tag-anime" style="padding: 5px 10px; font-size: 0.85rem; margin-right: 8px;">
                   <i class="fas fa-clock" aria-hidden="true"></i>
                   {{ .ReadingTime }}分钟阅读
                 </span>
               {{ end }}
               
               {{ if .Params.tags }}
-                <span class="post-tags">
-                  <i class="fas fa-tags" aria-hidden="true"></i>
-                  {{ range first 3 .Params.tags }}
-                    <span class="post-tag">{{ . }}</span>
-                  {{ end }}
-                </span>
+                <div class="post-tags-container" style="margin-top: 8px;">
+                  <div class="post-tags">
+                    {{ range first 3 .Params.tags }}
+                      <span class="post-tag tag-anime" style="padding: 4px 10px; font-size: 0.8rem; margin-right: 5px; margin-bottom: 5px;">
+                        {{ . }}
+                      </span>
+                    {{ end }}
+                  </div>
+                </div>
               {{ end }}
             </div>
             
-            <div class="post-excerpt">
-              {{ .Summary | truncate 150 }}
+            <div class="post-excerpt" style="flex: 1; color: var(--text-light); line-height: 1.7; margin-bottom: 1.5rem; font-size: 0.95rem;">
+              {{ .Summary | truncate 180 }}
             </div>
             
-            <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">
+            <a href="{{ .RelPermalink }}" class="read-more btn-anime" aria-label="继续阅读: {{ .Title }}" style="align-self: flex-start; padding: 10px 25px; font-size: 0.9rem;">
               阅读全文
               <i class="fas fa-arrow-right" aria-hidden="true"></i>
             </a>

@@ -178,12 +178,295 @@ body::before {
 }
 
 /* 粒子背景效果 */
-#particles-js {
+#particles-canvas {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  z-index: -3; /* 在背景层之下 */
-  pointer-events: auto; /* 允许交互 */
+  z-index: -3;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+/* 动漫风格标题 */
+.anime-title {
+  font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.anime-title::before,
+.anime-title::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-size: 1.2em;
+  opacity: 0.8;
+  animation: sparkle 2s infinite alternate;
+}
+
+.anime-title::before {
+  left: -10px;
+}
+
+.anime-title::after {
+  right: -10px;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.5; transform: translateY(-50%) scale(1); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+}
+
+/* 动漫风格副标题 */
+.anime-subtitle {
+  font-family: 'Comic Sans MS', 'Marker Felt', cursive;
+  font-weight: 600;
+  color: var(--primary-light);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: inline-block;
+  padding: 5px 15px;
+  background: linear-gradient(45deg, 
+    rgba(138, 75, 90, 0.1), 
+    rgba(122, 106, 95, 0.1)
+  );
+  border-radius: 20px;
+  border: 2px solid rgba(138, 75, 90, 0.2);
+}
+
+/* 动漫风格按钮 */
+.btn-anime {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(138, 75, 90, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-anime::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-anime:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(138, 75, 90, 0.4);
+}
+
+.btn-anime:hover::before {
+  left: 100%;
+}
+
+/* 动漫风格卡片 */
+.card-anime {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-anime::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--primary), 
+    var(--secondary), 
+    var(--accent)
+  );
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card-anime:hover {
+  transform: translateY(-10px) rotateX(5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-anime:hover::before {
+  opacity: 1;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* 动漫风格标签 */
+.tag-anime {
+  display: inline-block;
+  padding: 6px 15px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(138, 75, 90, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tag-anime::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.tag-anime:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(138, 75, 90, 0.4);
+}
+
+.tag-anime:hover::before {
+  left: 100%;
+}
+
+/* 动漫风格文章卡片 */
+.post-card-anime {
+  background: var(--surface);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.post-card-anime::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--primary), 
+    var(--secondary), 
+    var(--accent)
+  );
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.post-card-anime:hover {
+  transform: translateY(-8px) rotateY(5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.post-card-anime:hover::before {
+  opacity: 1;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* 动漫风格背景图案 */
+.anime-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.anime-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(147, 112, 219, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(64, 224, 208, 0.1) 0%, transparent 50%);
+  z-index: -1;
+  animation: bgFloat 20s ease-in-out infinite alternate;
+}
+
+@keyframes bgFloat {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(50px, 30px) rotate(5deg); }
+}
+
+/* 快速链接两列布局 */
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.quick-links-grid li {
+  margin-bottom: 8px;
+}
+
+.quick-links-grid a {
+  display: block;
+  padding: 8px 12px;
+  background: rgba(138, 75, 90, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.quick-links-grid a:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateX(5px);
+}
+
+/* 主题GitHub链接 */
+.theme-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.theme-github-link:hover {
+  color: var(--primary-dark);
+  gap: 8px;
+}
+
+.theme-github-link i {
+  font-size: 0.9em;
 }
 
 .container {

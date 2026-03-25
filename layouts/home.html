@@ -26,11 +26,22 @@
   </div>
 </section>
 
+  <!-- 搜索功能 -->
+  <section class="search-section" data-aos="fade-up" style="margin: 3rem auto; max-width: 800px;">
+    <div class="container">
+      <div class="card-anime" style="padding: 2.5rem; text-align: center;">
+        <h2 class="anime-title" style="font-size: 2rem; margin-bottom: 1rem;">🔍 搜索文章</h2>
+        <p class="anime-subtitle" style="margin-bottom: 2rem; font-size: 1.1rem;">快速找到你感兴趣的内容</p>
+        {{ partial "search.html" . }}
+      </div>
+    </div>
+  </section>
+
   <!-- 最新文章 -->
   <section class="posts-section" data-aos="fade-up">
     <div class="container">
-      <h2 class="section-title">最新文章</h2>
-      <p class="section-subtitle">分享思考，记录成长</p>
+      <h2 class="section-title anime-title" style="font-size: 2.5rem;">📚 最新文章</h2>
+      <p class="section-subtitle anime-subtitle" style="font-size: 1.1rem;">分享思考，记录成长</p>
       <div class="posts-grid">
         {{ range first 12 (where site.RegularPages "Type" "posts") }}
          <article class="post-card" data-aos="fade-up" role="listitem">

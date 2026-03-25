@@ -12,7 +12,7 @@
       
       <div class="footer-section">
         <h2 id="quick-links">快速链接</h2>
-        <ul class="footer-links" role="list" aria-labelledby="quick-links">
+        <ul class="footer-links quick-links-grid" role="list" aria-labelledby="quick-links">
           {{ range site.Menus.main }}
           <li role="listitem"><a href="{{ .URL }}" aria-label="访问 {{ .Name }} 页面">{{ .Name }}</a></li>
           {{ end }}
@@ -43,7 +43,7 @@
     
     <div class="copyright">
       <p>© {{ now.Year }} 爱则心痛 (azxt) · 保留所有权利</p>
-      <p class="powered-by">由 <a href="https://gohugo.io/" target="_blank" rel="noopener" aria-label="访问 Hugo 官网">Hugo</a> 强力驱动 · 主题：azxt-theme</p>
+      <p class="powered-by">由 <a href="https://gohugo.io/" target="_blank" rel="noopener" aria-label="访问 Hugo 官网">Hugo</a> 强力驱动 · 主题：<a href="https://github.com/aizexintong/azxt-theme" target="_blank" rel="noopener" class="theme-github-link" aria-label="访问 azxt-theme GitHub 仓库">azxt-theme <i class="fab fa-github"></i></a></p>
     </div>
   </div>
 </footer>
