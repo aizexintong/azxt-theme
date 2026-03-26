@@ -68,12 +68,17 @@ git submodule add https://github.com/aizexintong/azxt-theme.git themes/azxt-them
 theme = "azxt-theme"
 ```
 
-### 3. 创建内容
+### 3. 创建内容文件
 
 ```bash
+# 文章
 hugo new posts/my-first-post.md
+
+# 关于页（必须创建，详见下方说明）
 hugo new about.md
 ```
+
+> **重要**: `content/about.md` 是**必须创建**的文件。它定义了关于页的正文内容，配合 `data/about.yaml` 数据文件共同渲染关于页面。详见 [关于页说明](#关于页-abouthtml)。
 
 ### 4. 启动开发服务器
 
@@ -303,7 +308,15 @@ tags: ["Hugo", "前端", "CSS"]
 
 ### 快速自定义数据
 
-1. 将主题默认数据文件复制到站点根目录：
+1. 创建关于页内容文件（必须）：
+
+```bash
+hugo new about.md
+```
+
+编辑 `content/about.md`，确保 Front Matter 包含 `layout: "about"`，下方编写你的个人介绍 Markdown 内容。
+
+2. 复制数据文件到站点根目录（可选，不复制则使用主题默认值）：
 
 ```bash
 cp themes/azxt-theme/data/about.yaml data/about.yaml
@@ -311,11 +324,13 @@ cp themes/azxt-theme/data/skills.yaml data/skills.yaml
 cp themes/azxt-theme/data/friends.yaml data/friends.yaml
 ```
 
-2. 编辑根目录下的数据文件
+3. 编辑根目录下的数据文件
 
-3. 重新构建站点：`hugo`
+4. 重新构建站点：`hugo`
 
 ### about.yaml - 关于页数据
+
+> 配合 `content/about.md` 内容文件使用。`about.yaml` 控制结构化展示区域（简介卡片、统计、理念、联系方式），`about.md` 提供正文 Markdown 内容。
 
 ```yaml
 intro:
@@ -448,15 +463,69 @@ apply:
 
 ### 关于页 (about.html)
 
-读取 `data/about.yaml`，展示个人简介、数据统计、技术理念、联系方式。
+关于页由**两部分**组成：
+
+**1. 内容文件 `content/about.md`**（必须创建）
+
+在站点根目录创建 `content/about.md`，Front Matter 必须包含 `layout: "about"`：
+
+```yaml
+---
+title: "关于我"
+date: 2026-03-24
+description: "个人介绍"
+image: "https://example.com/avatar.jpg"
+layout: "about"    # 必须，指定使用主题的 about.html 模板
+---
+
+# 关于我
+
+这里是你的自我介绍 Markdown 内容...
+
+## 个人简介
+...
+
+## 技术专长
+...
+
+## 联系方式
+...
+```
+
+- Front Matter 中的 `title`、`description` 用于页面标题和 SEO
+- 正文 Markdown 内容会在「个人简介 → 技术理念 → 页面内容 → 联系方式」之间渲染
+- 你可以自由编写个人故事、项目经历、技术观点等
+
+**2. 数据文件 `data/about.yaml`**（可选覆盖）
+
+控制页面结构化展示区域：
+
+| 区域 | 数据键 | 说明 |
+|------|--------|------|
+| 个人简介卡片 | `intro` | 姓名、头衔、座右铭 |
+| 数据统计 | `stats` | 文章数/技能数等统计项 |
+| 技术理念 | `philosophy` | 理念卡片列表 |
+| 联系方式 | `contact` | 邮箱/GitHub/网站等 |
+
+根目录 `data/about.yaml` 优先于主题默认数据。不创建则使用主题默认值。
 
 ### 技能页 (skills.html)
 
-读取 `data/skills.yaml`，展示技能分类总览、详细技能列表（含项目）、发展历程时间线。
+纯数据驱动页面，**无需创建内容文件**。只需配置数据：
+
+- 在 `data/skills.yaml` 中定义技能分类、详细技能列表、发展时间线
+- 不创建则使用主题默认数据
+
+访问路径：`/skills/`（在 `hugo.toml` 菜单中配置 `url = "/skills/"`）
 
 ### 友链页 (links.html)
 
-读取 `data/friends.yaml`，展示友链列表、申请友链说明、联系方式。
+纯数据驱动页面，**无需创建内容文件**。只需配置数据：
+
+- 在 `data/friends.yaml` 中定义友链列表、申请条件、联系方式
+- 不创建则使用主题默认数据
+
+访问路径：`/links/`（在 `hugo.toml` 菜单中配置 `url = "/links/"`）
 
 ### 标签页 (taxonomy.html / term.html)
 
