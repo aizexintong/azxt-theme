@@ -3,24 +3,131 @@
 <head>
   {{ partial "head.html" . }}
 </head>
-<body class="anime-bg">
-  <!-- 粒子背景 -->
-  <canvas id="particles-canvas"></canvas>
-  
-  <header>
-    {{ partial "header.html" . }}
-  </header>
-  <main>
-    {{ block "main" . }}{{ end }}
-  </main>
-  <footer>
-    {{ partial "footer.html" . }}
-  </footer>
-  
+<body>
+  <!-- 背景层 -->
+  <div class="bg-layer bg-image-layer">
+    <img src="https://t.alcy.cc/ycy" alt="背景图片" class="bg-image" loading="eager">
+  </div>
+  <div class="bg-layer bg-overlay-layer"></div>
+  <div class="bg-layer bg-effects-layer">
+    <canvas id="particles-canvas"></canvas>
+    <div class="sakura-container" id="sakura-container"></div>
+    <div class="stars-container" id="stars-container"></div>
+    <div class="light-particles" id="light-particles"></div>
+    <div class="firefly-container" id="firefly-container"></div>
+  </div>
+  <div class="bg-layer bg-blur-layer"></div>
+
+  <!-- 内容层 -->
+  <div class="content-wrapper">
+    <header>
+      {{ partial "header.html" . }}
+    </header>
+    <main id="main">
+      {{ block "main" . }}{{ end }}
+    </main>
+    <footer>
+      {{ partial "footer.html" . }}
+    </footer>
+  </div>
+
   <!-- 搜索弹窗 -->
   {{ partial "search-modal.html" . }}
-  
-  <!-- 粒子特效脚本 -->
-  <script src="{{ "js/particles.js" | relURL }}"></script>
+
+  <!-- CDN脚本 -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- 自定义脚本 -->
+  {{ partialCached "head/js.html" . }}
+
+  <!-- 装饰效果脚本 -->
+  <script>
+    function createSakura() {
+      const container = document.getElementById('sakura-container');
+      if (!container) return;
+      for (let i = 0; i < 18; i++) {
+        const sakura = document.createElement('div');
+        sakura.className = 'sakura';
+        sakura.style.left = Math.random() * 100 + 'vw';
+        sakura.style.animationDuration = (Math.random() * 15 + 15) + 's';
+        sakura.style.animationDelay = Math.random() * 12 + 's';
+        const size = Math.random() * 16 + 14;
+        sakura.style.width = size + 'px';
+        sakura.style.height = size + 'px';
+        container.appendChild(sakura);
+      }
+    }
+
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      if (!container) return;
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.top = Math.random() * 100 + 'vh';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+        container.appendChild(star);
+      }
+    }
+
+    function createLightParticles() {
+      const container = document.getElementById('light-particles');
+      if (!container) return;
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'light-particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.top = Math.random() * 100 + 'vh';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        container.appendChild(particle);
+      }
+    }
+
+    function createFireflies() {
+      const container = document.getElementById('firefly-container');
+      if (!container) return;
+      for (let i = 0; i < 18; i++) {
+        const firefly = document.createElement('div');
+        firefly.className = 'firefly';
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        firefly.style.left = x + 'vw';
+        firefly.style.top = y + 'vh';
+        firefly.style.animationDelay = (Math.random() * 5) + 's';
+        firefly.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        container.appendChild(firefly);
+        // 随机漂浮移动
+        animateFirefly(firefly, x, y);
+      }
+    }
+
+    function animateFirefly(el, x, y) {
+      const move = () => {
+        const nx = x + (Math.random() - 0.5) * 20;
+        const ny = y + (Math.random() - 0.5) * 20;
+        const clampedX = Math.max(2, Math.min(98, nx));
+        const clampedY = Math.max(2, Math.min(98, ny));
+        const duration = (Math.random() * 4 + 3);
+        el.style.transition = `left ${duration}s ease-in-out, top ${duration}s ease-in-out`;
+        el.style.left = clampedX + 'vw';
+        el.style.top = clampedY + 'vh';
+        x = clampedX;
+        y = clampedY;
+        setTimeout(move, duration * 1000);
+      };
+      setTimeout(move, Math.random() * 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      createSakura();
+      createStars();
+      createLightParticles();
+      createFireflies();
+    });
+  </script>
 </body>
 </html>

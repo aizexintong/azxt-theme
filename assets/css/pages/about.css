@@ -1,0 +1,459 @@
+/* ==========================================================================
+   关于页面样式 - 樱花梦语 (Mobile-First)
+   ========================================================================== */
+
+/* ===== 页面头部 ===== */
+.page-header {
+  text-align: center;
+  padding: var(--sp-10) 0 var(--sp-6);
+}
+
+.page-title {
+  font-size: var(--fs-3xl);
+  margin-bottom: var(--sp-3);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: var(--fw-bold);
+}
+
+.page-description {
+  color: var(--c-text-2);
+  font-size: var(--fs-base);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: var(--lh-relaxed);
+}
+
+/* ===== 个人简介卡片 ===== */
+.about-intro {
+  margin: var(--sp-6) 0;
+}
+
+.intro-card {
+  padding: var(--sp-6);
+  background: var(--c-surface);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--c-border);
+}
+
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-6);
+  align-items: center;
+  text-align: center;
+}
+
+.intro-text { width: 100%; }
+
+.intro-text h2 {
+  font-size: var(--fs-2xl);
+  margin-bottom: var(--sp-2);
+  color: var(--c-text);
+}
+
+.intro-subtitle {
+  color: var(--c-text-2);
+  font-size: var(--fs-base);
+  margin-bottom: var(--sp-6);
+  font-weight: var(--fw-medium);
+}
+
+.intro-quote {
+  background: var(--grad-soft);
+  border-left: 3px solid var(--c-primary);
+  padding: var(--sp-5);
+  border-radius: 0 var(--r-lg) var(--r-lg) 0;
+  position: relative;
+  text-align: left;
+}
+
+.intro-quote > i:first-child {
+  position: absolute;
+  top: var(--sp-3);
+  left: var(--sp-3);
+  color: var(--c-primary);
+  opacity: 0.3;
+  font-size: var(--fs-md);
+}
+
+.intro-quote > i:last-child {
+  position: absolute;
+  bottom: var(--sp-3);
+  right: var(--sp-3);
+  color: var(--c-primary);
+  opacity: 0.3;
+  font-size: var(--fs-md);
+}
+
+.intro-quote p {
+  color: var(--c-text);
+  font-size: var(--fs-base);
+  line-height: var(--lh-relaxed);
+  font-style: italic;
+  margin: 0;
+  padding: 0 var(--sp-6);
+}
+
+.intro-image {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.intro-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: var(--r-full);
+  object-fit: cover;
+  border: 4px solid var(--c-surface);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.image-decoration {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: var(--grad);
+  border-radius: var(--r-full);
+  opacity: 0.15;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* ===== 统计数据 ===== */
+.intro-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-4);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--c-border);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+  background: var(--grad-soft);
+  border-radius: var(--r-lg);
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--grad);
+  border-radius: var(--r-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: var(--fs-base);
+  flex-shrink: 0;
+}
+
+.stat-content { flex: 1; }
+
+.stat-number {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-extrabold);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.stat-label {
+  color: var(--c-text-2);
+  font-size: var(--fs-xs);
+  margin-top: 2px;
+}
+
+/* ===== 技术理念 ===== */
+.about-philosophy { margin: var(--sp-10) 0; }
+
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  margin-top: var(--sp-6);
+}
+
+.philosophy-item {
+  text-align: center;
+  padding: var(--sp-6);
+  background: var(--c-surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--c-border);
+  transition: all var(--t-base) var(--ease-out);
+}
+
+.philosophy-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.philosophy-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--grad);
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--sp-4);
+  color: white;
+  font-size: var(--fs-xl);
+}
+
+.philosophy-item h3 {
+  font-size: var(--fs-md);
+  margin-bottom: var(--sp-2);
+}
+
+.philosophy-item p {
+  color: var(--c-text-2);
+  line-height: var(--lh-relaxed);
+  font-size: var(--fs-sm);
+  margin: 0;
+}
+
+/* ===== 内容区域 ===== */
+.about-content { margin: var(--sp-10) 0; }
+.content-card { padding: var(--sp-6); }
+
+/* Markdown 增强 */
+.enhanced-markdown {
+  font-size: var(--fs-base);
+  line-height: var(--lh-loose);
+}
+
+.enhanced-markdown h2 {
+  font-size: var(--fs-xl);
+  margin: var(--sp-8) 0 var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-text);
+}
+
+.enhanced-markdown h3 {
+  font-size: var(--fs-md);
+  margin: var(--sp-6) 0 var(--sp-3);
+  color: var(--c-text);
+}
+
+.enhanced-markdown p {
+  margin: var(--sp-4) 0;
+  color: var(--c-text);
+}
+
+.enhanced-markdown strong {
+  color: var(--c-primary);
+  font-weight: var(--fw-semibold);
+}
+
+.enhanced-markdown ul,
+.enhanced-markdown ol {
+  margin: var(--sp-4) 0;
+  padding-left: var(--sp-6);
+}
+
+.enhanced-markdown li {
+  margin: var(--sp-2) 0;
+  color: var(--c-text);
+}
+
+.enhanced-markdown blockquote {
+  border-left: 3px solid var(--c-primary);
+  padding: var(--sp-4);
+  margin: var(--sp-4) 0;
+  background: var(--grad-soft);
+  border-radius: 0 var(--r-lg) var(--r-lg) 0;
+  font-style: italic;
+  color: var(--c-text-2);
+}
+
+.enhanced-markdown code {
+  background: var(--c-primary-ll);
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+  font-family: var(--ff-mono);
+  font-size: 0.9em;
+  color: var(--c-primary-d);
+}
+
+.enhanced-markdown pre {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  overflow-x: auto;
+  margin: var(--sp-4) 0;
+}
+
+.enhanced-markdown pre code {
+  background: none;
+  padding: 0;
+  color: var(--c-text);
+}
+
+.enhanced-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-4) 0;
+  font-size: var(--fs-sm);
+}
+
+.enhanced-markdown th {
+  background: var(--grad-soft);
+  padding: var(--sp-3);
+  text-align: left;
+  font-weight: var(--fw-semibold);
+  border-bottom: 2px solid var(--c-border);
+}
+
+.enhanced-markdown td {
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--c-border-l);
+}
+
+.enhanced-markdown a {
+  color: var(--c-primary);
+  border-bottom: 1px dashed var(--c-primary-l);
+}
+
+.enhanced-markdown a:hover {
+  border-bottom-style: solid;
+}
+
+/* ===== 联系方式 ===== */
+.about-contact {
+  margin: var(--sp-10) 0 var(--sp-16);
+}
+
+.contact-card {
+  padding: var(--sp-6);
+  text-align: center;
+}
+
+.contact-card .section-title { margin-bottom: var(--sp-2); }
+.contact-card .section-subtitle { margin-bottom: var(--sp-6); }
+
+.contact-methods {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.contact-method {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  background: var(--grad-soft);
+  border-radius: var(--r-lg);
+  text-decoration: none;
+  transition: all var(--t-fast) var(--ease-out);
+  border: 1px solid transparent;
+}
+
+.contact-method:hover {
+  background: var(--c-primary-ll);
+  border-color: var(--c-primary);
+  transform: translateY(-2px);
+}
+
+.method-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--grad);
+  border-radius: var(--r-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: var(--fs-md);
+  flex-shrink: 0;
+}
+
+.method-info {
+  flex: 1;
+  text-align: left;
+}
+
+.method-info h3 {
+  font-size: var(--fs-base);
+  margin-bottom: 2px;
+  color: var(--c-text);
+}
+
+.method-info p {
+  color: var(--c-text-2);
+  font-size: var(--fs-sm);
+  margin: 0;
+  word-break: break-all;
+}
+
+.contact-note {
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--c-border);
+}
+
+.contact-note p {
+  color: var(--c-text-2);
+  font-size: var(--fs-base);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ==========================================================================
+   响应式
+   ========================================================================== */
+
+@media (min-width: 576px) {
+  .philosophy-grid { grid-template-columns: repeat(2, 1fr); }
+  .intro-stats { grid-template-columns: repeat(4, 1fr); }
+  .contact-methods { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 768px) {
+  .page-title { font-size: var(--fs-4xl); }
+  .intro-card { padding: var(--sp-8); }
+
+  .intro-content {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .intro-text { flex: 1; }
+  .intro-image { order: 2; }
+
+  .intro-image img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .intro-quote { max-width: 500px; }
+
+  .content-card, .contact-card { padding: var(--sp-8); }
+}
+
+@media (min-width: 992px) {
+  .intro-image img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .philosophy-grid { grid-template-columns: repeat(4, 1fr); }
+  .philosophy-item { padding: var(--sp-8); }
+}

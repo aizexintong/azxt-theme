@@ -1,55 +1,31 @@
 {{ define "main" }}
-  <div class="section-content anime-bg-inner" role="main">
-    <header class="section-header" style="text-align: center; margin-bottom: 3rem;">
-      <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--text); font-weight: 600;">标签</h1>
-      {{ if .Content }}
-        <div class="section-description" style="max-width: 600px; margin: 0 auto; color: var(--text-light); font-size: 1rem;">
-          {{ .Content }}
-        </div>
-      {{ end }}
+  <div class="section-content" role="main">
+    <header class="section-header">
+      <h1 class="section-title">
+        <i class="fas fa-tags" style="margin-right: 0.5rem; color: var(--primary);"></i>标签云
+      </h1>
+      <p class="section-subtitle">探索不同主题的文章</p>
     </header>
 
-    <div class="tags-grid" role="list">
-      {{ range .Pages }}
-        <article class="tag-card" role="listitem">
-          <div class="tag-content">
-            <h2 class="tag-title">
-              <a href="{{ .RelPermalink }}" aria-label="查看标签: {{ .LinkTitle }}">
-                <i class="fas fa-tag" aria-hidden="true"></i>
-                {{ .LinkTitle }}
-              </a>
-            </h2>
-            
-            <div class="tag-meta" aria-label="标签信息">
-              <span class="tag-count">
-                <i class="fas fa-file-alt" aria-hidden="true"></i>
-                {{ len .Pages }} 篇文章
-              </span>
-              
-              {{ if .Date }}
-                <span class="tag-updated">
-                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  最近更新: {{ .Date.Format "2006-01-02" }}
-                </span>
-              {{ end }}
-            </div>
-            
-            {{ if .Description }}
-              <div class="tag-description">
-                {{ .Description | truncate 120 }}
-              </div>
-            {{ else if .Summary }}
-              <div class="tag-description">
-                {{ .Summary | truncate 120 }}
-              </div>
-            {{ end }}
-            
-            <a href="{{ .RelPermalink }}" class="view-tag" aria-label="查看标签详情: {{ .LinkTitle }}">
-              查看文章
-            </a>
-          </div>
-        </article>
-      {{ end }}
+    <div class="container">
+      <div class="tags-cloud-container">
+        {{ range .Pages }}
+          {{ $count := len .Pages }}
+          {{ $size := 1.0 }}
+          {{ if gt $count 10 }}
+            {{ $size = 1.3 }}
+          {{ else if gt $count 5 }}
+            {{ $size = 1.15 }}
+          {{ else if gt $count 2 }}
+            {{ $size = 1.05 }}
+          {{ end }}
+          <a href="{{ .RelPermalink }}" class="tag-cloud-item" style="font-size: {{ $size }}rem;" aria-label="标签: {{ .LinkTitle }} ({{ $count }}篇文章)">
+            <i class="fas fa-hashtag"></i>
+            {{ .LinkTitle }}
+            <span class="tag-count-badge">{{ $count }}</span>
+          </a>
+        {{ end }}
+      </div>
     </div>
   </div>
 {{ end }}

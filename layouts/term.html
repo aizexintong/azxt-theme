@@ -2,8 +2,7 @@
   <div class="section-content" role="main">
     <header class="section-header">
       <h1 class="section-title">
-        <i class="fas fa-tag" aria-hidden="true"></i>
-        {{ .Title }}
+        <i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
       </h1>
       {{ if .Content }}
         <div class="section-description">
@@ -14,7 +13,6 @@
           {{ .Description }}
         </div>
       {{ end }}
-      
       <div class="tag-header-meta">
         <span class="tag-article-count">
           <i class="fas fa-file-alt" aria-hidden="true"></i>
@@ -23,78 +21,101 @@
       </div>
     </header>
 
-    {{ if .Site.Params.enableSearch }}
-      <div class="section-search">
-        {{ partial "search.html" . }}
-      </div>
-    {{ end }}
-
-    <div class="posts-grid" role="list">
-      {{ range .Pages }}
-        <article class="post-card" data-aos="fade-up" role="listitem">
-          {{ if .Params.image }}
-            <div class="post-image">
-              <img 
-                src="{{ .Params.image }}" 
-                alt="{{ .Title }}" 
-                loading="lazy"
-                width="400"
-                height="200"
-              />
-              {{ if .Params.categories }}
-                <span class="post-category" aria-label="文章分类">
-                  {{ index .Params.categories 0 }}
-                </span>
+    <div class="container">
+      {{ $paginator := .Paginate .Pages 16 }}
+      <div class="term-posts-grid" role="list">
+        {{ range $index, $page := $paginator.Pages }}
+          <article class="post-card" role="listitem">
+            {{ if .Params.image }}
+              <div class="post-image">
+                <img 
+                  src="{{ .Params.image }}" 
+                  alt="{{ .Title }}" 
+                  loading="lazy"
+                  width="400"
+                  height="200"
+                />
+                {{ if .Params.categories }}
+                  <span class="post-category" aria-label="文章分类">
+                    {{ index .Params.categories 0 }}
+                  </span>
+                {{ end }}
+              </div>
+            {{ end }}
+            
+            <div class="post-content">
+              <h3 class="post-title" title="{{ .Title }}">
+                <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}">
+                  {{ .Title }}
+                </a>
+              </h3>
+              
+              <div class="post-meta" aria-label="文章信息">
+                {{ if .Date }}
+                  <span class="post-date">
+                    <i class="fas fa-calendar" aria-hidden="true"></i>
+                    {{ .Date.Format "2006-01-02" }}
+                  </span>
+                {{ end }}
+                
+                {{ if .ReadingTime }}
+                  <span class="post-reading-time">
+                    <i class="fas fa-clock" aria-hidden="true"></i>
+                    {{ .ReadingTime }}分钟
+                  </span>
+                {{ end }}
+              </div>
+              
+              {{ if .Params.tags }}
+              <div class="post-tags-container" title="{{ delimit .Params.tags ", " }}">
+                <div class="post-tags">
+                  {{ range first 3 .Params.tags }}
+                    <span class="post-tag">{{ . }}</span>
+                  {{ end }}
+                </div>
+              </div>
               {{ end }}
+              
+              <div class="post-excerpt">
+                {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 100 }}{{ end }}
+              </div>
+              
+              <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">
+                阅读全文
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+              </a>
             </div>
+          </article>
+        {{ end }}
+      </div>
+      
+      <!-- 分页 -->
+      {{ if gt $paginator.TotalPages 1 }}
+      <nav class="pagination" aria-label="分页导航">
+        {{ if $paginator.HasPrev }}
+          <a href="{{ $paginator.Prev.URL }}" class="page-link prev" aria-label="上一页">
+            <i class="fas fa-chevron-left"></i>
+            上一页
+          </a>
+        {{ end }}
+        
+        <div class="page-numbers">
+          {{ range $paginator.Pagers }}
+            {{ if eq . $paginator }}
+              <span class="page-link current" aria-current="page">{{ .PageNumber }}</span>
+            {{ else }}
+              <a href="{{ .URL }}" class="page-link" aria-label="第{{ .PageNumber }}页">{{ .PageNumber }}</a>
+            {{ end }}
           {{ end }}
-          
-           <div class="post-content">
-             <h2 class="post-title" title="{{ .Title }}">
-               <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}">
-                 {{ .Title }}
-               </a>
-             </h2>
-             
-             <div class="post-meta" aria-label="文章信息">
-               {{ if .Date }}
-                 <span class="post-date">
-                   <i class="fas fa-calendar" aria-hidden="true"></i>
-                   {{ .Date.Format "2006-01-02" }}
-                 </span>
-               {{ end }}
-               
-               {{ if .ReadingTime }}
-                 <span class="post-reading-time">
-                   <i class="fas fa-clock" aria-hidden="true"></i>
-                   {{ .ReadingTime }}分钟阅读
-                 </span>
-               {{ end }}
-             </div>
-             
-             {{ if .Params.tags }}
-             <div class="post-tags-container" title="{{ delimit .Params.tags ", " }}">
-               <div class="post-tags">
-                 {{ range first 3 .Params.tags }}
-                   <span class="post-tag">{{ . }}</span>
-                 {{ end }}
-                 {{ if gt (len .Params.tags) 3 }}
-                   <span class="post-tag-more">...</span>
-                 {{ end }}
-               </div>
-             </div>
-             {{ end }}
-             
-             <div class="post-excerpt">
-               {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 150 }}{{ end }}
-             </div>
-             
-             <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">
-               阅读全文
-               <i class="fas fa-arrow-right" aria-hidden="true"></i>
-             </a>
-           </div>
-        </article>
+        </div>
+        
+        {{ if $paginator.HasNext }}
+          <a href="{{ $paginator.Next.URL }}" class="page-link next" aria-label="下一页">
+            下一页
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        {{ end }}
+      </nav>
       {{ end }}
     </div>
   </div>

@@ -7,7 +7,7 @@
   <div class="hero-bg"></div>
   <div class="container">
     <div class="hero-content">
-      <h1 class="hero-title">爱则心痛</h1>
+      <h1 class="hero-title title-anime">爱则心痛</h1>
       <p class="hero-subtitle">
         <span class="typed-text" data-typed='["技术开发者", "代码艺术家", "终身学习者", "梦想追逐者"]'></span>
       </p>
@@ -15,10 +15,10 @@
         欢迎来到我的个人空间，这里记录着我的技术探索、生活感悟和成长历程。
       </p>
       <div class="hero-actions">
-        <a href="/posts" class="btn btn-primary">
+        <a href="/posts" class="btn btn-primary btn-anime">
           阅读文章
         </a>
-        <a href="/about" class="btn btn-secondary">
+        <a href="/about" class="btn btn-secondary btn-anime">
           关于我
         </a>
       </div>
@@ -26,88 +26,88 @@
   </div>
 </section>
 
-  <!-- 最新文章 -->
-  <section class="posts-section" data-aos="fade-up">
-    <div class="container">
-      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text); font-weight: 600;">最新文章</h2>
-      <p class="section-subtitle" style="color: var(--text-light); font-size: 1rem; margin-bottom: 2rem;">分享思考，记录成长</p>
-      <div class="posts-grid">
-        {{ range first 12 (where site.RegularPages "Type" "posts") }}
-         <article class="post-card" data-aos="fade-up" role="listitem">
-           {{ if .Params.image }}
-             <div class="post-image">
-               <img 
-                 src="{{ .Params.image }}" 
-                 alt="{{ .Title }}" 
-                 loading="lazy"
-                 width="400"
-                 height="200"
-               />
-               {{ if .Params.categories }}
-                 <span class="post-category" aria-label="文章分类">
-                   {{ index .Params.categories 0 }}
-                 </span>
+   <!-- 最新文章 -->
+   <section class="posts-section" data-aos="fade-up">
+     <div class="container">
+       <h2 class="section-title" style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text); font-weight: 600; text-align: center;">最新文章</h2>
+       <p class="section-subtitle" style="color: var(--text-light); font-size: 1rem; margin-bottom: 2rem; text-align: center;">分享思考，记录成长</p>
+       <div class="posts-grid">
+         {{ range first 6 (where site.RegularPages "Type" "posts") }}
+          <article class="post-card" data-aos="fade-up" role="listitem">
+            {{ if .Params.image }}
+              <div class="post-image">
+                <img 
+                  src="{{ .Params.image }}" 
+                  alt="{{ .Title }}" 
+                  loading="lazy"
+                  width="400"
+                  height="200"
+                />
+                {{ if .Params.categories }}
+                  <span class="post-category" aria-label="文章分类">
+                    {{ index .Params.categories 0 }}
+                  </span>
+                {{ end }}
+              </div>
+            {{ end }}
+            
+            <div class="post-content">
+               <h3 class="post-title" title="{{ .Title }}">
+                 <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}">
+                   {{ .Title }}
+                 </a>
+               </h3>
+               
+               <div class="post-meta" aria-label="文章信息">
+                 {{ if .Date }}
+                   <span class="post-date">
+                     <i class="fas fa-calendar" aria-hidden="true"></i>
+                     {{ .Date.Format "2006-01-02" }}
+                   </span>
+                 {{ end }}
+                 
+                 {{ if .ReadingTime }}
+                   <span class="post-reading-time">
+                     <i class="fas fa-clock" aria-hidden="true"></i>
+                     {{ .ReadingTime }}分钟阅读
+                   </span>
+                 {{ end }}
+               </div>
+               
+               {{ if .Params.tags }}
+               <div class="post-tags-container" title="{{ delimit .Params.tags ", " }}">
+                 <div class="post-tags">
+                   {{ range first 3 .Params.tags }}
+                     <span class="post-tag">{{ . }}</span>
+                   {{ end }}
+                   {{ if gt (len .Params.tags) 3 }}
+                     <span class="post-tag-more">...</span>
+                   {{ end }}
+                 </div>
+               </div>
                {{ end }}
-             </div>
-           {{ end }}
-           
-           <div class="post-content">
-              <h3 class="post-title" title="{{ .Title }}">
-                <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}">
-                  {{ .Title }}
-                </a>
-              </h3>
               
-              <div class="post-meta" aria-label="文章信息">
-                {{ if .Date }}
-                  <span class="post-date">
-                    <i class="fas fa-calendar" aria-hidden="true"></i>
-                    {{ .Date.Format "2006-01-02" }}
-                  </span>
-                {{ end }}
-                
-                {{ if .ReadingTime }}
-                  <span class="post-reading-time">
-                    <i class="fas fa-clock" aria-hidden="true"></i>
-                    {{ .ReadingTime }}分钟阅读
-                  </span>
-                {{ end }}
+              <div class="post-excerpt">
+                {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 150 }}{{ end }}
               </div>
               
-              {{ if .Params.tags }}
-              <div class="post-tags-container" title="{{ delimit .Params.tags ", " }}">
-                <div class="post-tags">
-                  {{ range first 3 .Params.tags }}
-                    <span class="post-tag">{{ . }}</span>
-                  {{ end }}
-                  {{ if gt (len .Params.tags) 3 }}
-                    <span class="post-tag-more">...</span>
-                  {{ end }}
-                </div>
-              </div>
-              {{ end }}
-             
-             <div class="post-excerpt">
-               {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 150 }}{{ end }}
-             </div>
-             
-             <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">
-               阅读全文
-               <i class="fas fa-arrow-right" aria-hidden="true"></i>
-             </a>
-           </div>
-         </article>
-        {{ end }}
-      </div>
-      {{ if gt (len (where site.RegularPages "Type" "posts")) 12 }}
-      <div class="text-center" data-aos="fade-up">
-        <a href="/posts" class="btn btn-outline">
-          <i class="fas fa-list"></i> 查看所有文章
-        </a>
-      </div>
-      {{ end }}
-    </div>
-  </section>
+              <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">
+                阅读全文
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+         {{ end }}
+       </div>
+       {{ if gt (len (where site.RegularPages "Type" "posts")) 6 }}
+       <div class="text-center" data-aos="fade-up">
+         <a href="/posts" class="btn btn-outline">
+           <i class="fas fa-list"></i> 查看所有文章
+         </a>
+       </div>
+       {{ end }}
+     </div>
+   </section>
 
   <!-- 关于我 -->
   <section class="about-section" data-aos="fade-up">

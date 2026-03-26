@@ -1,77 +1,217 @@
 {{ define "main" }}
-  <div class="section-content anime-bg-inner" role="main">
-    <header class="section-header" style="text-align: center; margin-bottom: 3rem;">
-      <h1 class="section-title" style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--text); font-weight: 600;">文章</h1>
+  <div class="section-content" role="main">
+    <header class="section-header">
+      <h1 class="section-title">
+        <i class="fas fa-feather-alt" style="margin-right: 0.5rem; color: var(--primary);"></i>文字随笔
+      </h1>
+      <p class="section-subtitle">记录生活，分享思考</p>
       {{ if .Content }}
-        <div class="section-description" style="max-width: 700px; margin: 0 auto; color: var(--text-light); font-size: 1rem; line-height: 1.6;">
+        <div class="section-description">
           {{ .Content }}
         </div>
       {{ end }}
     </header>
 
-    <div class="posts-grid" role="list">
-      {{ range .Pages }}
-        <article class="post-card" role="listitem">
-          {{ if .Params.image }}
-            <div class="post-image">
-              <img 
-                src="{{ .Params.image }}" 
-                alt="{{ .Title }}" 
-                loading="lazy"
-                width="400"
-                height="200"
-              />
-              {{ if .Params.categories }}
-                <span class="post-category" aria-label="文章分类">
-                  {{ index .Params.categories 0 }}
-                </span>
-              {{ end }}
-            </div>
-          {{ end }}
-          
-          <div class="post-content">
-            <h2 class="post-title">
-              <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}">
-                {{ .Title }}
-              </a>
-            </h2>
-            
-            <div class="post-meta" aria-label="文章信息">
-              {{ if .Date }}
-                <span class="post-date">
-                  <i class="fas fa-calendar" aria-hidden="true"></i>
-                  {{ .Date.Format "2006-01-02" }}
-                </span>
-              {{ end }}
-              
-              {{ if .ReadingTime }}
-                <span class="post-reading-time">
-                  <i class="fas fa-clock" aria-hidden="true"></i>
-                  {{ .ReadingTime }}分钟阅读
-                </span>
-              {{ end }}
-            </div>
-            
-            {{ if .Params.tags }}
-              <div class="post-tags-container">
-                <div class="post-tags">
-                  {{ range first 3 .Params.tags }}
-                    <span class="post-tag">{{ . }}</span>
+    <div class="container">
+      {{ $paginator := .Paginate .Pages 10 }}
+      <div class="posts-layout">
+        <!-- 左侧文章列表 -->
+        <div class="posts-main">
+          <div class="posts-list" role="list">
+            {{ range $index, $page := $paginator.Pages }}
+              <article class="post-item {{ if eq (mod $index 2) 1 }}reverse{{ end }}" role="listitem">
+                {{ if .Params.image }}
+                  <div class="post-item-image">
+                    <img 
+                      src="{{ .Params.image }}" 
+                      alt="{{ .Title }}" 
+                      loading="lazy"
+                    />
+                    {{ if .Params.categories }}
+                      <span class="post-category" aria-label="文章分类">
+                        {{ index .Params.categories 0 }}
+                      </span>
+                    {{ end }}
+                  </div>
+                {{ end }}
+                
+                <div class="post-item-content">
+                  <h3 class="post-title" title="{{ .Title }}">
+                    <a href="{{ .RelPermalink }}" aria-label="阅读文章: {{ .Title }}">
+                      {{ .Title }}
+                    </a>
+                  </h3>
+                  
+                  <div class="post-meta" aria-label="文章信息">
+                    {{ if .Date }}
+                      <span class="post-date">
+                        <i class="fas fa-calendar" aria-hidden="true"></i>
+                        {{ .Date.Format "2006-01-02" }}
+                      </span>
+                    {{ end }}
+                    
+                    {{ if .ReadingTime }}
+                      <span class="post-reading-time">
+                        <i class="fas fa-clock" aria-hidden="true"></i>
+                        {{ .ReadingTime }}分钟阅读
+                      </span>
+                    {{ end }}
+                  </div>
+                  
+                  {{ if .Params.tags }}
+                  <div class="post-tags-container" title="{{ delimit .Params.tags ", " }}">
+                    <div class="post-tags">
+                      {{ range first 3 .Params.tags }}
+                        <span class="post-tag">{{ . }}</span>
+                      {{ end }}
+                      {{ if gt (len .Params.tags) 3 }}
+                        <span class="post-tag-more">...</span>
+                      {{ end }}
+                    </div>
+                  </div>
                   {{ end }}
+                 
+                  <div class="post-excerpt">
+                    {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 200 }}{{ end }}
+                  </div>
+                  
+                  <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">
+                    阅读全文
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                  </a>
                 </div>
-              </div>
+              </article>
+            {{ end }}
+          </div>
+          
+          <!-- 分页 -->
+          {{ if gt $paginator.TotalPages 1 }}
+          <nav class="pagination" aria-label="分页导航">
+            {{ if $paginator.HasPrev }}
+              <a href="{{ $paginator.Prev.URL }}" class="page-link prev" aria-label="上一页">
+                <i class="fas fa-chevron-left"></i>
+                上一页
+              </a>
             {{ end }}
             
-            <div class="post-excerpt">
-              {{ .Summary | truncate 150 }}
+            <div class="page-numbers">
+              {{ range $paginator.Pagers }}
+                {{ if eq . $paginator }}
+                  <span class="page-link current" aria-current="page">{{ .PageNumber }}</span>
+                {{ else }}
+                  <a href="{{ .URL }}" class="page-link" aria-label="第{{ .PageNumber }}页">{{ .PageNumber }}</a>
+                {{ end }}
+              {{ end }}
             </div>
             
-            <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">
-              阅读全文
-            </a>
+            {{ if $paginator.HasNext }}
+              <a href="{{ $paginator.Next.URL }}" class="page-link next" aria-label="下一页">
+                下一页
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            {{ end }}
+          </nav>
+          {{ end }}
+        </div>
+        
+        <!-- 右侧边栏 -->
+        <aside class="posts-sidebar">
+          <!-- 日历卡片 -->
+          <div class="sidebar-card calendar-card sidebar-widget">
+            <div class="calendar-header">
+              <span class="calendar-month" id="calendar-month"></span>
+              <span class="calendar-year" id="calendar-year"></span>
+            </div>
+            <div class="calendar-body">
+              <div class="calendar-weekdays">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+              </div>
+              <div class="calendar-days" id="calendar-days"></div>
+            </div>
+            <div class="calendar-date">
+              <span id="current-date"></span>
+            </div>
           </div>
-        </article>
-      {{ end }}
+          
+          <!-- 最新文章 -->
+          <div class="sidebar-card sidebar-widget">
+            <h3 class="sidebar-title">
+              <i class="fas fa-fire"></i>
+              最新文章
+            </h3>
+            <ul class="recent-posts-list">
+              {{ range first 5 (where site.RegularPages "Type" "posts") }}
+                <li class="recent-post-item">
+                  <a href="{{ .RelPermalink }}" class="recent-post-link" title="{{ .Title }}">
+                    <span class="recent-post-title">{{ .Title }}</span>
+                    <span class="recent-post-date">{{ .Date.Format "01-02" }}</span>
+                  </a>
+                </li>
+              {{ end }}
+            </ul>
+          </div>
+          
+          <!-- 标签云 -->
+          <div class="sidebar-card sidebar-widget">
+            <h3 class="sidebar-title">
+              <i class="fas fa-cloud"></i>
+              标签云
+            </h3>
+            <div class="tag-cloud">
+              {{ $tags := site.Taxonomies.tags }}
+              {{ $sortedTags := sort $tags "Count" "desc" }}
+              {{ range first 10 $sortedTags }}
+                <a href="{{ .Page.RelPermalink }}" class="cloud-tag" data-weight="{{ .Count }}">
+                  {{ .Page.Title }}
+                </a>
+              {{ end }}
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
+
+  <!-- 日历脚本 -->
+  <script>
+    function initCalendar() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const today = now.getDate();
+      
+      const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+      
+      document.getElementById('calendar-month').textContent = monthNames[month];
+      document.getElementById('calendar-year').textContent = year + '年';
+      
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      
+      const daysContainer = document.getElementById('calendar-days');
+      daysContainer.innerHTML = '';
+      
+      // 添加空白天数
+      for (let i = 0; i < firstDay; i++) {
+        const emptyDay = document.createElement('span');
+        emptyDay.className = 'calendar-day empty';
+        daysContainer.appendChild(emptyDay);
+      }
+      
+      // 添加天数
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayElement = document.createElement('span');
+        dayElement.className = 'calendar-day' + (day === today ? ' today' : '');
+        dayElement.textContent = day;
+        daysContainer.appendChild(dayElement);
+      }
+      
+      // 显示当前日期
+      const dateStr = year + '年' + (month + 1) + '月' + today + '日';
+      const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+      document.getElementById('current-date').textContent = dateStr + ' ' + weekDays[now.getDay()];
+    }
+    
+    document.addEventListener('DOMContentLoaded', initCalendar);
+  </script>
 {{ end }}

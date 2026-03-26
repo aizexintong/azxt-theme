@@ -106,12 +106,12 @@ theme = 'azxt-theme'
 
   [[menus.main]]
     name = '技能'
-    pageRef = '/skills'
+    url = '/skills/'
     weight = 40
 
   [[menus.main]]
     name = '友链'
-    pageRef = '/links'
+    url = '/links/'
     weight = 50
 
 [module]

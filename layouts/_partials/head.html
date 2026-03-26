@@ -10,27 +10,12 @@
 <link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
 
 <!-- CDN资源 -->
-<!-- Font Awesome 图标 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
-
-
-
-<!-- AOS 滚动动画 -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-<!-- Typed.js 打字效果 -->
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-
-<!-- 自定义样式和脚本 -->
+<!-- 自定义样式 -->
 {{ partialCached "head/css.html" . }}
-{{ partialCached "head/js.html" . }}
-
-<!-- 结构化数据 -->
-{{ partial "head/schema.html" . }}
 
 <!-- Open Graph -->
 <meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">

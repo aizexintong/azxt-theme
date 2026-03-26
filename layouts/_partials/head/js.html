@@ -1,16 +1,17 @@
-{{- with resources.Get "js/main.js" }}
-  {{- $opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/main.js"
-  }}
-  {{- with . | js.Build $opts }}
-    {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}"></script>
-    {{- else }}
-      {{- with . | fingerprint }}
-        <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-      {{- end }}
-    {{- end }}
+{{- /* JS模块按顺序加载 */ -}}
+{{- $jsFiles := slice
+  (resources.Get "js/modules/theme.js")
+  (resources.Get "js/modules/animations.js")
+  (resources.Get "js/modules/interactions.js")
+  (resources.Get "js/modules/enhancements.js")
+-}}
+
+{{- $js := $jsFiles | resources.Concat "js/main.js" }}
+
+{{- if hugo.IsDevelopment }}
+  <script src="{{ $js.RelPermalink }}"></script>
+{{- else }}
+  {{- with $js | fingerprint }}
+    <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
   {{- end }}
 {{- end }}

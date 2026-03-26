@@ -13,14 +13,14 @@
       </nav>
       
       <div class="header-actions">
-        {{ if .Site.Params.enableSearch }}
-        <button class="search-toggle" id="search-toggle" aria-label="搜索文章" title="搜索文章">
-          <i class="fas fa-search"></i>
-        </button>
-        {{ end }}
         {{ if .Site.Params.enableDarkMode }}
         <button class="theme-toggle" id="theme-toggle" aria-label="切换主题模式" title="切换深色/浅色主题">
           <i class="fas fa-moon"></i>
+        </button>
+        {{ end }}
+        {{ if .Site.Params.enableSearch }}
+        <button class="search-toggle" id="search-toggle" aria-label="搜索文章" title="搜索文章">
+          <i class="fas fa-search"></i>
         </button>
         {{ end }}
         <button class="mobile-menu-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobile-menu">

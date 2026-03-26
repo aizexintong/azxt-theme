@@ -1,0 +1,218 @@
+/* ==========================================================================
+   樱花梦语 - 设计令牌系统
+   Sakura Dream Design Tokens
+   移动优先 / Mobile-First
+   ========================================================================== */
+
+:root {
+  /* ===== 响应式断点 ===== */
+  --bp-xs: 375px;
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
+  --bp-xxl: 1440px;
+
+  /* ===== 间距系统 (4px 网格) ===== */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+
+  /* ===== 字体系统 ===== */
+  --ff: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Inter', system-ui, sans-serif;
+  --ff-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --ff-display: 'Inter', 'Noto Sans SC', var(--ff);
+
+  /* 字号 (Mobile-First) */
+  --fs-xs: 11px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-md: 17px;
+  --fs-lg: 20px;
+  --fs-xl: 24px;
+  --fs-2xl: 28px;
+  --fs-3xl: 34px;
+  --fs-4xl: 42px;
+  --fs-5xl: 52px;
+
+  /* 行高 */
+  --lh-tight: 1.25;
+  --lh-snug: 1.375;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.625;
+  --lh-loose: 1.8;
+
+  /* 字重 */
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* ===== 圆角 ===== */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-2xl: 28px;
+  --r-3xl: 36px;
+  --r-full: 9999px;
+
+  /* ===== 动画 ===== */
+  --t-instant: 100ms;
+  --t-fast: 180ms;
+  --t-base: 280ms;
+  --t-slow: 420ms;
+  --t-slower: 650ms;
+
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ===== 阴影 ===== */
+  --shadow-xs: 0 1px 2px rgba(219, 143, 160, 0.06);
+  --shadow-sm: 0 2px 8px rgba(219, 143, 160, 0.08), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(219, 143, 160, 0.10), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 8px 28px rgba(219, 143, 160, 0.12), 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-xl: 0 16px 48px rgba(219, 143, 160, 0.14), 0 8px 24px rgba(0,0,0,0.07);
+  --shadow-glow: 0 0 20px rgba(232, 160, 191, 0.30);
+  --shadow-glow-lg: 0 0 40px rgba(232, 160, 191, 0.35);
+
+  /* ===== 容器 ===== */
+  --container: 640px;
+  --container-md: 768px;
+  --container-lg: 960px;
+  --container-xl: 1120px;
+  --container-xxl: 1280px;
+
+  /* ===== 头部 ===== */
+  --header-h: 56px;
+  --header-h-md: 60px;
+  --header-h-lg: 64px;
+
+  /* ===== 侧边栏 ===== */
+  --sidebar-w: 280px;
+  --sidebar-w-lg: 310px;
+}
+
+/* ==========================================================================
+   浅色主题 - 樱花梦语
+   ========================================================================== */
+:root,
+[data-theme="light"] {
+  /* 主色 - 樱花粉 */
+  --c-primary: #E8A0BF;         /* 温暖的樱花粉 */
+  --c-primary-l: #F2C4D6;       /* 浅樱花 */
+  --c-primary-ll: #FAE0EC;      /* 极浅樱花背景 */
+  --c-primary-d: #D4809E;       /* 深樱花强调 */
+  --c-primary-dd: #C06080;      /* 最深樱花 */
+
+  /* 辅色 - 紫藤花 */
+  --c-secondary: #C9A0DC;       /* 柔和紫藤 */
+  --c-secondary-l: #DFC0ED;     /* 浅紫藤 */
+  --c-secondary-ll: #F0E0F7;    /* 极浅紫藤 */
+  --c-secondary-d: #A878C0;     /* 深紫藤 */
+
+  /* 点缀 - 薄荷 */
+  --c-accent: #A0D8C0;          /* 清新薄荷 */
+  --c-accent-l: #C0E8D8;        /* 浅薄荷 */
+  --c-accent-d: #78C0A0;        /* 深薄荷 */
+
+  /* 金色点缀 */
+  --c-gold: #F0C878;
+  --c-gold-l: #F8DCa0;
+
+  /* 背景 */
+  --c-bg: #FFF8FA;              /* 极淡樱花白 */
+  --c-bg-alt: #FFF4F7;          /* 备用背景 */
+  --c-bg-subtle: #FFEEF2;       /* 微弱粉背景 */
+
+  /* 表面 */
+  --c-surface: #FFFFFF;
+  --c-surface-e: #FFFCFD;       /* 提升表面 */
+  --c-surface-glass: rgba(255, 255, 255, 0.72);
+
+  /* 文字 */
+  --c-text: #3D2E35;            /* 深暖灰 */
+  --c-text-2: #6B5A62;          /* 次要文字 */
+  --c-text-3: #988A90;          /* 辅助文字 */
+  --c-text-4: #B8ADB2;          /* 弱化文字 */
+
+  /* 边框 */
+  --c-border: #F5D8E2;          /* 樱花边框 */
+  --c-border-l: #FBECF0;        /* 浅边框 */
+  --c-border-f: #E8A0BF;        /* 聚焦边框 */
+
+  /* 渐变 */
+  --grad: linear-gradient(135deg, #E8A0BF 0%, #C9A0DC 50%, #A0D8C0 100%);
+  --grad-pink: linear-gradient(135deg, #E8A0BF 0%, #F2C4D6 100%);
+  --grad-purple: linear-gradient(135deg, #C9A0DC 0%, #DFC0ED 100%);
+  --grad-soft: linear-gradient(135deg, rgba(232,160,191,0.10) 0%, rgba(201,160,220,0.10) 100%);
+  --grad-warm: linear-gradient(135deg, #F0C878 0%, #E8A0BF 100%);
+}
+
+/* ==========================================================================
+   深色主题 - 月下樱花
+   ========================================================================== */
+[data-theme="dark"] {
+  --c-primary: #F2C4D6;
+  --c-primary-l: #FAE0EC;
+  --c-primary-ll: #3A2832;
+  --c-primary-d: #E8A0BF;
+  --c-primary-dd: #F2C4D6;
+
+  --c-secondary: #DFC0ED;
+  --c-secondary-l: #F0E0F7;
+  --c-secondary-ll: #3A2A42;
+  --c-secondary-d: #C9A0DC;
+
+  --c-accent: #A0D8C0;
+  --c-accent-l: #C0E8D8;
+  --c-accent-d: #78C0A0;
+
+  --c-gold: #F0C878;
+  --c-gold-l: #F8DCa0;
+
+  --c-bg: #0E0C16;
+  --c-bg-alt: #141220;
+  --c-bg-subtle: #1C1828;
+
+  --c-surface: #2A2438;
+  --c-surface-e: #342E42;
+  --c-surface-glass: rgba(42, 36, 56, 0.88);
+
+  --c-text: #F2E8EC;
+  --c-text-2: #C8B8BE;
+  --c-text-3: #908088;
+  --c-text-4: #685860;
+
+  --c-border: #554868;
+  --c-border-l: #453A55;
+  --c-border-f: #F2C4D6;
+
+  --grad: linear-gradient(135deg, #F2C4D6 0%, #DFC0ED 50%, #A0D8C0 100%);
+  --grad-pink: linear-gradient(135deg, #F2C4D6 0%, #FAE0EC 100%);
+  --grad-purple: linear-gradient(135deg, #DFC0ED 0%, #F0E0F7 100%);
+  --grad-soft: linear-gradient(135deg, rgba(242,196,214,0.08) 0%, rgba(223,192,237,0.08) 100%);
+  --grad-warm: linear-gradient(135deg, #F0C878 0%, #F2C4D6 100%);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.25);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.28), 0 1px 3px rgba(0,0,0,0.18);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.32), 0 2px 6px rgba(0,0,0,0.22);
+  --shadow-lg: 0 8px 28px rgba(0,0,0,0.38), 0 4px 12px rgba(0,0,0,0.26);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,0.44), 0 8px 24px rgba(0,0,0,0.32);
+  --shadow-glow: 0 0 20px rgba(242,196,214,0.22);
+  --shadow-glow-lg: 0 0 40px rgba(242,196,214,0.28);
+}
