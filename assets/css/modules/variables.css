@@ -134,12 +134,12 @@
   --c-gold: #F0C878;
   --c-gold-l: #F8DCa0;
 
-  /* 背景 */
+  /* 背景 - 更温暖的渐变 */
   --c-bg: #FFF8FA;              /* 极淡樱花白 */
   --c-bg-alt: #FFF4F7;          /* 备用背景 */
   --c-bg-subtle: #FFEEF2;       /* 微弱粉背景 */
 
-  /* 表面 */
+  /* 表面 - 带微弱渐变 */
   --c-surface: #FFFFFF;
   --c-surface-e: #FFFCFD;       /* 提升表面 */
   --c-surface-glass: rgba(255, 255, 255, 0.72);
@@ -150,7 +150,7 @@
   --c-text-3: #988A90;          /* 辅助文字 */
   --c-text-4: #B8ADB2;          /* 弱化文字 */
 
-  /* 边框 */
+  /* 边框 - 更柔和 */
   --c-border: #F5D8E2;          /* 樱花边框 */
   --c-border-l: #FBECF0;        /* 浅边框 */
   --c-border-f: #E8A0BF;        /* 聚焦边框 */
