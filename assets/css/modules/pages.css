@@ -1227,26 +1227,89 @@
 }
 
 /* ==========================================================================
-   英雄区域背景增强
+   英雄区域背景增强 - 轻盈光晕效果
    ========================================================================== */
 
 .hero-content {
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: var(--r-2xl);
+  /* 去掉毛玻璃，改用文字阴影保证可读性 */
+  background: transparent;
   padding: var(--sp-10) var(--sp-8);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* 暗黑模式适配 */
+/* 文字发光效果 */
+.hero-title {
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.8),
+    0 0 40px rgba(255, 255, 255, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle,
+.hero-description {
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 背景光晕 */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(138, 75, 90, 0.15) 0%,
+    rgba(178, 122, 135, 0.08) 30%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* 按钮保持有背景 */
+.hero-actions .btn {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hero-actions .btn-primary {
+  background: linear-gradient(135deg, rgba(138, 75, 90, 0.9), rgba(178, 122, 135, 0.9));
+  color: #fff;
+}
+
+.hero-actions .btn-secondary {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(138, 75, 90, 0.3);
+}
+
+/* 暗黑模式 */
 @media (prefers-color-scheme: dark) {
-  .hero-content {
-    background: rgba(30, 30, 30, 0.7);
-    border-color: rgba(255, 255, 255, 0.1);
+  .hero-title {
+    text-shadow: 
+      0 0 20px rgba(0, 0, 0, 0.8),
+      0 0 40px rgba(0, 0, 0, 0.4),
+      0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .hero-subtitle,
+  .hero-description {
+    text-shadow: 
+      0 0 10px rgba(0, 0, 0, 0.6),
+      0 1px 2px rgba(0, 0, 0, 0.5);
   }
 }
 
