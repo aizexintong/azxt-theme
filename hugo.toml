@@ -1,7 +1,7 @@
 baseURL = 'https://azxt.org/'
 languageCode = 'zh-CN'
 title = '爱则心痛 | azxt'
-theme = 'azxt-theme'
+theme = 'illusion'
 
 [params]
   author = "爱则心痛"
@@ -57,7 +57,7 @@ theme = 'azxt-theme'
   
   # 社交链接配置
   socialLinks = [
-    { platform = "github", url = "https://github.com/aizexintong", icon = "fab fa-github" },
+    { platform = "github", url = "https://github.com/aizexintong/illusion", icon = "fab fa-github" },
     { platform = "email", url = "mailto:admin@azxt.org", icon = "fas fa-envelope" },
     { platform = "website", url = "https://azxt.org", icon = "fas fa-globe" }
   ]

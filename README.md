@@ -1,33 +1,18 @@
-# azxt-theme 主题文档
+# 幻梦 Illusion
 
-> **版本**: 2.0.0 | **作者**: 爱则心痛 (azxt) | **许可**: MIT | **最低 Hugo**: 0.146.0
+> **版本**: 2.1.0 | **作者**: 爱则心痛 (azxt) | **许可**: GPL v3 | **最低 Hugo**: 0.146.0
 
----
-
-## 目录
-
-- [简介](#简介)
-- [特性](#特性)
-- [快速开始](#快速开始)
-- [目录结构](#目录结构)
-- [站点配置](#站点配置)
-- [数据文件系统](#数据文件系统)
-- [页面模板](#页面模板)
-- [Shortcodes](#shortcodes)
-- [CSS 架构](#css-架构)
-- [JavaScript 模块](#javascript-模块)
-- [自定义与扩展](#自定义与扩展)
-- [更新日志](#更新日志)
+![幻梦主题预览](https://img.shields.io/badge/主题-幻梦-blue) ![Hugo版本](https://img.shields.io/badge/Hugo-0.146.0+-green) ![许可证](https://img.shields.io/badge/许可证-GPL%20v3-yellow)
 
 ---
 
-## 简介
+## ✨ 简介
 
-azxt-theme 是一个华丽清新的二次元风格 Hugo 博客主题。采用温暖柔和的配色方案，支持暗黑模式、响应式设计和丰富的动画效果（樱花飘落、萤火虫漂浮、星星闪烁）。主题数据驱动，关于页、技能页、友链页的内容均可通过 YAML 数据文件自定义。
+幻梦（Illusion）是一个华丽清新的二次元风格 Hugo 博客主题。采用温暖柔和的配色方案，支持暗黑模式、响应式设计和丰富的动画效果（樱花飘落、萤火虫漂浮、星星闪烁）。主题数据驱动，关于页、技能页、友链页的内容均可通过 YAML 数据文件自定义。
 
 ---
 
-## 特性
+## 🌸 特性
 
 | 分类 | 特性 |
 |------|------|
@@ -45,19 +30,19 @@ azxt-theme 是一个华丽清新的二次元风格 Hugo 博客主题。采用温
 
 ---
 
-## 快速开始
+## 🚀 快速开始
 
 ### 1. 安装主题
 
 ```bash
 cd themes
-git clone https://github.com/aizexintong/azxt-theme.git
+git clone https://github.com/aizexintong/illusion.git
 ```
 
 或作为 Git 子模块：
 
 ```bash
-git submodule add https://github.com/aizexintong/azxt-theme.git themes/azxt-theme
+git submodule add https://github.com/aizexintong/illusion.git themes/illusion
 ```
 
 ### 2. 站点配置
@@ -65,7 +50,7 @@ git submodule add https://github.com/aizexintong/azxt-theme.git themes/azxt-them
 在站点根目录 `hugo.toml` 中：
 
 ```toml
-theme = "azxt-theme"
+theme = "illusion"
 ```
 
 ### 3. 创建内容文件
@@ -88,10 +73,10 @@ hugo server -D
 
 ---
 
-## 目录结构
+## 📁 目录结构
 
 ```
-azxt-theme/
+illusion/
 ├── archetypes/
 │   └── default.md                  # 默认文章模板
 ├── assets/
@@ -155,13 +140,12 @@ azxt-theme/
 │   └── favicon.ico                 # 网站图标
 ├── hugo.toml                       # 主题默认配置
 ├── LICENSE                         # MIT 许可证
-├── README.md                       # 简介文档
-└── THEME.md                        # 本文档 (完整参考)
+└── README.md                       # 简介文档
 ```
 
 ---
 
-## 站点配置
+## ⚙️ 站点配置
 
 ### 完整配置参考
 
@@ -169,7 +153,7 @@ azxt-theme/
 baseURL = "https://example.com/"
 languageCode = "zh-CN"
 title = "我的博客"
-theme = "azxt-theme"
+theme = "illusion"
 
 [params]
   author = "作者名"
@@ -292,14 +276,14 @@ tags: ["Hugo", "前端", "CSS"]
 
 ---
 
-## 数据文件系统
+## 📊 数据文件系统
 
 ### 数据优先级
 
 主题使用 Hugo 数据级联机制：
 
 ```
-站点根目录 data/  >  themes/azxt-theme/data/
+站点根目录 data/  >  themes/illusion/data/
 ```
 
 - 如果站点根目录 `data/` 下存在同名数据文件，则**优先使用根目录版本**
@@ -319,9 +303,9 @@ hugo new about.md
 2. 复制数据文件到站点根目录（可选，不复制则使用主题默认值）：
 
 ```bash
-cp themes/azxt-theme/data/about.yaml data/about.yaml
-cp themes/azxt-theme/data/skills.yaml data/skills.yaml
-cp themes/azxt-theme/data/friends.yaml data/friends.yaml
+cp themes/illusion/data/about.yaml data/about.yaml
+cp themes/illusion/data/skills.yaml data/skills.yaml
+cp themes/illusion/data/friends.yaml data/friends.yaml
 ```
 
 3. 编辑根目录下的数据文件
@@ -437,7 +421,7 @@ apply:
 
 ---
 
-## 页面模板
+## 📄 页面模板
 
 ### 首页 (home.html)
 
@@ -534,7 +518,7 @@ layout: "about"    # 必须，指定使用主题的 about.html 模板
 
 ---
 
-## Shortcodes
+## 🔧 Shortcodes
 
 ### link-card - 友链卡片
 
@@ -571,7 +555,7 @@ layout: "about"    # 必须，指定使用主题的 about.html 模板
 
 ---
 
-## CSS 架构
+## 🎨 CSS 架构
 
 ### 设计令牌 (variables.css)
 
@@ -626,7 +610,7 @@ layout: "about"    # 必须，指定使用主题的 about.html 模板
 
 ---
 
-## JavaScript 模块
+## 📜 JavaScript 模块
 
 ### ThemeManager (theme.js)
 
@@ -681,7 +665,7 @@ EnhancementManager.initLazyLoad();
 
 ---
 
-## 自定义与扩展
+## 🔧 自定义与扩展
 
 ### 修改配色
 
@@ -750,7 +734,13 @@ tags: ["Hugo", "CSS"]        # 标签
 
 ---
 
-## 更新日志
+## 📝 更新日志
+
+### v2.1.0
+
+- 主题更名为"幻梦 Illusion"
+- 更新主题配置和文档
+- 优化主题结构
 
 ### v2.0.0
 
@@ -771,6 +761,21 @@ tags: ["Hugo", "CSS"]        # 标签
 
 ---
 
-## 许可证
+## 📄 许可证
 
-MIT License - 详见 [LICENSE](LICENSE) 文件。
+GNU General Public License v3.0 - 详见 [LICENSE](LICENSE) 文件。
+
+---
+
+## 🙏 致谢
+
+感谢所有使用和支持幻梦主题的用户。如果这个主题对你有帮助，请考虑给个 Star ⭐️
+
+---
+
+## 📞 联系方式
+
+- **作者**: 爱则心痛 (azxt)
+- **GitHub**: [aizexintong](https://github.com/aizexintong)
+- **邮箱**: admin@azxt.org
+- **网站**: https://azxt.org
