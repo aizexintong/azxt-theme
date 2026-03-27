@@ -906,3 +906,291 @@
 @media (min-width: 1440px) {
   .posts-sidebar { width: var(--sidebar-w-lg); }
 }
+
+/* ==========================================================================
+   文章目录 (TOC)
+   ========================================================================== */
+
+.article-toc {
+  background: var(--c-surface);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--c-border);
+  margin-bottom: var(--sp-6);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.toc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-4) var(--sp-5);
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease);
+}
+
+.toc-header:hover {
+  background: var(--c-primary-ll);
+}
+
+.toc-title {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--c-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.toc-title i {
+  color: var(--c-primary);
+}
+
+.toc-toggle {
+  background: none;
+  border: none;
+  color: var(--c-text-2);
+  cursor: pointer;
+  padding: var(--sp-1);
+  transition: transform var(--t-fast) var(--ease);
+}
+
+.toc-header.collapsed .toc-toggle {
+  transform: rotate(-90deg);
+}
+
+.toc-body {
+  padding: 0 var(--sp-5) var(--sp-4);
+  max-height: 500px;
+  overflow-y: auto;
+  transition: max-height var(--t-base) var(--ease), padding var(--t-base) var(--ease);
+}
+
+.toc-body.collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.toc-body nav {
+  padding: 0;
+}
+
+.toc-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-body li {
+  margin: 0;
+  padding: 0;
+}
+
+.toc-body a {
+  display: block;
+  padding: var(--sp-2) var(--sp-3);
+  color: var(--c-text-2);
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  border-radius: var(--r-md);
+  transition: all var(--t-fast) var(--ease);
+  line-height: 1.5;
+}
+
+.toc-body a:hover {
+  color: var(--c-primary);
+  background: var(--c-primary-ll);
+}
+
+.toc-body .active {
+  color: var(--c-primary);
+  background: var(--c-primary-ll);
+  font-weight: var(--fw-medium);
+}
+
+/* TOC 层级缩进 */
+.toc-body ul ul {
+  padding-left: var(--sp-4);
+}
+
+/* ==========================================================================
+   返回顶部/底部按钮
+   ========================================================================== */
+
+.scroll-buttons {
+  position: fixed;
+  right: var(--sp-5);
+  bottom: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--t-base) var(--ease);
+}
+
+.scroll-buttons.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-full);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--c-text-2);
+  font-size: var(--fs-base);
+  transition: all var(--t-fast) var(--ease);
+}
+
+.scroll-btn:hover {
+  background: var(--c-primary);
+  color: #fff;
+  border-color: var(--c-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.scroll-btn:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   代码块增强
+   ========================================================================== */
+
+.code-block-wrapper {
+  position: relative;
+  margin: var(--sp-6) 0;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-4);
+  background: #181825;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  border: 1px solid #313244;
+  border-bottom: none;
+}
+
+.code-block-lang {
+  font-size: var(--fs-xs);
+  color: #a6adc8;
+  font-family: var(--ff-mono);
+  text-transform: uppercase;
+  font-weight: var(--fw-medium);
+}
+
+.code-block-copy {
+  background: none;
+  border: none;
+  color: #a6adc8;
+  cursor: pointer;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  transition: all var(--t-fast) var(--ease);
+}
+
+.code-block-copy:hover {
+  color: #cdd6f4;
+  background: #313244;
+}
+
+.code-block-copy.copied {
+  color: #a6e3a1;
+}
+
+.code-block-wrapper pre {
+  margin: 0;
+  border-radius: 0 0 var(--r-lg) var(--r-lg);
+  border-top: none;
+}
+
+/* ==========================================================================
+   图片灯箱
+   ========================================================================== */
+
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--t-base) var(--ease);
+  cursor: zoom-out;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--r-lg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9);
+  transition: transform var(--t-base) var(--ease);
+}
+
+.lightbox-overlay.active .lightbox-image {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: var(--sp-5);
+  right: var(--sp-5);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-full);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: var(--fs-xl);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast) var(--ease);
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* 文章内容中的图片可点击放大 */
+.article-content-wrapper img {
+  cursor: zoom-in;
+  transition: transform var(--t-fast) var(--ease);
+}
+
+.article-content-wrapper img:hover {
+  transform: scale(1.02);
+}

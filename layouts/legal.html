@@ -1,0 +1,60 @@
+{{ define "main" }}
+<div class="section-content">
+  <div class="container">
+    <section class="page-header" data-aos="fade-up">
+      <h1 class="page-title">{{ .Title }}</h1>
+      <p class="page-description">{{ .Description | default "隐私政策" }}</p>
+    </section>
+
+    <div class="legal-content" data-aos="fade-up">
+      <div class="legal-card card">
+        <div class="markdown-content">
+          {{ .Content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .legal-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .legal-card {
+    padding: var(--sp-8);
+  }
+  
+  .legal-card h2 {
+    font-size: var(--fs-xl);
+    margin-top: var(--sp-8);
+    margin-bottom: var(--sp-4);
+    color: var(--c-text);
+  }
+  
+  .legal-card h3 {
+    font-size: var(--fs-lg);
+    margin-top: var(--sp-6);
+    margin-bottom: var(--sp-3);
+    color: var(--c-text);
+  }
+  
+  .legal-card p {
+    margin-bottom: var(--sp-4);
+    line-height: 1.8;
+    color: var(--c-text-2);
+  }
+  
+  .legal-card ul, .legal-card ol {
+    margin-bottom: var(--sp-4);
+    padding-left: var(--sp-6);
+  }
+  
+  .legal-card li {
+    margin-bottom: var(--sp-2);
+    line-height: 1.8;
+    color: var(--c-text-2);
+  }
+</style>
+{{ end }}

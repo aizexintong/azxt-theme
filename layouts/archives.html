@@ -1,0 +1,194 @@
+{{ define "main" }}
+<div class="section-content">
+  <div class="container">
+    <section class="page-header" data-aos="fade-up">
+      <h1 class="page-title">{{ .Title }}</h1>
+      <p class="page-description">{{ .Description | default "所有文章，按时间归档" }}</p>
+    </section>
+
+    <div class="archives-container" data-aos="fade-up">
+      {{ $posts := where site.RegularPages "Type" "posts" }}
+      {{ $totalPosts := len $posts }}
+      
+      <div class="archives-summary">
+        <span class="archives-count">
+          <i class="fas fa-file-alt"></i>
+          共 {{ $totalPosts }} 篇文章
+        </span>
+      </div>
+
+      {{ range ($posts.GroupByDate "2006") }}
+      <div class="archive-year" data-aos="fade-up">
+        <h2 class="archive-year-title">
+          <i class="fas fa-calendar-alt"></i>
+          {{ .Key }}
+          <span class="archive-year-count">{{ len .Pages }} 篇</span>
+        </h2>
+        
+        <div class="archive-months">
+          {{ range (.Pages.GroupByDate "01") }}
+          <div class="archive-month">
+            {{ $monthNum := .Key }}
+            {{ $monthName := "" }}
+            {{ if eq $monthNum "01" }}{{ $monthName = "一月" }}
+            {{ else if eq $monthNum "02" }}{{ $monthName = "二月" }}
+            {{ else if eq $monthNum "03" }}{{ $monthName = "三月" }}
+            {{ else if eq $monthNum "04" }}{{ $monthName = "四月" }}
+            {{ else if eq $monthNum "05" }}{{ $monthName = "五月" }}
+            {{ else if eq $monthNum "06" }}{{ $monthName = "六月" }}
+            {{ else if eq $monthNum "07" }}{{ $monthName = "七月" }}
+            {{ else if eq $monthNum "08" }}{{ $monthName = "八月" }}
+            {{ else if eq $monthNum "09" }}{{ $monthName = "九月" }}
+            {{ else if eq $monthNum "10" }}{{ $monthName = "十月" }}
+            {{ else if eq $monthNum "11" }}{{ $monthName = "十一月" }}
+            {{ else if eq $monthNum "12" }}{{ $monthName = "十二月" }}
+            {{ end }}
+            
+            <h3 class="archive-month-title">{{ $monthName }}</h3>
+            
+            <ul class="archive-list">
+              {{ range .Pages }}
+              <li class="archive-item">
+                <a href="{{ .RelPermalink }}" class="archive-link">
+                  <span class="archive-date">{{ .Date.Format "01-02" }}</span>
+                  <span class="archive-title">{{ .Title }}</span>
+                  {{ if .Params.categories }}
+                    <span class="archive-category">{{ index .Params.categories 0 }}</span>
+                  {{ end }}
+                </a>
+              </li>
+              {{ end }}
+            </ul>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<style>
+  .archives-summary {
+    text-align: center;
+    margin-bottom: var(--sp-8);
+  }
+  
+  .archives-count {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    background: var(--c-primary-ll);
+    color: var(--c-primary-d);
+    padding: var(--sp-3) var(--sp-5);
+    border-radius: var(--r-full);
+    font-weight: var(--fw-medium);
+  }
+  
+  .archive-year {
+    margin-bottom: var(--sp-10);
+  }
+  
+  .archive-year-title {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    font-size: var(--fs-xl);
+    color: var(--c-text);
+    padding-bottom: var(--sp-3);
+    border-bottom: 2px solid var(--c-border);
+    margin-bottom: var(--sp-6);
+  }
+  
+  .archive-year-title i {
+    color: var(--c-primary);
+  }
+  
+  .archive-year-count {
+    font-size: var(--fs-sm);
+    color: var(--c-text-2);
+    font-weight: var(--fw-normal);
+    margin-left: auto;
+  }
+  
+  .archive-month {
+    margin-bottom: var(--sp-6);
+  }
+  
+  .archive-month-title {
+    font-size: var(--fs-base);
+    color: var(--c-text-2);
+    margin-bottom: var(--sp-3);
+    padding-left: var(--sp-4);
+    font-weight: var(--fw-medium);
+  }
+  
+  .archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .archive-item {
+    margin-bottom: var(--sp-2);
+  }
+  
+  .archive-link {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--c-surface);
+    border-radius: var(--r-lg);
+    text-decoration: none;
+    transition: all var(--t-fast) var(--ease-out);
+    border: 1px solid transparent;
+  }
+  
+  .archive-link:hover {
+    background: var(--c-primary-ll);
+    border-color: var(--c-primary-l);
+    transform: translateX(4px);
+  }
+  
+  .archive-date {
+    font-size: var(--fs-sm);
+    color: var(--c-text-3);
+    font-family: var(--ff-mono);
+    flex-shrink: 0;
+  }
+  
+  .archive-title {
+    flex: 1;
+    color: var(--c-text);
+    font-weight: var(--fw-medium);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .archive-link:hover .archive-title {
+    color: var(--c-primary);
+  }
+  
+  .archive-category {
+    font-size: var(--fs-xs);
+    background: var(--c-primary-ll);
+    color: var(--c-primary-d);
+    padding: var(--sp-1) var(--sp-2);
+    border-radius: var(--r-full);
+    flex-shrink: 0;
+  }
+  
+  @media (max-width: 575px) {
+    .archive-link {
+      flex-wrap: wrap;
+    }
+    
+    .archive-category {
+      width: 100%;
+      margin-top: var(--sp-1);
+    }
+  }
+</style>
+{{ end }}

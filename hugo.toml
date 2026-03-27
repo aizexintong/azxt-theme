@@ -3,6 +3,9 @@ languageCode = 'zh-CN'
 title = '爱则心痛 | azxt'
 theme = 'illusion'
 
+# 启用 RSS 输出
+enableRSS = true
+
 [params]
   author = "爱则心痛"
   description = "爱则心痛的个人博客 - 分享技术、生活和思考"
@@ -32,6 +35,7 @@ theme = 'illusion'
   enableTypewriter = true      # 打字机效果
   enableDarkMode = true        # 暗黑模式
   enableAccessibility = true   # 可访问性增强
+  enableTOC = true             # 文章目录
   
   # 布局配置
   heroLayout = "centered"      # 英雄区域布局: centered, left, right
@@ -95,6 +99,11 @@ theme = 'illusion'
     weight = 10
 
   [[menus.main]]
+    name = '归档'
+    url = '/archives/'
+    weight = 15
+
+  [[menus.main]]
     name = '标签'
     pageRef = '/tags'
     weight = 20
@@ -113,6 +122,22 @@ theme = 'illusion'
     name = '友链'
     url = '/links/'
     weight = 50
+
+  # 底部链接菜单
+  [[menus.footer]]
+    name = '隐私政策'
+    url = '/privacy/'
+    weight = 10
+
+  [[menus.footer]]
+    name = '使用条款'
+    url = '/terms/'
+    weight = 20
+
+  [[menus.footer]]
+    name = '网站地图'
+    url = '/sitemap/'
+    weight = 30
 
 [module]
   [module.hugoVersion]

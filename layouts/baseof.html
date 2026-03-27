@@ -6,7 +6,7 @@
 <body>
   <!-- 背景层 -->
   <div class="bg-layer bg-image-layer">
-    <img src="https://t.alcy.cc/ycy" alt="背景图片" class="bg-image" loading="eager">
+    <img src="{{ .Site.Params.adaptiveImage | default "https://t.alcy.cc/ycy" }}" alt="背景图片" class="bg-image" loading="eager">
   </div>
   <div class="bg-layer bg-overlay-layer"></div>
   <div class="bg-layer bg-effects-layer">
@@ -34,6 +34,24 @@
   <!-- 搜索弹窗 -->
   {{ partial "search-modal.html" . }}
 
+  <!-- 返回顶部/底部按钮 -->
+  <div class="scroll-buttons" id="scroll-buttons">
+    <button class="scroll-btn" onclick="scrollToTop()" aria-label="返回顶部" title="返回顶部">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+    <button class="scroll-btn" onclick="scrollToBottom()" aria-label="跳到底部" title="跳到底部">
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  </div>
+
+  <!-- 图片灯箱 -->
+  <div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox()">
+    <button class="lightbox-close" aria-label="关闭">
+      <i class="fas fa-times"></i>
+    </button>
+    <img class="lightbox-image" id="lightbox-image" src="" alt="">
+  </div>
+
   <!-- 第三方库脚本 -->
   <script src="{{ "lib/aos/aos.js" | relURL }}"></script>
   <script src="{{ "lib/typed.js/typed.js" | relURL }}"></script>
@@ -41,8 +59,9 @@
   <!-- 自定义脚本 -->
   {{ partialCached "head/js.html" . }}
 
-  <!-- 装饰效果脚本 -->
+  <!-- 功能脚本 -->
   <script>
+    // ===== 装饰效果 =====
     function createSakura() {
       const container = document.getElementById('sakura-container');
       if (!container) return;
@@ -100,7 +119,6 @@
         firefly.style.animationDelay = (Math.random() * 5) + 's';
         firefly.style.animationDuration = (Math.random() * 2 + 2) + 's';
         container.appendChild(firefly);
-        // 随机漂浮移动
         animateFirefly(firefly, x, y);
       }
     }
@@ -122,11 +140,173 @@
       setTimeout(move, Math.random() * 3000);
     }
 
+    // ===== 返回顶部/底部 =====
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToBottom() {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    }
+
+    function updateScrollButtons() {
+      const buttons = document.getElementById('scroll-buttons');
+      if (!buttons) return;
+      const scrollY = window.scrollY;
+      const threshold = 300;
+      if (scrollY > threshold) {
+        buttons.classList.add('visible');
+      } else {
+        buttons.classList.remove('visible');
+      }
+    }
+
+    // ===== 图片灯箱 =====
+    function openLightbox(img) {
+      const overlay = document.getElementById('lightbox-overlay');
+      const lightboxImg = document.getElementById('lightbox-image');
+      if (!overlay || !lightboxImg) return;
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const overlay = document.getElementById('lightbox-overlay');
+      if (!overlay) return;
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function initLightbox() {
+      const contentImages = document.querySelectorAll('.article-content-wrapper img, .markdown-content img');
+      contentImages.forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => openLightbox(img));
+      });
+    }
+
+    // ===== 代码块增强 =====
+    function initCodeBlocks() {
+      const codeBlocks = document.querySelectorAll('pre code');
+      codeBlocks.forEach((code, index) => {
+        const pre = code.parentElement;
+        if (pre.parentElement.classList.contains('code-block-wrapper')) return;
+
+        const lang = code.className.match(/language-(\w+)/);
+        const langName = lang ? lang[1] : 'code';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+
+        const header = document.createElement('div');
+        header.className = 'code-block-header';
+        header.innerHTML = `
+          <span class="code-block-lang">${langName}</span>
+          <button class="code-block-copy" onclick="copyCode(this)" data-index="${index}">
+            <i class="fas fa-copy"></i>
+            <span>复制</span>
+          </button>
+        `;
+        wrapper.appendChild(header);
+        wrapper.appendChild(pre);
+      });
+    }
+
+    function copyCode(btn) {
+      const wrapper = btn.closest('.code-block-wrapper');
+      const code = wrapper.querySelector('pre code');
+      const text = code.textContent;
+
+      navigator.clipboard.writeText(text).then(() => {
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = '已复制';
+        btn.querySelector('i').className = 'fas fa-check';
+
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.querySelector('span').textContent = '复制';
+          btn.querySelector('i').className = 'fas fa-copy';
+        }, 2000);
+      });
+    }
+
+    // ===== TOC 高亮 =====
+    function initTOCHighlight() {
+      const tocLinks = document.querySelectorAll('.toc-body a');
+      if (tocLinks.length === 0) return;
+
+      const headings = [];
+      tocLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const id = href.substring(1);
+          const heading = document.getElementById(id);
+          if (heading) headings.push({ element: heading, link: link });
+        }
+      });
+
+      function updateActiveTOC() {
+        let current = headings[0];
+        const scrollTop = window.scrollY + 100;
+
+        headings.forEach(item => {
+          if (item.element.offsetTop <= scrollTop) {
+            current = item;
+          }
+        });
+
+        tocLinks.forEach(link => link.classList.remove('active'));
+        if (current) current.link.classList.add('active');
+      }
+
+      window.addEventListener('scroll', updateActiveTOC);
+      updateActiveTOC();
+    }
+
+    // ===== 初始化 =====
     document.addEventListener('DOMContentLoaded', function() {
       createSakura();
       createStars();
       createLightParticles();
       createFireflies();
+      initLightbox();
+      initCodeBlocks();
+      initTOCHighlight();
+      updateScrollButtons();
+    });
+
+    window.addEventListener('scroll', updateScrollButtons);
+
+    // ESC 关闭灯箱
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // 初始化 AOS
+    if (typeof AOS !== 'undefined') {
+      AOS.init({
+        duration: 800,
+        easing: 'ease-out-cubic',
+        once: true,
+        offset: 50
+      });
+    }
+
+    // 初始化 Typed.js
+    document.querySelectorAll('.typed-text').forEach(el => {
+      const strings = JSON.parse(el.dataset.typed || '[]');
+      if (strings.length > 0 && typeof Typed !== 'undefined') {
+        new Typed(el, {
+          strings: strings,
+          typeSpeed: 60,
+          backSpeed: 40,
+          backDelay: 2000,
+          loop: true
+        });
+      }
     });
   </script>
 </body>
