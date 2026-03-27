@@ -80,7 +80,11 @@
     <section class="about-content" data-aos="fade-up">
       <div class="content-card card">
         <div class="markdown-content enhanced-markdown">
-          {{ .Content }}
+          {{ if .Content }}
+            {{ .Content }}
+          {{ else }}
+            {{ $aboutData.content | default "" | markdownify }}
+          {{ end }}
         </div>
       </div>
     </section>

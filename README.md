@@ -59,11 +59,11 @@ theme = "illusion"
 # 文章
 hugo new posts/my-first-post.md
 
-# 关于页（必须创建，详见下方说明）
+# 关于页（可选，如不创建将使用主题默认内容）
 hugo new about.md
 ```
 
-> **重要**: `content/about.md` 是**必须创建**的文件。它定义了关于页的正文内容，配合 `data/about.yaml` 数据文件共同渲染关于页面。详见 [关于页说明](#关于页-abouthtml)。
+> **提示**: `content/about.md` 是**可选的**。如果不创建，将自动使用 `data/about.yaml` 中的 `content` 字段作为默认内容。创建后可完全自定义关于页的正文内容。详见 [关于页说明](#关于页-abouthtml)。
 
 ### 4. 启动开发服务器
 
@@ -447,11 +447,15 @@ apply:
 
 ### 关于页 (about.html)
 
-关于页由**两部分**组成：
+关于页支持**内容回退机制**：
 
-**1. 内容文件 `content/about.md`**（必须创建）
+**方式一：使用默认内容（零配置）**
 
-在站点根目录创建 `content/about.md`，Front Matter 必须包含 `layout: "about"`：
+无需创建任何文件，主题会自动使用 `data/about.yaml` 中的 `content` 字段作为页面内容。开箱即用，适合快速体验。
+
+**方式二：自定义内容（推荐）**
+
+创建 `content/about.md` 文件，Front Matter 必须包含 `layout: "about"`：
 
 ```yaml
 ---
@@ -480,9 +484,9 @@ layout: "about"    # 必须，指定使用主题的 about.html 模板
 - 正文 Markdown 内容会在「个人简介 → 技术理念 → 页面内容 → 联系方式」之间渲染
 - 你可以自由编写个人故事、项目经历、技术观点等
 
-**2. 数据文件 `data/about.yaml`**（可选覆盖）
+**数据文件 `data/about.yaml`**
 
-控制页面结构化展示区域：
+控制页面结构化展示区域和默认内容：
 
 | 区域 | 数据键 | 说明 |
 |------|--------|------|
@@ -490,6 +494,7 @@ layout: "about"    # 必须，指定使用主题的 about.html 模板
 | 数据统计 | `stats` | 文章数/技能数等统计项 |
 | 技术理念 | `philosophy` | 理念卡片列表 |
 | 联系方式 | `contact` | 邮箱/GitHub/网站等 |
+| 默认内容 | `content` | 当 `content/about.md` 不存在时使用的 Markdown 内容 |
 
 根目录 `data/about.yaml` 优先于主题默认数据。不创建则使用主题默认值。
 
