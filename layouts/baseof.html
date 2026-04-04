@@ -11,7 +11,6 @@
   <div class="bg-layer bg-overlay-layer"></div>
   <div class="bg-layer bg-effects-layer">
     <canvas id="particles-canvas"></canvas>
-    <div class="sakura-container" id="sakura-container"></div>
     <div class="stars-container" id="stars-container"></div>
     <div class="light-particles" id="light-particles"></div>
     <div class="firefly-container" id="firefly-container"></div>
@@ -62,25 +61,14 @@
   <!-- 功能脚本 -->
   <script>
     // ===== 装饰效果 =====
-    function createSakura() {
-      const container = document.getElementById('sakura-container');
-      if (!container) return;
-      for (let i = 0; i < 18; i++) {
-        const sakura = document.createElement('div');
-        sakura.className = 'sakura';
-        sakura.style.left = Math.random() * 100 + 'vw';
-        sakura.style.animationDuration = (Math.random() * 15 + 15) + 's';
-        sakura.style.animationDelay = Math.random() * 12 + 's';
-        const size = Math.random() * 16 + 14;
-        sakura.style.width = size + 'px';
-        sakura.style.height = size + 'px';
-        container.appendChild(sakura);
-      }
-    }
-
     function createStars() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (!isDark) return;
+      
       const container = document.getElementById('stars-container');
       if (!container) return;
+      
+      container.querySelectorAll('.star').forEach(s => s.remove());
       for (let i = 0; i < 30; i++) {
         const star = document.createElement('div');
         star.className = 'star';
@@ -92,9 +80,54 @@
       }
     }
 
+    function createFireflies() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (!isDark) return;
+      
+      const container = document.getElementById('firefly-container');
+      if (!container) return;
+      
+      container.querySelectorAll('.firefly').forEach(f => f.remove());
+      
+      for (let i = 0; i < 30; i++) {
+        const firefly = document.createElement('div');
+        firefly.className = 'firefly';
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        firefly.style.left = x + 'vw';
+        firefly.style.top = y + 'vh';
+        firefly.style.animationDelay = (Math.random() * 8) + 's';
+        firefly.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        container.appendChild(firefly);
+        animateFirefly(firefly, x, y);
+      }
+    }
+
+    function animateFirefly(el, x, y) {
+      const move = () => {
+        const nx = x + (Math.random() - 0.5) * 15;
+        const ny = y + (Math.random() - 0.5) * 15;
+        const clampedX = Math.max(2, Math.min(98, nx));
+        const clampedY = Math.max(2, Math.min(98, ny));
+        const duration = (Math.random() * 8 + 6);
+        el.style.transition = `left ${duration}s ease-in-out, top ${duration}s ease-in-out`;
+        el.style.left = clampedX + 'vw';
+        el.style.top = clampedY + 'vh';
+        x = clampedX;
+        y = clampedY;
+        setTimeout(move, duration * 1000);
+      };
+      setTimeout(move, Math.random() * 3000);
+    }
+
     function createLightParticles() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (!isDark) return;
+      
       const container = document.getElementById('light-particles');
       if (!container) return;
+      
+      container.querySelectorAll('.light-particle').forEach(p => p.remove());
       for (let i = 0; i < 15; i++) {
         const particle = document.createElement('div');
         particle.className = 'light-particle';
@@ -104,40 +137,6 @@
         particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
         container.appendChild(particle);
       }
-    }
-
-    function createFireflies() {
-      const container = document.getElementById('firefly-container');
-      if (!container) return;
-      for (let i = 0; i < 18; i++) {
-        const firefly = document.createElement('div');
-        firefly.className = 'firefly';
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        firefly.style.left = x + 'vw';
-        firefly.style.top = y + 'vh';
-        firefly.style.animationDelay = (Math.random() * 5) + 's';
-        firefly.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        container.appendChild(firefly);
-        animateFirefly(firefly, x, y);
-      }
-    }
-
-    function animateFirefly(el, x, y) {
-      const move = () => {
-        const nx = x + (Math.random() - 0.5) * 20;
-        const ny = y + (Math.random() - 0.5) * 20;
-        const clampedX = Math.max(2, Math.min(98, nx));
-        const clampedY = Math.max(2, Math.min(98, ny));
-        const duration = (Math.random() * 4 + 3);
-        el.style.transition = `left ${duration}s ease-in-out, top ${duration}s ease-in-out`;
-        el.style.left = clampedX + 'vw';
-        el.style.top = clampedY + 'vh';
-        x = clampedX;
-        y = clampedY;
-        setTimeout(move, duration * 1000);
-      };
-      setTimeout(move, Math.random() * 3000);
     }
 
     // ===== 返回顶部/底部 =====
@@ -300,64 +299,11 @@
       }, 600);
     }
 
-    // ===== 梦幻云朵效果 (仅白昼模式) =====
-    function createDreamyClouds() {
-      // 检查是否为白昼模式
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      if (isDark) return;
-
-      const container = document.querySelector('.bg-effects-layer');
-      if (!container) return;
-
-      function createCloud() {
-        const cloud = document.createElement('div');
-        cloud.className = 'dreamy-cloud';
-        
-        // 随机大小
-        const size = Math.random() * 150 + 100;
-        cloud.style.width = size + 'px';
-        cloud.style.height = (size * 0.6) + 'px';
-        
-        // 随机位置
-        cloud.style.top = (Math.random() * 60 + 10) + '%';
-        
-        // 云朵样式
-        cloud.style.background = `radial-gradient(ellipse at center,
-          rgba(255, 255, 255, 0.8) 0%,
-          rgba(255, 240, 245, 0.5) 40%,
-          rgba(255, 230, 240, 0.2) 70%,
-          transparent 100%
-        )`;
-        cloud.style.borderRadius = '50%';
-        cloud.style.filter = 'blur(8px)';
-        
-        // 动画时长
-        const duration = Math.random() * 30 + 40;
-        cloud.style.animationDuration = duration + 's';
-        cloud.style.animationDelay = (Math.random() * 20) + 's';
-        
-        container.appendChild(cloud);
-        
-        // 动画结束后移除并创建新的
-        setTimeout(() => {
-          cloud.remove();
-          createCloud();
-        }, (duration + 20) * 1000);
-      }
-
-      // 创建多个云朵
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => createCloud(), i * 8000);
-      }
-    }
-
     // ===== 初始化 =====
     document.addEventListener('DOMContentLoaded', function() {
-      createSakura();
       createStars();
       createLightParticles();
       createFireflies();
-      createDreamyClouds();
       initLightbox();
       initCodeBlocks();
       initTOCHighlight();

@@ -1,0 +1,92 @@
+{{ define "main" }}
+  <div class="section-content" role="main">
+    <header class="section-header">
+      <h1 class="section-title">
+        {{ if eq .Data.Singular "tags" }}
+          <i class="fas fa-tags" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
+        {{ else if eq .Data.Singular "categories" }}
+          <i class="fas fa-folder" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
+        {{ else }}
+          <i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
+        {{ end }}
+      </h1>
+      {{ if .Content }}
+        <div class="section-description">
+          {{ .Content }}
+        </div>
+      {{ else if .Description }}
+        <div class="section-description">
+          {{ .Description }}
+        </div>
+      {{ end }}
+      <div class="tag-header-meta">
+        <span class="tag-article-count">
+          <i class="fas fa-tag" aria-hidden="true"></i>
+          共 {{ len .Data.Terms }} 个{{ if eq .Data.Singular "tags" }}标签{{ else if eq .Data.Singular "categories" }}分类{{ else }}条目{{ end }}
+        </span>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="term-cloud-section" data-aos="fade-up">
+        <div class="cloud-grid">
+          {{ range sort .Data.Terms ".Count" "desc" }}
+            <a href="{{ .Page.RelPermalink }}" class="cloud-tag" data-weight="{{ .Count }}">
+              <i class="fas fa-tag" aria-hidden="true"></i>
+              {{ .Page.Title }}
+              <span class="tag-count">({{ .Count }})</span>
+            </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .cloud-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      justify-content: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--sp-6) 0;
+    }
+    
+    .cloud-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-4);
+      background: var(--c-primary-ll);
+      color: var(--c-primary-d);
+      border-radius: var(--r-full);
+      font-size: var(--fs-sm);
+      font-weight: var(--fw-medium);
+      text-decoration: none;
+      transition: all var(--t-fast) var(--ease-out);
+    }
+    
+    .cloud-tag:hover {
+      background: var(--grad);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .cloud-tag .tag-count {
+      font-size: var(--fs-xs);
+      opacity: 0.8;
+    }
+    
+    [data-theme="dark"] .cloud-tag {
+      background: var(--c-surface-e);
+      color: var(--c-text-2);
+    }
+    
+    [data-theme="dark"] .cloud-tag:hover {
+      background: var(--grad);
+      color: white;
+    }
+  </style>
+{{ end }}

@@ -62,7 +62,7 @@
                   <div class="post-tags-container" title="{{ delimit .Params.tags ", " }}">
                     <div class="post-tags">
                       {{ range first 3 .Params.tags }}
-                        <span class="post-tag">{{ . }}</span>
+                        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="post-tag">{{ . }}</a>
                       {{ end }}
                       {{ if gt (len .Params.tags) 3 }}
                         <span class="post-tag-more">...</span>

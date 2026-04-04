@@ -1,52 +1,6 @@
 /* ==========================================================================
-   樱花梦语 - 动画与装饰效果
-   Sakura Dream Effects & Animations
+   动画与装饰效果
    ========================================================================== */
-
-/* ===== 梦幻光球（白昼模式） ===== */
-.sakura-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  overflow: hidden;
-}
-
-.sakura {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  background: radial-gradient(circle at 40% 40%,
-    rgba(255, 210, 225, 0.7) 0%,
-    rgba(240, 180, 205, 0.4) 40%,
-    rgba(220, 160, 190, 0.15) 70%,
-    transparent 100%);
-  border-radius: 50%;
-  opacity: 0;
-  animation: orbFloat linear infinite;
-  box-shadow: 0 0 20px rgba(240, 180, 205, 0.45),
-              0 0 40px rgba(230, 160, 195, 0.2);
-  filter: blur(1px);
-}
-
-@keyframes orbFloat {
-  0% {
-    transform: translateY(105vh) scale(0.6);
-    opacity: 0;
-  }
-  10% { opacity: 0.85; }
-  50% {
-    transform: translateY(50vh) scale(1) translateX(40px);
-  }
-  90% { opacity: 0.65; }
-  100% {
-    transform: translateY(-5vh) scale(0.8) translateX(-20px);
-    opacity: 0;
-  }
-}
 
 /* ===== 星星闪烁 ===== */
 .stars-container {
@@ -125,7 +79,6 @@
 }
 
 [data-theme="dark"] .firefly-container { display: block; }
-[data-theme="dark"] .sakura-container { display: none; }
 
 .firefly {
   position: absolute;

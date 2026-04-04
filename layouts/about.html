@@ -76,18 +76,16 @@
       </div>
     </section>
 
+    {{ if .Content }}
     <!-- 页面内容 -->
     <section class="about-content" data-aos="fade-up">
       <div class="content-card card">
         <div class="markdown-content enhanced-markdown">
-          {{ if .Content }}
-            {{ .Content }}
-          {{ else }}
-            {{ $aboutData.content | default "" | markdownify }}
-          {{ end }}
+          {{ .Content }}
         </div>
       </div>
     </section>
+    {{ end }}
 
     <!-- 联系方式 -->
     <section class="about-contact" data-aos="fade-up">

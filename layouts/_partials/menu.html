@@ -28,7 +28,7 @@ Renders a menu for the given menu ID.
           {{- end -}}
           tabindex="0"
         >
-          {{- with $icon }}<i class="{{ . }}" aria-hidden="true"></i>{{ end }}
+          {{- if $icon }}<i class="{{ $icon }}" aria-hidden="true"></i>{{ end }}
           <span class="nav-text">{{ $name }}</span>
         </a>
       </li>

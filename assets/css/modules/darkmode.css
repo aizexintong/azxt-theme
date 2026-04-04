@@ -126,6 +126,15 @@
   color: white;
 }
 
+/* ===== Posts 子页面背景透明度 ===== */
+[data-theme="dark"] .post-item {
+  background: rgba(34, 26, 40, 0.5) !important;
+}
+
+[data-theme="dark"] .posts-sidebar .sidebar-card {
+  background: rgba(34, 26, 40, 0.35) !important;
+}
+
 /* ===== 标签云 ===== */
 [data-theme="dark"] .cloud-tag {
   background: var(--c-primary-ll);
@@ -282,15 +291,17 @@
   scrollbar-color: var(--c-primary-d) var(--c-border-l);
 }
 
-/* ===== 樱花效果深色模式 ===== */
-[data-theme="dark"] .sakura {
-  background: radial-gradient(circle at 30% 30%,
-    rgba(250, 224, 236, 0.7) 0%,
-    rgba(242, 196, 214, 0.4) 40%,
-    rgba(242, 196, 214, 0.15) 70%,
-    transparent 100%);
-  opacity: 0.45;
-  box-shadow: 0 0 6px rgba(250, 224, 236, 0.2);
+/* ===== 按钮深色模式 ===== */
+[data-theme="dark"] .btn-secondary {
+  background: rgba(80, 70, 75, 0.5);
+  color: var(--c-text-2);
+  border-color: var(--c-border);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background: var(--c-surface-e);
+  color: var(--c-primary-l);
+  border-color: var(--c-primary);
 }
 
 /* ===== 星星效果深色模式 - 金黄色 ===== */
@@ -375,27 +386,28 @@
 /* ===== 萤火虫效果深色模式 - 更靓丽的荧光绿 ===== */
 [data-theme="dark"] .firefly {
   background: radial-gradient(circle at 40% 40%,
-    rgba(180, 255, 180, 1) 0%,
-    rgba(120, 255, 120, 0.8) 30%,
-    rgba(80, 220, 80, 0.4) 60%,
+    rgba(200, 255, 200, 1) 0%,
+    rgba(140, 255, 140, 0.9) 30%,
+    rgba(100, 240, 100, 0.6) 60%,
     transparent 100%);
-  box-shadow: 0 0 15px rgba(150, 255, 150, 0.8),
-              0 0 30px rgba(120, 255, 120, 0.5),
-              0 0 45px rgba(100, 255, 100, 0.2);
-  animation: firefly-glow 2s ease-in-out infinite alternate;
+  box-shadow: 0 0 20px rgba(180, 255, 180, 0.9),
+              0 0 40px rgba(140, 255, 140, 0.6),
+              0 0 60px rgba(100, 255, 100, 0.3),
+              0 0 80px rgba(80, 255, 80, 0.1);
+  animation: firefly-glow 6s ease-in-out infinite;
 }
 
 @keyframes firefly-glow {
-  0% {
-    opacity: 0.6;
-    box-shadow: 0 0 15px rgba(150, 255, 150, 0.6),
-                0 0 30px rgba(120, 255, 120, 0.3);
+  0%, 100% {
+    opacity: 0.2;
+    box-shadow: 0 0 10px rgba(180, 255, 180, 0.4),
+                0 0 20px rgba(140, 255, 140, 0.2);
   }
-  100% {
+  50% {
     opacity: 1;
-    box-shadow: 0 0 20px rgba(150, 255, 150, 1),
-                0 0 40px rgba(120, 255, 120, 0.6),
-                0 0 60px rgba(100, 255, 100, 0.3);
+    box-shadow: 0 0 30px rgba(200, 255, 200, 1),
+                0 0 60px rgba(160, 255, 160, 0.7),
+                0 0 90px rgba(120, 255, 120, 0.4);
   }
 }
 

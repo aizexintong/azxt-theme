@@ -1,36 +1,20 @@
 {{/* legal.html - 法律页面模板
-     内容优先级: content/privacy.md 或 content/terms.md > data/legal.yaml
-     支持隐私政策和使用条款页面 */}}
+     支持隐私政策、使用条款页面
+     内容来自 content/privacy.md 和 content/terms.md 的 markdown 正文 */}}
 
 {{ define "main" }}
-{{ $legalData := .Site.Data.legal | default dict }}
-{{ $pageType := "" }}
-
-{{/* 判断当前页面类型 */}}
-{{ if eq .File.ContentBaseName "privacy" }}
-  {{ $pageType = "privacy" }}
-{{ else if eq .File.ContentBaseName "terms" }}
-  {{ $pageType = "terms" }}
-{{ end }}
-
-{{/* 获取对应的数据 */}}
-{{ $pageData := index $legalData $pageType | default dict }}
 
 <div class="section-content">
   <div class="container">
     <section class="page-header" data-aos="fade-up">
-      <h1 class="page-title">{{ .Title | default $pageData.title | default "法律信息" }}</h1>
-      <p class="page-description">{{ .Description | default $pageData.description | default "" }}</p>
+      <h1 class="page-title">{{ .Title }}</h1>
+      <p class="page-description">{{ .Description }}</p>
     </section>
 
     <div class="legal-content" data-aos="fade-up">
       <div class="legal-card card">
         <div class="markdown-content">
-          {{ if .Content }}
-            {{ .Content }}
-          {{ else }}
-            {{ $pageData.content | default "" | markdownify }}
-          {{ end }}
+          {{ .Content }}
         </div>
       </div>
     </div>

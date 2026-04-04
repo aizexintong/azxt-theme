@@ -64,8 +64,28 @@ const ThemeManager = {
     localStorage.setItem('theme', theme);
     this.currentTheme = theme;
     this.updateAllToggleButtons();
+    this.updateBackgroundEffects(theme);
 
     document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+  },
+
+  updateBackgroundEffects(theme) {
+    const fireflyContainer = document.getElementById('firefly-container');
+    const starsContainer = document.getElementById('stars-container');
+    const lightParticles = document.getElementById('light-particles');
+
+    if (theme === 'dark') {
+      if (fireflyContainer) fireflyContainer.style.display = 'block';
+      if (starsContainer) starsContainer.style.display = 'block';
+      if (lightParticles) lightParticles.style.display = 'block';
+      if (typeof createStars === 'function') createStars();
+      if (typeof createLightParticles === 'function') createLightParticles();
+      if (typeof createFireflies === 'function') createFireflies();
+    } else {
+      if (fireflyContainer) fireflyContainer.style.display = 'none';
+      if (starsContainer) starsContainer.style.display = 'none';
+      if (lightParticles) lightParticles.style.display = 'none';
+    }
   },
 
   updateAllToggleButtons() {

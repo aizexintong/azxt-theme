@@ -1,63 +1,22 @@
 /* ==========================================================================
-   白昼模式增强 - 梦幻云朵效果
+   白昼模式增强
    ========================================================================== */
 
 /* ===== 背景层 - 更低不透明度 (10%-25%) ===== */
 .bg-overlay-layer {
-  background: linear-gradient(160deg,
-    rgba(255, 248, 250, 0.15) 0%,
-    rgba(255, 240, 245, 0.12) 30%,
-    rgba(250, 232, 242, 0.10) 60%,
-    rgba(248, 240, 252, 0.12) 100%
+  background: linear-gradient(0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.75) 75%
   );
 }
 
 /* ===== 隐藏白昼模式的气泡和星光 ===== */
 .light-particle,
-.star {
-  display: none !important;
-}
-
-/* ===== 梦幻云朵效果 ===== */
-.dreamy-cloud {
-  position: fixed;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;
-  animation: cloud-drift linear infinite;
-}
-
-@keyframes cloud-drift {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateX(100vw);
-    opacity: 0;
-  }
-}
-
-/* ===== 樱花效果白昼模式 - 更柔和 ===== */
-.sakura {
-  background: radial-gradient(circle at 30% 30%,
-    rgba(255, 210, 230, 0.85) 0%,
-    rgba(255, 190, 210, 0.5) 40%,
-    rgba(255, 170, 190, 0.15) 70%,
-    transparent 100%);
-  opacity: 0.5;
-  box-shadow: 0 0 6px rgba(255, 190, 210, 0.2);
-}
-
-/* ===== 萤火虫白昼模式 - 淡化 ===== */
+.star,
 .firefly {
-  opacity: 0.3;
+  display: none !important;
 }
 
 /* ===== 卡片增强 - 微弱渐变边框 ===== */
@@ -362,4 +321,23 @@
     transform: scale(0) rotate(360deg);
     opacity: 0;
   }
+}
+
+/* ===== 代码块header白色模式 ===== */
+.code-block-header {
+  background: #f0ece8 !important;
+  border-color: #d4cfc8 !important;
+}
+
+.code-block-lang {
+  color: #6a6560 !important;
+}
+
+.code-block-copy {
+  color: #6a6560 !important;
+}
+
+.code-block-copy:hover {
+  color: #4a4540 !important;
+  background: rgba(138, 75, 90, 0.1) !important;
 }

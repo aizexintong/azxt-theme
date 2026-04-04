@@ -14,7 +14,12 @@
         <h2 id="quick-links" class="title-anime">快速链接</h2>
         <ul class="footer-links quick-links-grid" role="list" aria-labelledby="quick-links">
           {{ range site.Menus.main }}
-          <li role="listitem"><a href="{{ .URL }}" aria-label="访问 {{ .Name }} 页面">{{ .Name }}</a></li>
+          <li role="listitem">
+            <a href="{{ .URL }}" aria-label="访问 {{ .Name }} 页面">
+              {{ with .Params.icon }}<i class="{{ . }}" aria-hidden="true"></i>{{ end }}
+              {{ .Name }}
+            </a>
+          </li>
           {{ end }}
         </ul>
       </div>
