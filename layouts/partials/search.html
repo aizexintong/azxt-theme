@@ -269,11 +269,11 @@
   <style>
     .search-container {
       position: relative;
-      margin: var(--space-lg) 0;
+      margin: var(--sp-10) 0;
     }
     
     .search-form {
-      margin-bottom: var(--space-md);
+      margin-bottom: var(--sp-6);
     }
     
     .search-input-group {
@@ -284,26 +284,26 @@
     
     .search-input {
       flex: 1;
-      padding: var(--space-sm) var(--space-md);
-      border: 2px solid var(--neutral);
-      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+      padding: var(--sp-2) var(--sp-6);
+      border: 2px solid var(--c-border-main);
+      border-radius: var(--r-lg) 0 0 var(--r-lg);
       font-size: 1rem;
-      transition: border-color var(--transition-normal) ease;
+      transition: border-color var(--t-base) var(--ease-fluid);
     }
     
     .search-input:focus {
       outline: none;
-      border-color: var(--primary);
+      border-color: var(--c-primary-400);
     }
     
     .search-button {
-      padding: var(--space-sm) var(--space-lg);
-      background: var(--gradient);
+      padding: var(--sp-2) var(--sp-6);
+      background: var(--grad-primary);
       color: white;
       border: none;
-      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      border-radius: 0 var(--r-lg) var(--r-lg) 0;
       cursor: pointer;
-      transition: transform var(--transition-normal) ease;
+      transition: transform var(--t-base) var(--ease-fluid);
     }
     
     .search-button:hover,
@@ -316,10 +316,10 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: var(--surface);
-      border: 1px solid var(--neutral);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-hover);
+      background: var(--c-surface-main);
+      border: 1px solid var(--c-border-main);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-medium);
       max-height: 400px;
       overflow-y: auto;
       z-index: 1000;
@@ -331,10 +331,10 @@
     }
     
     .search-results-header {
-      padding: var(--space-sm) var(--space-md);
-      border-bottom: 1px solid var(--neutral);
+      padding: var(--sp-2) var(--sp-6);
+      border-bottom: 1px solid var(--c-border-main);
       font-size: 0.9rem;
-      color: var(--text-light);
+      color: var(--c-text-muted);
     }
     
     .search-results-list {
@@ -344,7 +344,7 @@
     }
     
     .search-result-item {
-      border-bottom: 1px solid var(--neutral-light);
+      border-bottom: 1px solid var(--c-border-light);
     }
     
     .search-result-item:last-child {
@@ -353,35 +353,35 @@
     
     .search-result-link {
       display: block;
-      padding: var(--space-md);
+      padding: var(--sp-6);
       text-decoration: none;
       color: inherit;
-      transition: background-color var(--transition-fast) ease;
+      transition: background-color var(--t-fast) var(--ease-fluid);
     }
     
     .search-result-link:hover,
     .search-result-link:focus {
-      background-color: var(--neutral-light);
+      background-color: var(--c-border-light);
     }
     
     .search-result-title {
-      margin: 0 0 var(--space-xs);
+      margin: 0 0 var(--sp-1);
       font-size: 1.1rem;
-      color: var(--primary);
+      color: var(--c-primary-400);
     }
     
     .search-result-excerpt {
       font-size: 0.9rem;
-      color: var(--text-light);
+      color: var(--c-text-muted);
       line-height: 1.5;
-      margin-bottom: var(--space-xs);
+      margin-bottom: var(--sp-1);
     }
     
     .search-result-meta {
       display: flex;
       justify-content: space-between;
       font-size: 0.8rem;
-      color: var(--text-light);
+      color: var(--c-text-muted);
     }
     
     .search-highlight {
@@ -393,45 +393,45 @@
     .search-no-results,
     .search-error,
     .search-disabled {
-      padding: var(--space-lg);
+      padding: var(--sp-10);
       text-align: center;
-      color: var(--text-light);
+      color: var(--c-text-muted);
       background: rgba(138, 75, 90, 0.05);
-      border-radius: var(--radius-lg);
+      border-radius: var(--r-lg);
       border: 1px solid rgba(138, 75, 90, 0.1);
-      margin-top: var(--space-md);
+      margin-top: var(--sp-6);
     }
     
     .search-error {
       background: rgba(255, 193, 7, 0.1);
       border-color: rgba(255, 193, 7, 0.2);
-      color: var(--text);
+      color: var(--c-text-main);
     }
     
     .search-error i {
       color: #ffc107;
-      margin-right: var(--space-sm);
+      margin-right: var(--sp-2);
     }
     
     .search-error-hint {
       font-size: 0.9rem;
-      margin-top: var(--space-sm);
+      margin-top: var(--sp-2);
       opacity: 0.8;
     }
     
     /* 暗黑模式适配 */
-    .dark-theme .search-input {
-      background: var(--surface);
-      color: var(--text);
-      border-color: var(--neutral);
+    [data-theme="dark"] .search-input {
+      background: var(--c-surface-main);
+      color: var(--c-text-main);
+      border-color: var(--c-border-main);
     }
     
-    .dark-theme .search-results {
-      background: var(--surface);
-      border-color: var(--neutral);
+    [data-theme="dark"] .search-results {
+      background: var(--c-surface-main);
+      border-color: var(--c-border-main);
     }
     
-    .dark-theme .search-highlight {
+    [data-theme="dark"] .search-highlight {
       background-color: rgba(138, 75, 90, 0.4);
     }
     
@@ -443,30 +443,30 @@
     
     .ais-SearchBox-input {
       width: 100%;
-      padding: var(--space-sm) var(--space-md);
-      border: 2px solid var(--neutral);
-      border-radius: var(--radius-lg);
+      padding: var(--sp-2) var(--sp-6);
+      border: 2px solid var(--c-border-main);
+      border-radius: var(--r-lg);
       font-size: 1rem;
     }
     
     .hit {
-      padding: var(--space-md);
-      border-bottom: 1px solid var(--neutral);
+      padding: var(--sp-6);
+      border-bottom: 1px solid var(--c-border-main);
     }
     
     .hit h3 {
-      margin: 0 0 var(--space-xs);
+      margin: 0 0 var(--sp-1);
     }
     
     .hit a {
-      color: var(--primary);
+      color: var(--c-primary-400);
       text-decoration: none;
     }
     
     .hit-meta {
       font-size: 0.8rem;
-      color: var(--text-light);
-      margin-top: var(--space-xs);
+      color: var(--c-text-muted);
+      margin-top: var(--sp-1);
     }
   </style>
 {{- end -}}

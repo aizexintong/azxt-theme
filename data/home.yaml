@@ -15,6 +15,11 @@ hero:
   secondaryBtn:
     text: "关于我"
     url: "/about"
+  badgeText: "欢迎来到我的世界"
+  greeting: "你好，我是"
+  quote:
+    text: "代码是诗，键盘是笔，屏幕是画布，让我们一起书写数字世界的篇章。"
+    author: "爱则心痛"
 
 posts:
   title: "最新文章"

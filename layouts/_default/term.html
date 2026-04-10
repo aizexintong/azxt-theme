@@ -2,7 +2,7 @@
   <div class="section-content" role="main">
     <header class="section-header">
       <h1 class="section-title">
-        <i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
+        <i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--c-primary);"></i>{{ .Title }}
       </h1>
       {{ if .Content }}
         <div class="section-description">
@@ -77,7 +77,7 @@
               {{ end }}
               
               <div class="post-excerpt">
-                {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 100 }}{{ end }}
+                {{ with .Description }}{{ . | plainify | truncate 80 }}{{ else }}{{ .Summary | plainify | truncate 80 }}{{ end }}
               </div>
               
               <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">

@@ -74,13 +74,4 @@
   </section>
 </div>
 
-<!-- 页面专用样式 -->
-{{ $skillsCSS := resources.Get "css/pages/skills.css" }}
-{{ if hugo.IsDevelopment }}
-  <link rel="stylesheet" href="{{ $skillsCSS.RelPermalink }}">
-{{ else }}
-  {{ with $skillsCSS | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
-  {{ end }}
-{{ end }}
 {{ end }}

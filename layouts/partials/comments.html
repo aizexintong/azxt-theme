@@ -88,23 +88,23 @@
   
   <style>
     .comments-section {
-      padding: var(--space-2xl) 0;
-      margin-top: var(--space-2xl);
-      border-top: 1px solid var(--neutral);
+      padding: var(--sp-12) 0;
+      margin-top: var(--sp-12);
+      border-top: 1px solid var(--c-border-main);
     }
     
     .comments-container {
-      margin-top: var(--space-lg);
+      margin-top: var(--sp-10);
       min-height: 200px;
     }
     
     .comments-warning,
     .comments-disabled {
-      padding: var(--space-lg);
-      background: var(--neutral-light);
-      border-radius: var(--radius-lg);
+      padding: var(--sp-10);
+      background: var(--c-border-light);
+      border-radius: var(--r-lg);
       text-align: center;
-      color: var(--text-light);
+      color: var(--c-text-muted);
     }
     
     .comments-warning {
@@ -113,12 +113,12 @@
     }
     
     /* 暗黑模式适配 */
-    .dark-theme .comments-warning {
+    [data-theme="dark"] .comments-warning {
       background: rgba(255, 193, 7, 0.15);
       border-color: rgba(255, 193, 7, 0.4);
     }
     
-    .dark-theme .comments-disabled {
+    [data-theme="dark"] .comments-disabled {
       background: rgba(255, 255, 255, 0.05);
     }
   </style>

@@ -69,13 +69,4 @@
   </section>
 </div>
 
-<!-- 页面专用样式 -->
-{{ $linksCSS := resources.Get "css/pages/links.css" }}
-{{ if hugo.IsDevelopment }}
-  <link rel="stylesheet" href="{{ $linksCSS.RelPermalink }}">
-{{ else }}
-  {{ with $linksCSS | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
-  {{ end }}
-{{ end }}
 {{ end }}

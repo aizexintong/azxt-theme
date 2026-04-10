@@ -27,22 +27,14 @@
         
         <div class="archive-months">
           {{ range (.Pages.GroupByDate "01") }}
-          <div class="archive-month">
+           <div class="archive-month">
             {{ $monthNum := .Key }}
-            {{ $monthName := "" }}
-            {{ if eq $monthNum "01" }}{{ $monthName = "一月" }}
-            {{ else if eq $monthNum "02" }}{{ $monthName = "二月" }}
-            {{ else if eq $monthNum "03" }}{{ $monthName = "三月" }}
-            {{ else if eq $monthNum "04" }}{{ $monthName = "四月" }}
-            {{ else if eq $monthNum "05" }}{{ $monthName = "五月" }}
-            {{ else if eq $monthNum "06" }}{{ $monthName = "六月" }}
-            {{ else if eq $monthNum "07" }}{{ $monthName = "七月" }}
-            {{ else if eq $monthNum "08" }}{{ $monthName = "八月" }}
-            {{ else if eq $monthNum "09" }}{{ $monthName = "九月" }}
-            {{ else if eq $monthNum "10" }}{{ $monthName = "十月" }}
-            {{ else if eq $monthNum "11" }}{{ $monthName = "十一月" }}
-            {{ else if eq $monthNum "12" }}{{ $monthName = "十二月" }}
-            {{ end }}
+            {{ $monthNames := dict 
+              "01" "一月" "02" "二月" "03" "三月" "04" "四月" 
+              "05" "五月" "06" "六月" "07" "七月" "08" "八月" 
+              "09" "九月" "10" "十月" "11" "十一月" "12" "十二月" 
+            }}
+            {{ $monthName := index $monthNames $monthNum | default $monthNum }}
             
             <h3 class="archive-month-title">{{ $monthName }}</h3>
             
@@ -138,7 +130,9 @@
     align-items: center;
     gap: var(--sp-4);
     padding: var(--sp-3) var(--sp-4);
-    background: var(--c-surface);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-radius: var(--r-lg);
     text-decoration: none;
     transition: all var(--t-fast) var(--ease-out);
@@ -149,6 +143,15 @@
     background: var(--c-primary-ll);
     border-color: var(--c-primary-l);
     transform: translateX(4px);
+  }
+
+  [data-theme="dark"] .archive-link {
+    background: rgba(26, 27, 58, 0.5);
+  }
+
+  [data-theme="dark"] .archive-link:hover {
+    background: rgba(26, 27, 58, 0.7);
+    border-color: var(--c-primary-400);
   }
   
   .archive-date {

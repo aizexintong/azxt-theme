@@ -1,169 +1,89 @@
 {{ define "main" }}
-  <article class="article-content" role="article">
-    <!-- 文章头部区域 -->
-    <header class="article-hero {{ if .Params.image }}has-cover{{ end }}">
-      {{ if .Params.image }}
-        <div class="article-hero-bg">
-          <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="eager" />
-        </div>
-      {{ end }}
-      
-      <div class="container">
-        <div class="article-hero-content">
-          {{ if .Params.categories }}
-            <div class="article-categories">
-              {{ range .Params.categories }}
-                <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="article-category">
-                  <i class="fas fa-folder" aria-hidden="true"></i>
-                  {{ . }}
-                </a>
-              {{ end }}
-            </div>
-          {{ end }}
-          
-          <h1 class="article-title">{{ .Title }}</h1>
-          
-          {{ if .Description }}
-            <p class="article-description">{{ .Description }}</p>
-          {{ end }}
-          
-          <div class="article-meta">
-            {{ if .Date }}
-              {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
-              {{ $dateHuman := .Date | time.Format "2006年1月2日" }}
-              <time class="article-date" datetime="{{ $dateMachine }}" aria-label="发布日期">
-                <i class="fas fa-calendar" aria-hidden="true"></i>
-                {{ $dateHuman }}
-              </time>
-            {{ end }}
-            
-            {{ if .ReadingTime }}
-              <span class="article-reading-time" aria-label="阅读时间">
-                <i class="fas fa-clock" aria-hidden="true"></i>
-                {{ .ReadingTime }}分钟阅读
-              </span>
-            {{ end }}
-            
-            {{ if .WordCount }}
-              <span class="article-word-count" aria-label="字数统计">
-                <i class="fas fa-file-alt" aria-hidden="true"></i>
-                {{ .WordCount }}字
-              </span>
-            {{ end }}
-          </div>
-          
-          {{ if .Params.tags }}
-            <div class="article-tags">
-              {{ range .Params.tags }}
-                <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="article-tag">
-                  <i class="fas fa-tag" aria-hidden="true"></i>
-                  {{ . }}
-                </a>
-              {{ end }}
-            </div>
-          {{ end }}
-        </div>
-      </div>
-    </header>
-
-    <!-- 文章主体内容 -->
+  <article class="article-page">
     <div class="container">
-      <div class="article-body">
-        <div class="article-content-wrapper">
-          {{ .Content }}
-        </div>
-        
-        <aside class="article-sidebar">
-          <!-- 文章目录 (TOC) - 优先显示 -->
-          {{ if and .Site.Params.enableTOC .TableOfContents }}
-            <div class="sidebar-card toc-card card">
-              <h3 class="sidebar-title">
-                <i class="fas fa-list-ul"></i>
-                文章目录
-              </h3>
-              <nav class="toc-body" id="toc-body">
-                {{ .TableOfContents }}
-              </nav>
+       <!-- 顶部：图片背景 + 信息（与内容同宽） -->
+      <header class="article-header">
+        {{ if .Params.image }}
+          <div class="article-cover">
+            <img src="{{ .Params.image }}" alt="{{ .Title }}" />
+          </div>
+        {{ end }}
+        <div class="article-info">
+          {{ if .Params.categories }}
+            <span class="article-cat">{{ index .Params.categories 0 }}</span>
+          {{ end }}
+          <h1 class="article-h1">{{ .Title }}</h1>
+          <div class="article-meta-row">
+            {{ if .Date }}<span><i class="far fa-calendar"></i> {{ .Date.Format "2006-01-02" }}</span>{{ end }}
+            {{ if .ReadingTime }}<span><i class="far fa-clock"></i> {{ .ReadingTime }} 分钟</span>{{ end }}
+            {{ if .WordCount }}<span><i class="far fa-file-alt"></i> {{ .WordCount }} 字</span>{{ end }}
+          </div>
+          {{ if .Params.tags }}
+            <div class="article-tag-list">
+              {{ range .Params.tags }}
+                <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">#{{ . }}</a>
+              {{ end }}
             </div>
           {{ end }}
-          
-          <!-- 文章信息 -->
-          <div class="sidebar-card card">
-            <h3 class="sidebar-title">
-              <i class="fas fa-info-circle"></i>
-              文章信息
-            </h3>
-            <div class="sidebar-content">
-              {{ if .Date }}
-                <div class="sidebar-item">
-                  <span class="sidebar-label">发布日期</span>
-                  <span class="sidebar-value">{{ .Date.Format "2006-01-02" }}</span>
-                </div>
-              {{ end }}
-              
-              {{ if .Lastmod }}
-                <div class="sidebar-item">
-                  <span class="sidebar-label">最后更新</span>
-                  <span class="sidebar-value">{{ .Lastmod.Format "2006-01-02" }}</span>
-                </div>
-              {{ end }}
-              
-              {{ if .WordCount }}
-                <div class="sidebar-item">
-                  <span class="sidebar-label">字数统计</span>
-                  <span class="sidebar-value">{{ .WordCount }}字</span>
-                </div>
-              {{ end }}
-              
-              {{ if .ReadingTime }}
-                <div class="sidebar-item">
-                  <span class="sidebar-label">阅读时间</span>
-                  <span class="sidebar-value">{{ .ReadingTime }}分钟</span>
-                </div>
-              {{ end }}
+        </div>
+      </header>
+
+      <!-- 中部：左内容 + 右工具 -->
+      <div class="article-body-wrap">
+        <!-- 左侧 -->
+        <div class="article-left">
+          <div class="article-text">
+            {{ .Content }}
+          </div>
+        </div>
+        <!-- 右侧 -->
+        <aside class="article-right">
+          {{ if and .Site.Params.enableTOC .TableOfContents }}
+            <div class="side-box">
+              <div class="side-box-title"><i class="fas fa-list"></i> 目录</div>
+              <div class="side-toc">{{ .TableOfContents }}</div>
+            </div>
+          {{ end }}
+          <div class="side-box">
+            <div class="side-box-title"><i class="fas fa-info"></i> 信息</div>
+            <div class="side-info">
+              {{ if .Date }}<p><span>发布</span><span>{{ .Date.Format "2006-01-02" }}</span></p>{{ end }}
+              {{ if .Lastmod }}<p><span>更新</span><span>{{ .Lastmod.Format "2006-01-02" }}</span></p>{{ end }}
+              {{ if .WordCount }}<p><span>字数</span><span>{{ .WordCount }}</span></p>{{ end }}
+              {{ if .ReadingTime }}<p><span>阅读</span><span>{{ .ReadingTime }}分钟</span></p>{{ end }}
             </div>
           </div>
-          
-          <!-- 文章标签 -->
           {{ if .Params.tags }}
-            <div class="sidebar-card card">
-              <h3 class="sidebar-title">
-                <i class="fas fa-tags"></i>
-                文章标签
-              </h3>
-              <div class="sidebar-tags">
+            <div class="side-box">
+              <div class="side-box-title"><i class="fas fa-tags"></i> 标签</div>
+              <div class="side-tags">
                 {{ range .Params.tags }}
-                  <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="sidebar-tag">{{ . }}</a>
+                  <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
                 {{ end }}
               </div>
             </div>
           {{ end }}
         </aside>
       </div>
-    </div>
 
-    <footer class="article-footer">
-      <div class="container">
-        {{ if eq .Type "posts" }}
-          {{ partial "comments.html" . }}
+      <!-- 上下篇 -->
+      <div class="article-nav">
+        {{ with .PrevInSection }}
+          <a href="{{ .RelPermalink }}" class="nav-item">
+            <small>← 上一篇</small>
+            <span>{{ .Title }}</span>
+          </a>
         {{ end }}
-        
-        <div class="article-navigation">
-          {{ with .PrevInSection }}
-            <a href="{{ .RelPermalink }}" class="article-nav-link prev-link" aria-label="上一篇: {{ .Title }}">
-              <span class="nav-label"><i class="fas fa-arrow-left"></i> 上一篇</span>
-              <span class="nav-title">{{ .Title }}</span>
-            </a>
-          {{ end }}
-          
-          {{ with .NextInSection }}
-            <a href="{{ .RelPermalink }}" class="article-nav-link next-link" aria-label="下一篇: {{ .Title }}">
-              <span class="nav-label">下一篇 <i class="fas fa-arrow-right"></i></span>
-              <span class="nav-title">{{ .Title }}</span>
-            </a>
-          {{ end }}
-        </div>
+        {{ with .NextInSection }}
+          <a href="{{ .RelPermalink }}" class="nav-item next">
+            <small>下一篇 →</small>
+            <span>{{ .Title }}</span>
+          </a>
+        {{ end }}
       </div>
-    </footer>
+
+      <!-- 评论区域 -->
+      {{ partial "comments.html" . }}
+    </div>
   </article>
 {{ end }}

@@ -1,0 +1,15 @@
+{{- /* layouts/_default/index.json */ -}}
+{{- $.Scratch.Set "searchIndex" slice -}}
+{{- $posts := where site.RegularPages "Type" "posts" -}}
+{{- range $posts -}}
+  {{- $.Scratch.Add "searchIndex" (dict 
+    "title" .Title 
+    "permalink" .Permalink 
+    "date" (.Date.Format "2006-01-02")
+    "description" .Description
+    "content" (.Plain | truncate 500 | htmlEscape)
+    "tags" .Params.tags
+    "categories" .Params.categories
+  ) -}}
+{{- end -}}
+{{- $.Scratch.Get "searchIndex" | jsonify -}}

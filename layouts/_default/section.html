@@ -2,7 +2,7 @@
   <div class="section-content" role="main">
     <header class="section-header">
       <h1 class="section-title">
-        <i class="fas fa-feather-alt" style="margin-right: 0.5rem; color: var(--primary);"></i>文字随笔
+        <i class="fas fa-feather-alt" style="margin-right: 0.5rem; color: var(--c-primary);"></i>文字随笔
       </h1>
       <p class="section-subtitle">记录生活，分享思考</p>
       {{ if .Content }}
@@ -72,7 +72,7 @@
                   {{ end }}
                  
                   <div class="post-excerpt">
-                    {{ with .Description }}{{ . }}{{ else }}{{ .Summary | truncate 200 }}{{ end }}
+                    {{ with .Description }}{{ . | plainify | truncate 100 }}{{ else }}{{ .Summary | plainify | truncate 100 }}{{ end }}
                   </div>
                   
                   <a href="{{ .RelPermalink }}" class="read-more" aria-label="继续阅读: {{ .Title }}">

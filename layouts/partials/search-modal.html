@@ -47,9 +47,9 @@
     width: 90%;
     max-width: 600px;
     max-height: 80vh;
-    background: var(--surface);
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    background: var(--c-surface-main);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
     z-index: 9999;
     opacity: 0;
     transition: all 0.3s ease;
@@ -71,69 +71,69 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--neutral);
+    padding: var(--sp-6);
+    border-bottom: 1px solid var(--c-border-main);
   }
   
   .search-modal-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-semibold);
+    color: var(--c-text-main);
     margin: 0;
   }
   
   .search-modal-close {
     background: none;
     border: none;
-    color: var(--text-light);
-    font-size: 1.25rem;
+    color: var(--c-text-muted);
+    font-size: var(--fs-lg);
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 4px;
+    padding: var(--sp-2);
+    border-radius: var(--r-sm);
     transition: all 0.2s ease;
   }
   
   .search-modal-close:hover {
-    color: var(--text);
-    background: var(--neutral-light);
+    color: var(--c-text-main);
+    background: var(--c-border-light);
   }
   
   .search-modal-body {
     flex: 1;
-    padding: 1.5rem;
+    padding: var(--sp-6);
     overflow-y: auto;
   }
   
   .search-toggle {
     background: none;
     border: none;
-    color: var(--text);
-    font-size: 1.1rem;
+    color: var(--c-text-main);
+    font-size: var(--fs-md);
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    padding: var(--sp-2);
+    border-radius: var(--r-sm);
+    transition: all var(--t-fast) var(--ease-fluid);
   }
   
   .search-toggle:hover {
-    color: var(--primary);
-    background: var(--neutral-light);
+    color: var(--c-primary-400);
+    background: var(--c-border-light);
   }
   
   .theme-toggle {
     background: none;
     border: none;
-    color: var(--text);
-    font-size: 1.1rem;
+    color: var(--c-text-main);
+    font-size: var(--fs-md);
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    padding: var(--sp-2);
+    border-radius: var(--r-sm);
+    transition: all var(--t-fast) var(--ease-fluid);
   }
   
   .theme-toggle:hover {
-    color: var(--primary);
-    background: var(--neutral-light);
+    color: var(--c-primary-400);
+    background: var(--c-border-light);
   }
 </style>
 

@@ -3,11 +3,11 @@
     <header class="section-header">
       <h1 class="section-title">
         {{ if eq .Data.Singular "tags" }}
-          <i class="fas fa-tags" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
+          <i class="fas fa-tags" style="margin-right: 0.5rem; color: var(--c-primary);"></i>{{ .Title }}
         {{ else if eq .Data.Singular "categories" }}
-          <i class="fas fa-folder" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
+          <i class="fas fa-folder" style="margin-right: 0.5rem; color: var(--c-primary);"></i>{{ .Title }}
         {{ else }}
-          <i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--primary);"></i>{{ .Title }}
+          <i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--c-primary);"></i>{{ .Title }}
         {{ end }}
       </h1>
       {{ if .Content }}
@@ -19,15 +19,18 @@
           {{ .Description }}
         </div>
       {{ end }}
+      {{ if .Data.Terms }}
       <div class="tag-header-meta">
         <span class="tag-article-count">
           <i class="fas fa-tag" aria-hidden="true"></i>
           共 {{ len .Data.Terms }} 个{{ if eq .Data.Singular "tags" }}标签{{ else if eq .Data.Singular "categories" }}分类{{ else }}条目{{ end }}
         </span>
       </div>
+      {{ end }}
     </header>
 
     <div class="container">
+      {{ if .Data.Terms }}
       <div class="term-cloud-section" data-aos="fade-up">
         <div class="cloud-grid">
           {{ range sort .Data.Terms ".Count" "desc" }}
@@ -39,6 +42,11 @@
           {{ end }}
         </div>
       </div>
+      {{ else }}
+      <div class="no-terms-message" data-aos="fade-up">
+        <p>暂无{{ if eq .Data.Singular "tags" }}标签{{ else if eq .Data.Singular "categories" }}分类{{ else }}条目{{ end }}</p>
+      </div>
+      {{ end }}
     </div>
   </div>
 

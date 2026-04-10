@@ -20,16 +20,16 @@
       <div class="intro-card card">
         <div class="intro-content">
           <div class="intro-text">
-            <h2>{{ $intro.name | default "爱则心痛 (azxt)" }}</h2>
-            <p class="intro-subtitle">{{ $intro.title | default "全栈开发者 · 技术爱好者 · 开源贡献者" }}</p>
+            <h2>{{ $intro.name | default .Site.Params.author }}</h2>
+            <p class="intro-subtitle">{{ $intro.title | default "技术爱好者 · 开源贡献者" }}</p>
             <div class="intro-quote">
               <i class="fas fa-quote-left"></i>
               <p>{{ $intro.quote | default "代码如诗，技术如画。在0和1的世界里，创造无限可能。" }}</p>
               <i class="fas fa-quote-right"></i>
             </div>
           </div>
-          <div class="intro-image">
-            <img src="{{ .Site.Params.avatarImage }}" alt="爱则心痛" loading="lazy">
+           <div class="intro-image">
+            <img src="{{ .Site.Params.avatarImage }}" alt="{{ $intro.name | default .Site.Params.author }}" loading="lazy">
             <div class="image-decoration"></div>
           </div>
         </div>
@@ -64,7 +64,7 @@
       <div class="philosophy-grid">
         {{ with $philosophy.items }}
           {{ range . }}
-          <div class="philosophy-item" data-aos="zoom-in">
+          <div class="philosophy-item card" data-aos="zoom-in">
             <div class="philosophy-icon">
               <i class="{{ .icon }}"></i>
             </div>
@@ -117,13 +117,4 @@
   </div>
 </div>
 
-<!-- 页面专用样式 -->
-{{ $aboutCSS := resources.Get "css/pages/about.css" }}
-{{ if hugo.IsDevelopment }}
-  <link rel="stylesheet" href="{{ $aboutCSS.RelPermalink }}">
-{{ else }}
-  {{ with $aboutCSS | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
-  {{ end }}
-{{ end }}
 {{ end }}
