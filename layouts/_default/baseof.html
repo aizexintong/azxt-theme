@@ -4,10 +4,12 @@
   {{ partial "head.html" . }}
 </head>
 <body>
-   <!-- 背景层 -->
-   <div class="bg-layer bg-image-layer">
-     <img src="{{ .Site.Params.adaptiveImage | default .Site.Params.horizontalImage | default "https://t.alcy.cc/ycy" }}" alt="背景图片" class="bg-image" loading="lazy">
-   </div>
+  <!-- 背景层 -->
+  <div class="bg-layer bg-image-layer">
+    {{- $assets := hugo.Data.assets -}}
+    {{- $bg := $assets.background.adaptive.url | default "https://t.alcy.cc/ycy" -}}
+    <img src="{{ $bg }}" alt="背景图片" class="bg-image" loading="lazy">
+  </div>
   <div class="bg-layer bg-overlay-layer"></div>
 
   <!-- 内容层 -->
@@ -28,17 +30,17 @@
 
   <!-- 返回顶部/底部按钮 -->
   <div class="scroll-buttons" id="scroll-buttons">
-    <button class="scroll-btn scroll-to-top" aria-label="返回顶部" title="返回顶部">
+    <button class="scroll-btn scroll-to-top" aria-label="{{ i18n "scrolltotop" }}" title="{{ i18n "scrolltotop" }}">
       <i class="fas fa-chevron-up"></i>
     </button>
-    <button class="scroll-btn scroll-to-bottom" aria-label="跳到底部" title="跳到底部">
+    <button class="scroll-btn scroll-to-bottom" aria-label="{{ i18n "scrolltobottom" }}" title="{{ i18n "scrolltobottom" }}">
       <i class="fas fa-chevron-down"></i>
     </button>
   </div>
 
   <!-- 图片灯箱 -->
   <div class="img-lightbox" id="img-lightbox">
-    <button class="img-lightbox-close" aria-label="关闭">
+    <button class="img-lightbox-close" aria-label="{{ i18n "close" }}">
       <i class="fas fa-times"></i>
     </button>
     <img src="" alt="" id="img-lightbox-img">
@@ -51,9 +53,9 @@
   <!-- 主题配置 -->
   <script>
     window.themeConfig = {
-      lightLabel: "{{ .Site.Data.theme.labels.lightLabel | default "切换到深色模式" }}",
-      darkLabel: "{{ .Site.Data.theme.labels.darkLabel | default "切换到浅色模式" }}",
-      systemLabel: "{{ .Site.Data.theme.labels.systemLabel | default "切换到手动模式" }}"
+      lightLabel: "{{ i18n "themLightLabel" }}",
+      darkLabel: "{{ i18n "themDarkLabel" }}",
+      systemLabel: "{{ i18n "themSystemLabel" }}"
     };
   </script>
 </body>

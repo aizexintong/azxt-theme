@@ -3,98 +3,64 @@
     <header class="section-header">
       <h1 class="section-title">
         {{ if eq .Data.Singular "tags" }}
-          <i class="fas fa-tags" style="margin-right: 0.5rem; color: var(--c-primary);"></i>{{ .Title }}
+          <i class="fas fa-tags section-title-icon"></i>{{ i18n "tagstitle" }}
         {{ else if eq .Data.Singular "categories" }}
-          <i class="fas fa-folder" style="margin-right: 0.5rem; color: var(--c-primary);"></i>{{ .Title }}
+          <i class="fas fa-folder section-title-icon"></i>{{ i18n "categoriestitle" }}
         {{ else }}
-          <i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--c-primary);"></i>{{ .Title }}
+          <i class="fas fa-tag section-title-icon"></i>{{ .Title }}
         {{ end }}
       </h1>
       {{ if .Content }}
-        <div class="section-description">
-          {{ .Content }}
-        </div>
+        <div class="section-description">{{ .Content }}</div>
       {{ else if .Description }}
-        <div class="section-description">
-          {{ .Description }}
-        </div>
+        <div class="section-description">{{ .Description }}</div>
       {{ end }}
-      {{ if .Data.Terms }}
       <div class="tag-header-meta">
         <span class="tag-article-count">
           <i class="fas fa-tag" aria-hidden="true"></i>
-          {{ i18n "taxonomycount" }}
+          {{ if .Data.Terms }}{{ i18n "taxonomycount" (dict "Count" (len .Data.Terms)) }}{{ end }}
+          {{ if and (not .Data.Terms) .Pages }}{{ i18n "termcount" (dict "Count" (len .Pages)) }}{{ end }}
         </span>
       </div>
-      {{ end }}
     </header>
 
     <div class="container">
       {{ if .Data.Terms }}
-      <div class="term-cloud-section" data-aos="fade-up">
-        <div class="cloud-grid">
-          {{ range sort .Data.Terms ".Count" "desc" }}
-            <a href="{{ .Page.RelPermalink }}" class="cloud-tag" data-weight="{{ .Count }}">
-              <i class="fas fa-tag" aria-hidden="true"></i>
-              {{ .Page.Title }}
-              <span class="tag-count">({{ .Count }})</span>
-            </a>
-          {{ end }}
-        </div>
+      <div class="tags-grid" data-aos="fade-up">
+        {{ range sort .Data.Terms ".Count" "desc" }}
+        <a href="{{ .Page.RelPermalink }}" class="tags-card">
+          <span class="tags-card-name">{{ .Page.Title }}</span>
+          <span class="tags-card-count">{{ .Count }} 篇文章</span>
+        </a>
+        {{ end }}
       </div>
-      {{ else }}
-      <div class="no-terms-message" data-aos="fade-up">
-        <p>{{ i18n "taxonomyempty" }}</p>
+      {{ else if .Pages }}
+      <div class="term-posts-grid" role="list">
+        {{ $paginator := .Paginate .Pages 16 }}
+        {{ range $paginator.Pages }}
+        <article class="post-card" role="listitem">
+          {{ if .Params.image }}
+          <div class="post-image">
+            <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy"/>
+            <div class="post-image-overlay"></div>
+            {{ if .Params.categories }}
+            <span class="post-category" aria-label="{{ i18n "postcategorylabel" }}">{{ index .Params.categories 0 }}</span>
+            {{ end }}
+          </div>
+          {{ end }}
+          <div class="post-content">
+            <h3 class="post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+            <div class="post-meta">
+              {{ if .Date }}<span><i class="fas fa-calendar-alt" aria-hidden="true"></i>{{ .Date.Format "2006-01-02" }}</span>{{ end }}
+              {{ if .ReadingTime }}<span><i class="fas fa-clock" aria-hidden="true"></i>{{ .ReadingTime }}{{ i18n "postreadtime" }}</span>{{ end }}
+            </div>
+            <div class="post-excerpt">{{ with .Description }}{{ . | plainify | truncate 80 }}{{ else }}{{ .Summary | plainify | truncate 80 }}{{ end }}</div>
+            <a href="{{ .RelPermalink }}" class="read-more"><span>{{ i18n "homereadmore" }}</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+        </article>
+        {{ end }}
       </div>
       {{ end }}
     </div>
   </div>
-
-  <style>
-    .cloud-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--sp-3);
-      justify-content: center;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: var(--sp-6) 0;
-    }
-    
-    .cloud-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--sp-2);
-      padding: var(--sp-2) var(--sp-4);
-      background: var(--c-primary-ll);
-      color: var(--c-primary-d);
-      border-radius: var(--r-full);
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-medium);
-      text-decoration: none;
-      transition: all var(--t-fast) var(--ease-out);
-    }
-    
-    .cloud-tag:hover {
-      background: var(--grad);
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .cloud-tag .tag-count {
-      font-size: var(--fs-xs);
-      opacity: 0.8;
-    }
-    
-    [data-theme="dark"] .cloud-tag {
-      background: var(--c-surface-e);
-      color: var(--c-text-2);
-    }
-    
-    [data-theme="dark"] .cloud-tag:hover {
-      background: var(--grad);
-      color: white;
-    }
-  </style>
 {{ end }}

@@ -4,7 +4,7 @@
    ========================================================================== */}}
 {{ define "main" }}
 {{/* 获取首页数据配置 */}}
-{{ $homeData := .Site.Data.home | default dict }}
+{{ $homeData := hugo.Data.home | default dict }}
 {{ $hero := $homeData.hero | default dict }}
 {{ $posts := $homeData.posts | default dict }}
 {{ $aboutData := $homeData.about | default dict }}
@@ -220,7 +220,7 @@
           </div>
           <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
             <div class="stat-icon"><i class="fas fa-code"></i></div>
-            <div class="stat-number">{{ len .Site.Params.skills }}</div>
+            <div class="stat-number">{{ len (default slice (index hugo.Data "skills").skills) }}</div>
             <div class="stat-label">{{ i18n "homeskillscount" }}</div>
           </div>
         </div>
@@ -237,7 +237,9 @@
       {{/* 关于图片 */}}
       <div class="about-image-wrapper">
         <div class="about-image">
-          <img src="{{ .Site.Params.avatarImage }}" alt="{{ i18n "defaultauthor" }}" loading="lazy">
+          {{- $assets := hugo.Data.assets -}}
+          {{- $avatar := $assets.avatar.url | default "https://t.alcy.cc/tx" -}}
+          <img src="{{ $avatar }}" alt="{{ i18n "defaultauthor" }}" loading="lazy">
         </div>
         <div class="about-image-decoration"></div>
       </div>
@@ -259,7 +261,8 @@
     {{/* 技能网格 */}}
     <div class="skills-grid">
       {{ $skillCount := $skillsData.count | default 6 }}
-      {{ range $index, $element := first $skillCount .Site.Params.skills }}
+      {{ $skillsList := default slice (index hugo.Data "skills").skills }}
+      {{ range $index, $element := first $skillCount $skillsList }}
       <div class="skill-item" data-aos="zoom-in" data-aos-delay="{{ mul $index 80 }}">
         <div class="skill-icon">
           {{ if eq .name "JavaScript" }}<i class="fab fa-js-square"></i>

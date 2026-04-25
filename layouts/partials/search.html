@@ -1,472 +1,202 @@
-{{- /* 
- * 搜索功能组件
- * 支持本地搜索和Algolia
+{{- /*
+ * 搜索功能组件 (Search Component)
+ * 数据来源: Site.Params.enableSearch, Site.Params.searchProvider
+ * 依赖文件: index.json (本地搜索)
  */ -}}
 
 {{- if .Site.Params.enableSearch -}}
-  <div class="search-container" role="search" aria-label="站点搜索">
-    
-    {{- if eq .Site.Params.searchProvider "local" -}}
-      {{- /* 本地搜索 */ -}}
-      <form class="search-form" id="search-form" role="search">
-        <div class="search-input-group">
-          <input 
-            type="search" 
-            id="search-input" 
-            class="search-input" 
-            placeholder="搜索文章..." 
-            aria-label="搜索输入框"
-            autocomplete="off"
-          />
-          <button 
-            type="submit" 
-            class="search-button" 
-            aria-label="搜索"
-          >
-            <i class="fas fa-search" aria-hidden="true"></i>
-          </button>
-        </div>
-      </form>
-      
-      <div class="search-results" id="search-results" aria-live="polite" aria-atomic="true">
-        <!-- 搜索结果将动态插入此处 -->
-      </div>
-      
-      <script>
-        // 本地搜索实现
-        document.addEventListener('DOMContentLoaded', function() {
-          const searchForm = document.getElementById('search-form');
-          const searchInput = document.getElementById('search-input');
-          const searchResults = document.getElementById('search-results');
-          
-          let searchIndex = [];
-          
-           // 加载搜索索引
-          fetch('{{ "index.json" | relURL }}')
-            .then(response => {
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              return response.json();
-            })
-            .then(data => {
-              searchIndex = data;
-              // 隐藏任何之前的错误消息
-              if (searchResults.innerHTML.includes('search-error')) {
-                searchResults.innerHTML = '';
-              }
-            })
-            .catch(error => {
-              console.warn('搜索索引加载失败，搜索功能将不可用:', error);
-              // 只在用户尝试搜索时显示错误，而不是一直显示
-              const originalPerformSearch = performSearch;
-              performSearch = function(query) {
-                if (searchIndex.length === 0) {
-                  searchResults.innerHTML = `
-                    <div class="search-error" role="alert">
-                      <p><i class="fas fa-exclamation-triangle"></i> 搜索功能暂时不可用</p>
-                      <p class="search-error-hint">请刷新页面重试或直接浏览文章</p>
-                    </div>
-                  `;
-                  return;
-                }
-                originalPerformSearch(query);
-              };
-            });
-          
-          // 搜索处理
-          function performSearch(query) {
-            if (!query.trim() || searchIndex.length === 0) {
-              searchResults.innerHTML = '';
-              return;
-            }
-            
-            const normalizedQuery = query.toLowerCase().trim();
-            const results = searchIndex.filter(item => {
-              const title = item.title?.toLowerCase() || '';
-              const content = item.content?.toLowerCase() || '';
-              const summary = item.summary?.toLowerCase() || '';
-              
-              return title.includes(normalizedQuery) || 
-                     content.includes(normalizedQuery) || 
-                     summary.includes(normalizedQuery);
-            });
-            
-            displayResults(results, query);
-          }
-          
-          // 显示结果
-          function displayResults(results, query) {
-            if (results.length === 0) {
-              searchResults.innerHTML = `
-                <div class="search-no-results" role="status">
-                  <p>未找到包含 "<strong>${query}</strong>" 的文章</p>
-                </div>
-              `;
-              return;
-            }
-            
-            let html = `
-              <div class="search-results-header" role="status">
-                <p>找到 ${results.length} 个相关结果</p>
-              </div>
-              <ul class="search-results-list" role="list">
-            `;
-            
-            results.forEach(result => {
-              const title = highlightText(result.title, query);
-              const excerpt = getExcerpt(result.content || result.summary, query);
-              
-              html += `
-                <li class="search-result-item" role="listitem">
-                  <a href="${result.permalink}" class="search-result-link">
-                    <h3 class="search-result-title">${title}</h3>
-                    <div class="search-result-excerpt">${excerpt}</div>
-                    <div class="search-result-meta">
-                      <span class="search-result-date">${formatDate(result.date)}</span>
-                      ${result.tags ? `<span class="search-result-tags">${result.tags.join(', ')}</span>` : ''}
-                    </div>
-                  </a>
-                </li>
-              `;
-            });
-            
-            html += '</ul>';
-            searchResults.innerHTML = html;
-          }
-          
-          // 高亮文本
-          function highlightText(text, query) {
-            if (!text) return '';
-            const regex = new RegExp(`(${query})`, 'gi');
-            return text.replace(regex, '<mark class="search-highlight">$1</mark>');
-          }
-          
-          // 获取摘要
-          function getExcerpt(content, query, length = 150) {
-            if (!content) return '';
-            
-            const normalizedContent = content.toLowerCase();
-            const queryIndex = normalizedContent.indexOf(query.toLowerCase());
-            
-            if (queryIndex === -1) {
-              return content.substring(0, length) + '...';
-            }
-            
-            const start = Math.max(0, queryIndex - 50);
-            const end = Math.min(content.length, queryIndex + 100);
-            let excerpt = content.substring(start, end);
-            
-            if (start > 0) excerpt = '...' + excerpt;
-            if (end < content.length) excerpt = excerpt + '...';
-            
-            return highlightText(excerpt, query);
-          }
-          
-          // 格式化日期
-          function formatDate(dateString) {
-            if (!dateString) return '';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('zh-CN', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            });
-          }
-          
-          // 事件监听
-          searchForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            performSearch(searchInput.value);
-          });
-          
-          searchInput.addEventListener('input', function() {
-            if (this.value.length >= 2) {
-              performSearch(this.value);
-            } else {
-              searchResults.innerHTML = '';
-            }
-          });
-          
-          // 键盘导航
-          searchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-              this.value = '';
-              searchResults.innerHTML = '';
-            }
-          });
-        });
-      </script>
-      
-    {{- else if eq .Site.Params.searchProvider "algolia" -}}
-      {{- /* Algolia 搜索 */ -}}
-      <div class="algolia-search">
-        <div id="search-box"></div>
-        <div id="hits"></div>
-        <div id="pagination"></div>
-      </div>
-      
-      <script>
-        // Algolia搜索配置
-        const search = instantsearch({
-          indexName: '{{ .Site.Params.algoliaIndexName }}',
-          searchClient: algoliasearch(
-            '{{ .Site.Params.algoliaAppId }}',
-            '{{ .Site.Params.algoliaSearchKey }}'
-          ),
-        });
-        
-        search.addWidgets([
-          instantsearch.widgets.searchBox({
-            container: '#search-box',
-            placeholder: '搜索文章...',
-            showReset: false,
-            showSubmit: false,
-            cssClasses: {
-              root: 'ais-SearchBox',
-              form: 'ais-SearchBox-form',
-              input: 'ais-SearchBox-input',
-              submit: 'ais-SearchBox-submit',
-              reset: 'ais-SearchBox-reset',
-            }
-          }),
-          
-          instantsearch.widgets.hits({
-            container: '#hits',
-            templates: {
-               item: (hit, { html }) => html`
-                <article class="hit">
-                  <h3><a href="${hit.url}">${hit._highlightResult.title.value}</a></h3>
-                  <p>${hit._highlightResult.content.value}</p>
-                  <div class="hit-meta">
-                    <span class="hit-date">${hit.date}</span>
-                    <span class="hit-tags">${hit.tags}</span>
-                  </div>
-                </article>
-              `,
-              empty: '<div class="no-results">未找到相关结果</div>'
-            }
-          }),
-          
-          instantsearch.widgets.pagination({
-            container: '#pagination',
-            scrollTo: false
+<div class="search-component" role="search" aria-label='{{ i18n "searchtitle" }}'>
+
+  {{- if eq .Site.Params.searchProvider "local" -}}
+  <form class="search-form" id="search-form" role="search">
+    <div class="search-input-group">
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder='{{ i18n "searchplaceholder" }}'
+        aria-label='{{ i18n "searchtitle" }}'
+        autocomplete="off"
+      />
+      <button
+        type="submit"
+        class="search-button"
+        aria-label='{{ i18n "navsearch" }}'
+      >
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="search-results" id="search-results" aria-live="polite" aria-atomic="true"></div>
+  </form>
+
+  <script>
+    var i18n = {
+      searchtitle: '{{ i18n "searchtitle" }}',
+      searchplaceholder: '{{ i18n "searchplaceholder" }}',
+      searchclose: '{{ i18n "searchclose" }}',
+      searchnoresults: '{{ i18n "searchnoresults" }}',
+      searchresults: '{{ i18n "searchresults" }}',
+      searcherror: '{{ i18n "searcherror" }}',
+      searcherrorhint: '{{ i18n "searcherrorhint" }}',
+      searchdisabled: '{{ i18n "searchdisabled" }}'
+    };
+    (function() {
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        if (!searchForm || !searchInput || !searchResults) return;
+
+        let searchIndex = [];
+
+        // 加载搜索索引
+        fetch('{{ "index.json" | relURL }}')
+          .then(response => {
+            if (!response.ok) throw new Error('HTTP error: ' + response.status);
+            return response.json();
           })
-        ]);
-        
-        search.start();
-      </script>
-      
-    {{- else -}}
-      {{- /* 默认: 无搜索 */ -}}
-      <div class="search-disabled" role="status">
-        <p>搜索功能已关闭。</p>
-      </div>
-    {{- end -}}
-    
+          .then(data => {
+            searchIndex = data;
+            if (searchResults.innerHTML.includes('search-error')) {
+              searchResults.innerHTML = '';
+            }
+          })
+          .catch(error => {
+            console.warn('Search index load failed:', error);
+            searchResults.innerHTML = `
+              <div class="search-error">
+                <p><i class="fas fa-exclamation-triangle"></i> ${i18n.searcherror}</p>
+                <p class="search-error-hint">${i18n.searcherrorhint}</p>
+              </div>
+            `;
+          });
+
+        // 执行搜索
+        function performSearch(query) {
+          if (!query.trim() || searchIndex.length === 0) {
+            searchResults.innerHTML = '';
+            return;
+          }
+
+          const normalizedQuery = query.toLowerCase().trim();
+          const results = searchIndex.filter(item => {
+            const title = item.title?.toLowerCase() || '';
+            const content = item.content?.toLowerCase() || '';
+            const summary = item.summary?.toLowerCase() || '';
+            return title.includes(normalizedQuery) ||
+                   content.includes(normalizedQuery) ||
+                   summary.includes(normalizedQuery);
+          });
+
+          displayResults(results, query);
+        }
+
+        // 显示结果
+        function displayResults(results, query) {
+          if (results.length === 0) {
+            searchResults.innerHTML = `
+              <div class="search-no-results">
+                <p>${i18n.searchnoresults} "<strong>${query}</strong>" ${i18n.searchtitle}</p>
+              </div>
+            `;
+            return;
+          }
+
+          let html = `
+            <div class="search-results-header">
+              <p>${results.length} ${i18n.searchresults}</p>
+            </div>
+            <ul class="search-results-list">
+          `;
+
+          results.forEach(result => {
+            const title = highlightText(result.title, query);
+            const excerpt = getExcerpt(result.content || result.summary, query);
+
+            html += `
+              <li class="search-result-item">
+                <a href="${result.permalink}" class="search-result-link">
+                  <h3 class="search-result-title">${title}</h3>
+                  <div class="search-result-excerpt">${excerpt}</div>
+                  <div class="search-result-meta">
+                    <span class="search-result-date">${formatDate(result.date)}</span>
+                    ${result.tags ? `<span class="search-result-tags">${result.tags.join(', ')}</span>` : ''}
+                  </div>
+                </a>
+              </li>
+            `;
+          });
+
+          html += '</ul>';
+          searchResults.innerHTML = html;
+        }
+
+        // 高亮文本
+        function highlightText(text, query) {
+          if (!text) return '';
+          const regex = new RegExp(`(${query})`, 'gi');
+          return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+        }
+
+        // 获取摘要
+        function getExcerpt(content, query, length = 120) {
+          if (!content) return '';
+          const normalizedContent = content.toLowerCase();
+          const queryIndex = normalizedContent.indexOf(query.toLowerCase());
+          if (queryIndex === -1) {
+            return content.substring(0, length) + '...';
+          }
+          const start = Math.max(0, queryIndex - 40);
+          const end = Math.min(content.length, queryIndex + 80);
+          let excerpt = content.substring(start, end);
+          if (start > 0) excerpt = '...' + excerpt;
+          if (end < content.length) excerpt = excerpt + '...';
+          return highlightText(excerpt, query);
+        }
+
+        // 格式化日期
+        function formatDate(dateString) {
+          if (!dateString) return '';
+          const date = new Date(dateString);
+          return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // 事件监听
+        searchForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          performSearch(searchInput.value);
+        });
+
+        searchInput.addEventListener('input', function() {
+          if (this.value.length >= 2) {
+            performSearch(this.value);
+          } else {
+            searchResults.innerHTML = '';
+          }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            this.value = '';
+            searchResults.innerHTML = '';
+          }
+        });
+      });
+    })();
+  </script>
+
+  {{- else if eq .Site.Params.searchProvider "algolia" -}}
+  <div class="algolia-search">
+    <div id="search-box"></div>
+    <div id="hits"></div>
   </div>
-  
-  <style>
-    .search-container {
-      position: relative;
-      margin: var(--sp-10) 0;
-    }
-    
-    .search-form {
-      margin-bottom: var(--sp-6);
-    }
-    
-    .search-input-group {
-      display: flex;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    
-    .search-input {
-      flex: 1;
-      padding: var(--sp-2) var(--sp-6);
-      border: 2px solid var(--c-border-main);
-      border-radius: var(--r-lg) 0 0 var(--r-lg);
-      font-size: 1rem;
-      transition: border-color var(--t-base) var(--ease-fluid);
-    }
-    
-    .search-input:focus {
-      outline: none;
-      border-color: var(--c-primary-400);
-    }
-    
-    .search-button {
-      padding: var(--sp-2) var(--sp-6);
-      background: var(--grad-primary);
-      color: white;
-      border: none;
-      border-radius: 0 var(--r-lg) var(--r-lg) 0;
-      cursor: pointer;
-      transition: transform var(--t-base) var(--ease-fluid);
-    }
-    
-    .search-button:hover,
-    .search-button:focus {
-      transform: scale(1.05);
-    }
-    
-    .search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--c-surface-main);
-      border: 1px solid var(--c-border-main);
-      border-radius: var(--r-lg);
-      box-shadow: var(--shadow-medium);
-      max-height: 400px;
-      overflow-y: auto;
-      z-index: 1000;
-      display: none;
-    }
-    
-    .search-results:not(:empty) {
-      display: block;
-    }
-    
-    .search-results-header {
-      padding: var(--sp-2) var(--sp-6);
-      border-bottom: 1px solid var(--c-border-main);
-      font-size: 0.9rem;
-      color: var(--c-text-muted);
-    }
-    
-    .search-results-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .search-result-item {
-      border-bottom: 1px solid var(--c-border-light);
-    }
-    
-    .search-result-item:last-child {
-      border-bottom: none;
-    }
-    
-    .search-result-link {
-      display: block;
-      padding: var(--sp-6);
-      text-decoration: none;
-      color: inherit;
-      transition: background-color var(--t-fast) var(--ease-fluid);
-    }
-    
-    .search-result-link:hover,
-    .search-result-link:focus {
-      background-color: var(--c-border-light);
-    }
-    
-    .search-result-title {
-      margin: 0 0 var(--sp-1);
-      font-size: 1.1rem;
-      color: var(--c-primary-400);
-    }
-    
-    .search-result-excerpt {
-      font-size: 0.9rem;
-      color: var(--c-text-muted);
-      line-height: 1.5;
-      margin-bottom: var(--sp-1);
-    }
-    
-    .search-result-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--c-text-muted);
-    }
-    
-    .search-highlight {
-      background-color: rgba(138, 75, 90, 0.2);
-      padding: 0 2px;
-      border-radius: 2px;
-    }
-    
-    .search-no-results,
-    .search-error,
-    .search-disabled {
-      padding: var(--sp-10);
-      text-align: center;
-      color: var(--c-text-muted);
-      background: rgba(138, 75, 90, 0.05);
-      border-radius: var(--r-lg);
-      border: 1px solid rgba(138, 75, 90, 0.1);
-      margin-top: var(--sp-6);
-    }
-    
-    .search-error {
-      background: rgba(255, 193, 7, 0.1);
-      border-color: rgba(255, 193, 7, 0.2);
-      color: var(--c-text-main);
-    }
-    
-    .search-error i {
-      color: #ffc107;
-      margin-right: var(--sp-2);
-    }
-    
-    .search-error-hint {
-      font-size: 0.9rem;
-      margin-top: var(--sp-2);
-      opacity: 0.8;
-    }
-    
-    /* 暗黑模式适配 */
-    [data-theme="dark"] .search-input {
-      background: var(--c-surface-main);
-      color: var(--c-text-main);
-      border-color: var(--c-border-main);
-    }
-    
-    [data-theme="dark"] .search-results {
-      background: var(--c-surface-main);
-      border-color: var(--c-border-main);
-    }
-    
-    [data-theme="dark"] .search-highlight {
-      background-color: rgba(138, 75, 90, 0.4);
-    }
-    
-    /* Algolia搜索样式 */
-    .algolia-search {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .ais-SearchBox-input {
-      width: 100%;
-      padding: var(--sp-2) var(--sp-6);
-      border: 2px solid var(--c-border-main);
-      border-radius: var(--r-lg);
-      font-size: 1rem;
-    }
-    
-    .hit {
-      padding: var(--sp-6);
-      border-bottom: 1px solid var(--c-border-main);
-    }
-    
-    .hit h3 {
-      margin: 0 0 var(--sp-1);
-    }
-    
-    .hit a {
-      color: var(--c-primary-400);
-      text-decoration: none;
-    }
-    
-    .hit-meta {
-      font-size: 0.8rem;
-      color: var(--c-text-muted);
-      margin-top: var(--sp-1);
-    }
-  </style>
+
+  {{- else -}}
+  <div class="search-disabled" role="status">
+    <p>搜索功能已关闭。</p>
+  </div>
+  {{- end -}}
+
+</div>
 {{- end -}}

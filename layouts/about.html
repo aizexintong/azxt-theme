@@ -1,13 +1,13 @@
 {{/* about.html - 关于页面
-     内容优先级: content/about.md > data/about.yaml content 字段
-     数据优先级: 站点 data/about.yaml > 主题 data/about.yaml */}}
+     数据来源: hugo.Data.about
+     如需自定义，请创建根目录 data/about.yaml */}}
 {{ define "main" }}
 <div class="section-content">
   <div class="container">
-    {{ $aboutData := .Site.Data.about | default dict }}
-    {{ $intro := $aboutData.intro | default dict }}
-    {{ $philosophy := $aboutData.philosophy | default dict }}
-    {{ $contact := $aboutData.contact | default dict }}
+    {{ $aboutData := hugo.Data.about }}
+    {{ $intro := $aboutData.intro }}
+    {{ $philosophy := $aboutData.philosophy }}
+    {{ $contact := $aboutData.contact }}
 
     <!-- 页面标题 -->
     <section class="page-header" data-aos="fade-up">
@@ -20,16 +20,17 @@
       <div class="intro-card card">
         <div class="intro-content">
           <div class="intro-text">
-            <h2>{{ $intro.name | default .Site.Params.author }}</h2>
-            <p class="intro-subtitle">{{ $intro.title | default (i18n "aboutsubtitle") }}</p>
+            <h2>{{ $intro.name }}</h2>
+            <p class="intro-subtitle">{{ $intro.title }}</p>
             <div class="intro-quote">
               <i class="fas fa-quote-left"></i>
-              <p>{{ $intro.quote | default (i18n "aboutquote") }}</p>
+              <p>{{ $intro.quote }}</p>
               <i class="fas fa-quote-right"></i>
             </div>
           </div>
            <div class="intro-image">
-            <img src="{{ .Site.Params.avatarImage }}" alt="{{ $intro.name | default .Site.Params.author }}" loading="lazy">
+            {{- $assets := hugo.Data.assets -}}
+            <img src="{{ $assets.avatar.url }}" alt="{{ $intro.name }}" loading="lazy">
             <div class="image-decoration"></div>
           </div>
         </div>
@@ -45,7 +46,7 @@
                 <div class="stat-number">
                   {{ if eq .number "auto" }}
                     {{ if eq .label (i18n "aboutarticles") }}{{ len (where site.RegularPages "Type" "posts") }}
-                    {{ else if eq .label (i18n "aboutskills") }}{{ len site.Params.skills }}
+                    {{ else if eq .label (i18n "aboutskills") }}{{ len (default 6 (index hugo.Data "skills").skills) }}
                     {{ else }}{{ .number }}{{ end }}
                   {{ else }}{{ .number }}{{ end }}
                 </div>

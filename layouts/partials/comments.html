@@ -4,9 +4,9 @@
  */ -}}
 
 {{- if .Site.Params.enableComments -}}
-  <section class="comments-section" aria-label="评论区域">
+  <section class="comments-section" aria-label='{{ i18n "commentsection" }}'>
     <div class="container">
-      <h2 class="section-title">评论</h2>
+      <h2 class="section-title">{{ i18n "comments" }}</h2>
       <div class="comments-container">
         
         {{- if eq .Site.Params.commentsProvider "disqus" -}}

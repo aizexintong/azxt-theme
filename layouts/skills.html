@@ -3,8 +3,9 @@
      未配置时自动使用主题默认值或 hugo.toml params.skills */}}
 {{ define "main" }}
 <div class="container">
-  {{ $skillsData := .Site.Data.skills | default dict }}
-  {{ $overview := $skillsData.overview | default dict }}
+  {{/* 数据来自 hugo.Data.skills (即 data/skills.yaml) */}}
+{{ $skillsData := hugo.Data.skills }}
+{{ $overview := $skillsData.overview }}
 
   <section class="page-header" data-aos="fade-up">
     <h1 class="page-title">{{ .Title }}</h1>
@@ -13,8 +14,8 @@
 
   <section class="skills-overview" data-aos="fade-up">
     <div class="skills-summary card">
-      <h2 class="section-title">{{ $overview.title | default (i18n "skillstitle") }}</h2>
-      <p class="section-subtitle">{{ $overview.subtitle | default (i18n "skillssubtitle") }}</p>
+      <h2 class="section-title">{{ $overview.title }}</h2>
+      <p class="section-subtitle">{{ $overview.subtitle }}</p>
       <div class="skills-categories">
         {{ with $overview.categories }}
           {{ range . }}
@@ -34,8 +35,7 @@
     <h2 class="section-title">{{ i18n "skillsdetail" }}</h2>
     <p class="section-subtitle">{{ i18n "skillsdetailsubtitle" }}</p>
     <div class="skills-detailed-grid">
-      {{ $skillsList := $skillsData.skills | default .Site.Params.skills | default slice }}
-      {{ range $skillsList }}
+      {{ range $skillsData.skills }}
       <div class="skill-detail-item card" data-aos="fade-up">
         <div class="skill-header">
           <h3 class="skill-name">{{ .name }}</h3>

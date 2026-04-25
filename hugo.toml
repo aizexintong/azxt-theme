@@ -1,10 +1,10 @@
 baseURL = 'https://azxt.org/'
 languageCode = 'zh-CN'
+languageName = '中文'
 title = '爱则心痛 | azxt'
 theme = 'illusion'
-
-# 启用 RSS 输出
-enableRSS = true
+defaultContentLanguage = 'zh'
+defaultContentLanguageInSubdir = false
 
 [params]
   author = "爱则心痛"
@@ -12,80 +12,32 @@ enableRSS = true
   email = "admin@azxt.org"
   github = "aizexintong"
   domain = "azxt.org"
-  
-# 主题颜色配置 - 朦胧幻梦 / 夜色幻梦
-  primaryColor = "#9B84FF"    # 朦胧紫主色
-  primaryLight = "#B3A0FF"  # 浅朦胧紫
-  primaryDark = "#7D64FF"   # 深朦胧紫
-  secondaryColor = "#FF7A9E" # 梦幻粉主色
-  secondaryLight = "#FF9CB8"  # 浅梦幻粉
-  accentColor = "#34D399"    # 薄荷绿主色
-  accentLight = "#6EE7B7"    # 浅薄荷绿
-  backgroundColor = "#F8F6FF" # 朦胧白
-  surfaceColor = "#FFFFFF"   # 表面白
-  textColor = "#312E4A"     # 深灰紫
-  textLight = "#5C5475"    # 中灰紫
-  neutralColor = "#E2DFF5"  # 中性灰
-  neutralLight = "#F0ECF5"  # 浅中性灰
-  
-  # 主题功能开关
-  enableParticles = true       # 粒子背景
-  enable3DEffects = true       # 3D卡片效果
-  enableScrollAnimations = true # 滚动动画
-  enableTypewriter = true      # 打字机效果
-  enableDarkMode = true        # 暗黑模式
-  enableAccessibility = true   # 可访问性增强
-  enableTOC = true             # 文章目录
-  
-  # 布局配置
-  heroLayout = "centered"      # 英雄区域布局: centered, left, right
-  postsLayout = "grid"         # 文章布局: grid, list, masonry
-  skillsLayout = "grid"        # 技能布局: grid, list, radial
-  footerLayout = "columns"     # 页脚布局: columns, simple, social
-  
-  # 图片配置
-  adaptiveImage = "https://t.alcy.cc/ycy"
-  horizontalImage = "https://t.alcy.cc/pc"
-  verticalImage = "https://t.alcy.cc/mp"
-  avatarImage = "https://t.alcy.cc/tx"
-  
-  # 技能配置
-  skills = [
-    { name = "JavaScript", level = 90 },
-    { name = "HTML5", level = 90 },
-    { name = "CSS3", level = 90 },
-    { name = "Python", level = 90 },
-    { name = "Flutter", level = 75 },
-    { name = "Rust", level = 55 }
-  ]
-  
-  # 社交链接配置
-  socialLinks = [
-    { platform = "github", url = "https://github.com/aizexintong/illusion", icon = "fab fa-github" },
-    { platform = "email", url = "mailto:admin@azxt.org", icon = "fas fa-envelope" },
-    { platform = "website", url = "https://azxt.org", icon = "fas fa-globe" }
-  ]
-  
-  # 评论系统配置
-  enableComments = false
-  commentsProvider = "disqus"  # disqus, utterances, giscus
-  disqusShortname = ""
-  utterancesRepo = ""
-  giscusRepo = ""
-  
-  # 搜索配置
+
+  enableDarkMode = true
   enableSearch = true
-  searchProvider = "local"     # local, algolia
-  
-  # SEO配置
+  searchProvider = "local"
+  enableParticles = true
+  enable3DEffects = true
+  enableScrollAnimations = true
+  enableTypewriter = true
+  enableAccessibility = true
+  enableTOC = true
+  enableComments = false
+  lazyLoadImages = true
+
   enableSchema = true
   enableOpenGraph = true
   enableTwitterCards = true
-  
-  # 性能配置
-  lazyLoadImages = true
-  optimizeCSS = true
-  optimizeJS = true
+
+  siteTime = "2026-04-01T00:00:00+08:00"
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    noClasses = false
+    tabWidth = 2
+    lineNos = false
 
 [menus]
   [[menus.main]]
@@ -97,7 +49,7 @@ enableRSS = true
 
   [[menus.main]]
     name = '文章'
-    pageRef = '/posts/'
+    pageRef = '/posts'
     weight = 10
     [menus.main.params]
       icon = 'fas fa-file-alt'
@@ -110,9 +62,16 @@ enableRSS = true
       icon = 'fas fa-archive'
 
   [[menus.main]]
-    name = '关于'
-    url = '/about/'
+    name = '标签'
+    pageRef = '/tags/'
     weight = 20
+    [menus.main.params]
+      icon = 'fas fa-tags'
+
+  [[menus.main]]
+    name = '关于'
+    pageRef = '/about'
+    weight = 30
     [menus.main.params]
       icon = 'fas fa-user'
 
@@ -130,7 +89,13 @@ enableRSS = true
     [menus.main.params]
       icon = 'fas fa-link'
 
-  # 底部链接菜单
+  [[menus.main]]
+    name = '工具'
+    url = '/tools/'
+    weight = 60
+    [menus.main.params]
+      icon = 'fas fa-tools'
+
   [[menus.footer]]
     name = '隐私政策'
     url = '/privacy/'
@@ -145,32 +110,10 @@ enableRSS = true
     [menus.footer.params]
       icon = 'fas fa-file-contract'
 
-[module]
-  [module.hugoVersion]
-    extended = false
-    min = '0.146.0'
-
-# 输出配置
 [outputs]
   home = ["HTML", "JSON", "RSS"]
   page = ["HTML"]
-  
-# RSS 配置
-[mediaTypes]
-  [mediaTypes."application/rss+xml"]
-    suffixes = ["xml"]
 
-[outputFormats]
-  [outputFormats.RSS]
-    mediatype = "application/rss+xml"
-    baseName = "index"
-
-  [outputFormats.JSON]
-    mediatype = "application/json"
-    baseName = "index"
-    isPlainText = true
-
-# Sitemap 配置
 [sitemap]
   changefreq = "weekly"
   filename = "sitemap.xml"

@@ -151,25 +151,27 @@ const EffectsManager = {
 
   config: {
     candy: {
-      ribbonCount: 20,
-      candyCount: 12,
-      heartCount: 5,
-      starCount: 8,
-      colors: ['#B3A0FF', '#9B84FF', '#FF9CB8', '#FF7A9E', '#6EE7B7', '#FCD34D', '#34D399', '#7D64FF', '#E83068', '#F59E0B'],
-      candyColors: ['#B3A0FF', '#E83068', '#FCD34D', '#34D399', '#7D64FF', '#F59E0B', '#FF9CB8']
+      ribbonCount: 35,
+      candyCount: 22,
+      heartCount: 10,
+      starCount: 15,
+      colors: ['#FF6B6B', '#FFA94D', '#FFD43B', '#69DB7C', '#4DABF7', '#9775FA', '#F783AC', '#FF8787', '#FFC078', '#FCC419'],
+      candyColors: ['#FF6B6B', '#FFA94D', '#FFD43B', '#69DB7C', '#4DABF7', '#9775FA', '#F783AC']
     },
     star: {
-      count: 60,
-      colors: ['#E8E4F5', '#E8C880', '#FFF0A0', '#D0B0FF', '#F0A0D8', '#C8A060'],
-      minSize: 1,
-      maxSize: 4
+      count: 80,
+      spectralTypes: [
+        { minSize: 2.5, maxSize: 4, colors: ['#FFFFFF', '#E8F0FF', '#D0E0FF'], weight: 1 },
+        { minSize: 1.5, maxSize: 3, colors: ['#FFF8F0', '#FFF0D0', '#FFE8C0'], weight: 3 },
+        { minSize: 0.8, maxSize: 1.8, colors: ['#FFD8B0', '#FFC090', '#FFA870'], weight: 4 }
+      ]
     },
     firefly: {
-      count: 20,
-      colors: ['#389068', '#50C878', '#70E0A0', '#98F0C0', '#50C878'],
-      minSize: 1.5,
-      maxSize: 3,
-      glowSize: 8
+      count: 35,
+      colors: ['#60FF80', '#50FF70', '#70FF90', '#40FF60', '#80FFA0'],
+      minSize: 1,
+      maxSize: 2,
+      glowSize: 5
     }
   },
 
@@ -195,6 +197,9 @@ const EffectsManager = {
       this.config.candy.heartCount = Math.floor(this.config.candy.heartCount * 0.5);
       this.config.candy.starCount = Math.floor(this.config.candy.starCount * 0.5);
       this.config.star.count = Math.floor(this.config.star.count * 0.5);
+      this.config.star.spectralTypes.forEach(t => {
+        t.minSize *= 0.8; t.maxSize *= 0.8;
+      });
       this.config.firefly.count = Math.floor(this.config.firefly.count * 0.5);
     }
   },
@@ -334,13 +339,13 @@ const EffectsManager = {
 
   createHeart(config) {
     const depth = Math.random();
-    const colors = ['#B3A0FF', '#9B84FF', '#FF9CB8', '#E83068'];
+    const colors = ['#FF6B6B', '#F783AC', '#FFA94D', '#FF8787', '#9775FA', '#4DABF7'];
     return {
       type: 'heart',
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight * 2 - window.innerHeight,
       speed: 0.4 + depth * 0.8,
-      color: colors[Math.floor(Math.random() * 4)],
+      color: colors[Math.floor(Math.random() * colors.length)],
       size: 6 + Math.random() * 10,
       rotation: (Math.random() - 0.5) * 0.3,
       wobble: Math.random() * Math.PI * 2,
@@ -352,7 +357,7 @@ const EffectsManager = {
 
   createDayStar(config) {
     const depth = Math.random();
-    const colors = ['#FCD34D', '#F59E0B', '#9B84FF', '#FF9CB8'];
+    const colors = ['#FFD43B', '#FFA94D', '#FF6B6B', '#69DB7C', '#4DABF7', '#F783AC'];
     return {
       type: 'dayStar',
       x: Math.random() * window.innerWidth,
@@ -377,16 +382,25 @@ const EffectsManager = {
   },
 
   createStar(config) {
+    const totalWeight = config.spectralTypes.reduce((s, t) => s + t.weight, 0);
+    let roll = Math.random() * totalWeight;
+    let type = config.spectralTypes[0];
+    for (const t of config.spectralTypes) {
+      roll -= t.weight;
+      if (roll <= 0) { type = t; break; }
+    }
+    const size = type.minSize + Math.random() * (type.maxSize - type.minSize);
+    const isBright = size > 2.5;
     return {
       type: 'star',
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight * 0.85,
-      size: config.minSize + Math.random() * (config.maxSize - config.minSize),
-      color: config.colors[Math.floor(Math.random() * config.colors.length)],
+      size: size,
+      color: type.colors[Math.floor(Math.random() * type.colors.length)],
       twinkle: Math.random() * Math.PI * 2,
-      twinkleSpeed: 0.015 + Math.random() * 0.04,
-      hasRays: Math.random() > 0.5,
-      rayLength: 2 + Math.random() * 5
+      twinkleSpeed: isBright ? 0.008 + Math.random() * 0.015 : 0.02 + Math.random() * 0.06,
+      hasRays: size > 2 && Math.random() > 0.4,
+      rayLength: 2 + size * 1.5 + Math.random() * 3
     };
   },
 
@@ -574,20 +588,20 @@ const EffectsManager = {
   },
 
   drawFirefly(p) {
-    const glow = 0.4 + Math.sin(p.phase) * 0.4 + 0.2;
+    const glow = 0.3 + Math.sin(p.phase) * 0.5 + 0.2;
     this.ctx.save();
-    const smallGlow = p.size * 3;
-    const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, smallGlow);
+    const glowRadius = p.size * 2.5;
+    const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowRadius);
     gradient.addColorStop(0, p.color);
-    gradient.addColorStop(0.4, p.color + 'A0');
+    gradient.addColorStop(0.3, p.color + 'B0');
     gradient.addColorStop(1, 'transparent');
-    this.ctx.globalAlpha = glow * 0.8;
+    this.ctx.globalAlpha = glow * 0.7;
     this.ctx.fillStyle = gradient;
     this.ctx.beginPath();
-    this.ctx.arc(p.x, p.y, smallGlow, 0, Math.PI * 2);
+    this.ctx.arc(p.x, p.y, glowRadius, 0, Math.PI * 2);
     this.ctx.fill();
     this.ctx.globalAlpha = glow;
-    this.ctx.fillStyle = '#FFFFF0';
+    this.ctx.fillStyle = '#B0FFB0';
     this.ctx.beginPath();
     this.ctx.arc(p.x, p.y, p.size * 0.5, 0, Math.PI * 2);
     this.ctx.fill();
@@ -637,17 +651,17 @@ const EffectsManager = {
   createShootingStar() {
     const startX = Math.random() * window.innerWidth;
     const startY = Math.random() * window.innerHeight * 0.5;
-    const angle = Math.PI / 4 + (Math.random() - 0.5) * 0.5;
-    const speed = 8 + Math.random() * 6;
+    const angle = Math.PI / 3 + (Math.random() - 0.5) * 0.8;
+    const speed = 6 + Math.random() * 12;
     return {
       x: startX,
       y: startY,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
-      length: 80 + Math.random() * 60,
+      length: 50 + Math.random() * 100,
       life: 1,
-      decay: 0.015 + Math.random() * 0.01,
-      width: 1.5 + Math.random() * 1
+      decay: 0.008 + Math.random() * 0.015,
+      width: 1 + Math.random() * 1.5
     };
   },
 
@@ -655,8 +669,17 @@ const EffectsManager = {
     if (this.currentMode !== 'night') return;
     
     const now = Date.now();
-    if (now - this.lastShootingStarTime > 4000 + Math.random() * 6000) {
-      this.shootingStars.push(this.createShootingStar());
+    const interval = 2000 + Math.random() * 10000;
+    if (now - this.lastShootingStarTime > interval) {
+      const count = Math.random() > 0.7 ? 2 + Math.floor(Math.random() * 3) : 1;
+      for (let i = 0; i < count; i++) {
+        const star = this.createShootingStar();
+        if (i > 0) {
+          star.x += (Math.random() - 0.5) * 200;
+          star.y += (Math.random() - 0.5) * 100;
+        }
+        this.shootingStars.push(star);
+      }
       this.lastShootingStarTime = now;
     }
     
@@ -683,7 +706,7 @@ const EffectsManager = {
         star.y - star.vy * 0.1 * star.length / 8
       );
       gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      gradient.addColorStop(0.3, 'rgba(208, 176, 255, 0.8)');
+      gradient.addColorStop(0.2, 'rgba(230, 240, 255, 0.9)');
       gradient.addColorStop(1, 'transparent');
       
       this.ctx.strokeStyle = gradient;
@@ -698,12 +721,19 @@ const EffectsManager = {
       this.ctx.stroke();
       
       // 星头光晕
-      const headGradient = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, 4);
-      headGradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+      const headGradient = this.ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, 6);
+      headGradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      headGradient.addColorStop(0.3, 'rgba(230, 240, 255, 0.6)');
       headGradient.addColorStop(1, 'transparent');
       this.ctx.fillStyle = headGradient;
       this.ctx.beginPath();
-      this.ctx.arc(star.x, star.y, 4, 0, Math.PI * 2);
+      this.ctx.arc(star.x, star.y, 6, 0, Math.PI * 2);
+      this.ctx.fill();
+      
+      // 中间亮核
+      this.ctx.fillStyle = '#FFFFFF';
+      this.ctx.beginPath();
+      this.ctx.arc(star.x, star.y, 1.5, 0, Math.PI * 2);
       this.ctx.fill();
       
       this.ctx.restore();
@@ -1053,20 +1083,28 @@ const InteractionManager = {
   initSearch() {
     const searchToggle = document.querySelector('.search-toggle');
     const searchModal = document.getElementById('search-modal');
-    const searchClose = searchModal?.querySelector('.search-close');
+    const searchOverlay = document.getElementById('search-modal-overlay');
+    const searchClose = document.getElementById('search-modal-close');
     const searchInput = searchModal?.querySelector('input[type="search"]');
     if (!searchToggle || !searchModal) return;
     const openSearch = () => {
       searchModal.classList.add('active');
+      searchOverlay?.classList.add('active');
+      searchModal.removeAttribute('aria-hidden');
+      searchOverlay?.removeAttribute('aria-hidden');
       searchInput?.focus();
       document.body.style.overflow = 'hidden';
     };
     const closeSearch = () => {
       searchModal.classList.remove('active');
+      searchOverlay?.classList.remove('active');
+      searchModal.setAttribute('aria-hidden', 'true');
+      searchOverlay?.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     };
     searchToggle.addEventListener('click', openSearch);
     searchClose?.addEventListener('click', closeSearch);
+    searchOverlay?.addEventListener('click', closeSearch);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && searchModal.classList.contains('active')) closeSearch();
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -1201,12 +1239,6 @@ const EnhancementManager = {
           .replace(/^-+|-+$/g, '');
         heading.id = id || `heading-${Math.random().toString(36).substr(2, 9)}`;
       }
-      const anchor = document.createElement('a');
-      anchor.className = 'heading-anchor';
-      anchor.href = `#${heading.id}`;
-      anchor.innerHTML = '<i class="fas fa-link"></i>';
-      anchor.setAttribute('aria-label', '链接到此标题');
-      heading.appendChild(anchor);
     });
   }
 };

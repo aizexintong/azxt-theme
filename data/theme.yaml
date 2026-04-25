@@ -1,7 +1,0 @@
-# 主题配置
-# 这个文件包含主题相关的配置信息
-
-labels:
-  lightLabel: "浅色主题"
-  darkLabel: "深色主题"
-  systemLabel: "跟随系统"

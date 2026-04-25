@@ -3,13 +3,14 @@
      未配置时自动使用主题默认值 */}}
 {{ define "main" }}
 <div class="container">
-  {{ $friendsData := .Site.Data.friends | default dict }}
-  {{ $pageInfo := $friendsData.page | default dict }}
-  {{ $applyInfo := $friendsData.apply | default dict }}
+  {{/* 数据来自 hugo.Data.friends (即 data/friends.yaml) */}}
+{{ $friendsData := hugo.Data.friends }}
+{{ $pageInfo := $friendsData.page }}
+{{ $applyInfo := $friendsData.apply }}
 
   <section class="friends-links" data-aos="fade-up">
-    <h2 class="section-title">{{ $pageInfo.title | default (i18n "linkstitle") }}</h2>
-    <p class="section-subtitle">{{ $pageInfo.subtitle | default (i18n "linkssubtitle") }}</p>
+    <h2 class="section-title">{{ $pageInfo.title }}</h2>
+    <p class="section-subtitle">{{ $pageInfo.subtitle }}</p>
     <div class="links-container">
       <div class="links-grid">
         {{ with $friendsData.friends }}
@@ -33,7 +34,7 @@
 
   <section class="apply-links" data-aos="fade-up">
     <div class="apply-card card">
-      <h2 class="section-title">{{ $applyInfo.title | default (i18n "linksapply") }}</h2>
+      <h2 class="section-title">{{ $applyInfo.title }}</h2>
       <div class="apply-content">
         <div class="apply-info">
           <h3>{{ i18n "linksconditions" }}</h3>
@@ -54,9 +55,9 @@
           {{ end }}
         </div>
         <div class="apply-contact">
-          <h3>{{ $applyInfo.contactTitle | default (i18n "linkscontact") }}</h3>
-          <p>{{ $applyInfo.contactDescription | default (i18n "linkscontactdesc") }}</p>
-          <div class="contact-methods">
+          <h3>{{ $applyInfo.contactTitle }}</h3>
+          <p>{{ $applyInfo.contactDescription }}</p>
+          <div class="apply-contact-methods">
             {{ with $applyInfo.contactMethods }}
               {{ range . }}
               <a href="{{ .link }}" class="contact-btn" {{ if hasPrefix .link "http" }}target="_blank" rel="noopener"{{ end }}><i class="{{ .icon }}"></i> {{ .label }}</a>

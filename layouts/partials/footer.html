@@ -9,13 +9,13 @@
           <p><i class="fas fa-globe" aria-hidden="true"></i> {{ .Site.Params.domain }}</p>
         </div>
       </div>
-      
+
       <div class="footer-section">
         <h2 id="quick-links" class="title-anime">{{ i18n "footerquicklinks" }}</h2>
         <ul class="footer-links quick-links-grid" role="list" aria-labelledby="quick-links">
           {{ range site.Menus.main }}
           <li role="listitem">
-            <a href="{{ .URL }}" aria-label="访问 {{ .Name }} 页面">
+            <a href="{{ .URL }}" class="footer-link" aria-label="访问 {{ .Name }} 页面">
               {{ with .Params.icon }}<i class="{{ . }}" aria-hidden="true"></i>{{ end }}
               {{ .Name }}
             </a>
@@ -23,53 +23,132 @@
           {{ end }}
         </ul>
       </div>
-      
+
       <div class="footer-section">
         <h2 id="tech-stack" class="title-anime">{{ i18n "footertechstack" }}</h2>
         <div class="tech-tags" role="list" aria-labelledby="tech-stack">
-          {{ range .Site.Params.skills }}
+          {{- with hugo.Data.skills.skills -}}
+            {{- range first 6 . -}}
           <span class="tech-tag" role="listitem" aria-label="技能: {{ .name }}">{{ .name }}</span>
-          {{ end }}
+            {{- end -}}
+          {{- end -}}
         </div>
       </div>
-      
+
       <div class="footer-section">
         <h2 id="follow-me" class="title-anime">{{ i18n "footerfollow" }}</h2>
         <div class="social-links" role="list" aria-labelledby="follow-me">
-          {{ range .Site.Params.socialLinks }}
-          <a href="{{ .url }}" class="social-link" target="_blank" rel="noopener" aria-label="{{ .platform }}" role="listitem">
+          {{- range hugo.Data.social.links -}}
+            {{- if and .show .url -}}
+          <a href="{{ .url }}" class="social-link" target="_blank" rel="noopener nofollow" aria-label="{{ .label }}" role="listitem">
             <i class="{{ .icon }}" aria-hidden="true"></i>
           </a>
-          {{ end }}
+            {{- end -}}
+          {{- end -}}
         </div>
-        <p class="footer-note" aria-label="网站座右铭">{{ i18n "footermotto" }}</p>
+        <p class="footer-note">{{ i18n "footermotto" }}</p>
       </div>
     </div>
-    
+
     <div class="copyright">
       <div class="copyright-links">
-        {{/* 底部菜单链接 */}}
         {{ range site.Menus.footer }}
-          <a href="{{ .URL }}" class="copyright-link" onclick="createClickStar(event)">
+          <a href="{{ .URL }}" class="footer-link">
             {{ with .Params.icon }}<i class="{{ . }}"></i>{{ end }}
             {{ .Name }}
           </a>
         {{ end }}
-        
-        {{/* 网站地图链接 */}}
-        <a href="{{ "sitemap.xml" | relURL }}" class="copyright-link" aria-label="{{ i18n "footersitemap" }}">
+        <a href="{{ "sitemap.xml" | relURL }}" class="footer-link" aria-label="{{ i18n "footersitemap" }}">
           <i class="fas fa-sitemap"></i> {{ i18n "footersitemap" }}
         </a>
-        
-        {{/* RSS 订阅链接 */}}
-        <a href="{{ "index.xml" | relURL }}" class="copyright-link" aria-label="RSS 订阅">
+        <a href="{{ "index.xml" | relURL }}" class="footer-link" aria-label="RSS 订阅">
           <i class="fas fa-rss"></i> RSS
         </a>
       </div>
-      <p>{{ i18n "footercopyright" (dict "Year" (now.Year) "Author" .Site.Params.author) }}</p>
-      <p class="powered-by">
-        {{ i18n "footerpowered" (dict "HugoURL" "https://gohugo.io/" "IllusionURL" "https://github.com/aizexintong/illusion") | safeHTML }}
+
+      <p id="footer-copyright"></p>
+
+      <p class="site-uptime" id="site-uptime" aria-label="建站运行时长">
+        <i class="fas fa-clock" aria-hidden="true"></i>
+        <span id="uptime-display">加载中...</span>
       </p>
+
+      <p class="powered-by" id="footer-powered"></p>
     </div>
   </div>
 </footer>
+
+<script>
+(function() {
+  var siteTime = "{{ .Site.Params.siteTime }}";
+  var siteUrl = "{{ .Site.BaseURL }}";
+  var author = "{{ .Site.Params.author }}";
+
+  var uptimeColors = [
+    '#E06050',
+    '#E09040',
+    '#E0A070',
+    '#50C878',
+    '#60A8D0',
+    '#D08090'
+  ];
+
+  function updateFooter() {
+    var now = new Date();
+    var siteStart = new Date(siteTime);
+    var currentYear = now.getFullYear();
+    var startYear = siteStart.getFullYear();
+
+    var yearStr = currentYear === startYear ? "\u00A9 " + currentYear : "\u00A9 " + startYear + " - " + currentYear;
+
+    document.getElementById("footer-copyright").innerHTML =
+      yearStr + ' ' + author + '·网站版权由 <a href="' + siteUrl + '" style="color: var(--c-primary-500);text-decoration:none;">' + author + '</a> 所有';
+
+    document.getElementById("footer-powered").innerHTML =
+      '\u7531 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> \u5F3A\u529B\u9A71\u52A8 \u00B7 \u4E3B\u9898\uFF1A<a href="https://github.com/aizexintong/illusion" target="_blank" rel="noopener">\u5E7B\u68A6 Illusion</a> \u00B7 \u4F5C\u8005\uFF1A<a href="https://github.com/aizexintong" target="_blank" rel="noopener">' + author + '</a>';
+
+    var years = now.getFullYear() - siteStart.getFullYear();
+    var months = now.getMonth() - siteStart.getMonth();
+    var days = now.getDate() - siteStart.getDate();
+
+    if (days < 0) {
+      months--;
+      var prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += prevMonth.getDate();
+    }
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    var diff = now - siteStart;
+    var totalSeconds = Math.floor(diff / 1000);
+    var seconds = totalSeconds % 60;
+    var minutes = Math.floor(totalSeconds / 60) % 60;
+    var hours = Math.floor(totalSeconds / 3600) % 24;
+
+    var nums = [pad4(years), pad2(months), pad2(days), pad2(hours), pad2(minutes), pad2(seconds)];
+    var seps = [
+      '<span style="color:var(--c-text-disabled);margin:0 1px;">-</span>',
+      '<span style="color:var(--c-text-disabled);margin:0 1px;">-</span>',
+      '<span style="color:#D4B040;margin:0 1px;font-weight:var(--fw-bold);">T</span>',
+      '<span style="color:var(--c-text-disabled);margin:0 1px;">:</span>',
+      '<span style="color:var(--c-text-disabled);margin:0 1px;">:</span>'
+    ];
+
+    var html = '\u5DF2\u8FD0\u884C ';
+    for (var i = 0; i < nums.length; i++) {
+      if (i > 0) html += seps[i - 1];
+      html += '<span style="color:' + uptimeColors[i] + ';font-weight:var(--fw-semibold);font-variant-numeric:tabular-nums;">' + nums[i] + '</span>';
+    }
+
+    document.getElementById("uptime-display").innerHTML = html;
+  }
+
+  function pad2(n) { return n < 10 ? "0" + n : n; }
+  function pad4(n) { return String(n).padStart(4, '0'); }
+
+  updateFooter();
+  setInterval(updateFooter, 1000);
+})();
+</script>

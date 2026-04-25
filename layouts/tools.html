@@ -1,0 +1,53 @@
+{{- /*
+ * 工具页面 (Tools Page)
+ * 数据来源: data/tools.yaml
+ * 开关控制: params.featuredPages.enableTools
+ */ -}}
+{{ define "main" }}
+{{- $toolsData := hugo.Data.tools -}}
+{{- $pageInfo := $toolsData.page -}}
+{{- $categories := $toolsData.categories -}}
+
+<div class="container">
+  <section class="page-header" data-aos="fade-up">
+    <h1 class="page-title">{{ .Title }}</h1>
+    <p class="page-description">{{ .Description }}</p>
+  </section>
+
+  <section class="tools-section">
+    {{- range $categories -}}
+    <div class="tools-category" data-aos="fade-up">
+      <div class="category-header">
+        <div class="category-icon"><i class="{{ .icon }}"></i></div>
+        <div class="category-info">
+          <h2 class="category-title">{{ .name }}</h2>
+          <p class="category-description">{{ .description }}</p>
+        </div>
+      </div>
+
+      <div class="tools-grid">
+        {{- range .tools -}}
+        <a href="{{ .url }}" class="tool-card" target="_blank" rel="noopener nofollow" data-aos="zoom-in">
+          <div class="tool-icon">
+            {{- if hasPrefix .icon "http" -}}
+            <img src="{{ .icon }}" alt="{{ .name }}" loading="lazy">
+            {{- else -}}
+            <i class="{{ .icon }}"></i>
+            {{- end -}}
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-name">{{ .name }}</h3>
+            <p class="tool-description">{{ .description }}</p>
+          </div>
+          <div class="tool-arrow">
+            <i class="fas fa-external-link-alt"></i>
+          </div>
+        </a>
+        {{- end -}}
+      </div>
+    </div>
+    {{- end -}}
+  </section>
+</div>
+
+{{ end }}

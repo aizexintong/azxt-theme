@@ -5,20 +5,21 @@
         <a href="{{ "/" | relURL }}" class="site-title" aria-label="{{ i18n "btnbackhome" }}">
           {{ site.Title }}
         </a>
-        <div class="site-subtitle" aria-label="{{ i18n "headersubtitle" }}">{{ i18n "headersubtitle" }}</div>
+        <div class="site-subtitle">{{ i18n "headersubtitle" }}</div>
       </div>
-      
+
       <nav class="main-nav" aria-label="{{ i18n "headermainnav" }}">
         {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
       </nav>
-      
+
       <div class="header-actions">
-        {{ if .Site.Params.enableDarkMode }}
+        {{- $params := .Site.Params -}}
+        {{- if $params.enableDarkMode }}
         <button class="theme-toggle" id="theme-toggle" aria-label="{{ i18n "themelabel" }}" title="{{ i18n "headertitletoggle" }}">
           <i class="fas fa-moon"></i>
         </button>
         {{ end }}
-        {{ if .Site.Params.enableSearch }}
+        {{- if $params.enableSearch }}
         <button class="search-toggle" id="search-toggle" aria-label="{{ i18n "navsearch" }}" title="{{ i18n "navsearch" }}">
           <i class="fas fa-search"></i>
         </button>
@@ -40,11 +41,14 @@
   {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
   <div class="mobile-menu-footer">
     <div class="social-links" role="list" aria-label="{{ i18n "headersociallinks" }}">
-      {{ range .Site.Params.socialLinks }}
-      <a href="{{ .url }}" class="social-link" target="_blank" rel="noopener" aria-label="{{ .platform }}">
-        <i class="{{ .icon }}"></i>
-      </a>
-      {{ end }}
+      {{- $social := (hugo.Data.social).links -}}
+      {{- range $social -}}
+        {{- if and .show .url -}}
+        <a href="{{ .url }}" class="social-link" target="_blank" rel="noopener nofollow" aria-label="{{ .label }}">
+          <i class="{{ .icon }}"></i>
+        </a>
+        {{- end -}}
+      {{- end -}}
     </div>
   </div>
 </nav>

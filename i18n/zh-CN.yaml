@@ -274,6 +274,12 @@ themedark:
   other: "切换到浅色模式"
 themesystem:
   other: "切换到手动模式"
+themLightLabel:
+  other: "浅色模式"
+themDarkLabel:
+  other: "深色模式"
+themSystemLabel:
+  other: "跟随系统"
 
 # ----- 滚动按钮 -----
 scrolltotop:
@@ -288,12 +294,16 @@ tagcloudtitle:
 # ----- 分类 -----
 categoriestitle:
   other: "分类"
+tagstitle:
+  other: "标签"
 taxonomycount:
   other: "共 {{ .Count }} 个标签/分类/条目"
 taxonomyempty:
   other: "暂无标签/分类/条目"
 termcount:
   other: "共 {{ .Count }} 篇文章"
+termempty:
+  other: "暂无文章"
 
 # ----- 技能短代码 -----
 skillsoverview:
@@ -378,3 +388,27 @@ postmetainfo:
   other: "文章信息"
 postcontinue:
   other: "继续阅读"
+
+# ----- 页脚额外 ----- 
+siteuptime:
+  other: "建站运行时长"
+rsssub:
+  other: "RSS 订阅"
+
+# ----- 通用 ----- 
+close:
+  other: "关闭"
+searchmodaltitle:
+  other: "搜索文章"
+searchmodalclose:
+  other: "关闭搜索"
+searchloading:
+  other: "加载中..."
+commentsection:
+  other: "评论区域"
+comments:
+  other: "评论"
+commentenablejs:
+  other: "请启用JavaScript以查看Disqus评论"
+relatedposts:
+  other: "推荐阅读"

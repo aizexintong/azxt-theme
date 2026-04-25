@@ -2,6 +2,9 @@
 title: "关于我"
 description: "爱则心痛的个人博客 - 分享技术、生活和思考"
 layout: "about"
+build:
+  render: true
+  list: false
 ---
 
 # 关于我的故事
