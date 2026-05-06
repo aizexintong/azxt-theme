@@ -502,7 +502,7 @@
 
 #footer-copyright a {
   color: var(--c-primary-500);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 #footer-copyright a:hover {

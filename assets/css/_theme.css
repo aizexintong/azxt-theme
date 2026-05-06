@@ -16,6 +16,7 @@
 
 [data-theme="light"] .skill-bar { background: var(--c-primary-100); }
 [data-theme="light"] .skill-progress { background: var(--grad-primary); }
+[data-theme="light"] .skill-percent { color: var(--c-primary-900); }
 [data-theme="light"] .btn-primary { background: var(--grad-primary); }
 
 [data-theme="light"] .btn-primary:hover {
@@ -36,6 +37,7 @@
 [data-theme="light"] .cloud-tag {
   background: var(--c-primary-100);
   border: 1px solid var(--c-primary-200);
+  color: var(--c-primary-900);
 }
 
 [data-theme="light"] .post-tag:hover,

@@ -263,7 +263,7 @@
       {{ $skillCount := $skillsData.count | default 6 }}
       {{ $skillsList := default slice (index hugo.Data "skills").skills }}
       {{ range $index, $element := first $skillCount $skillsList }}
-      <div class="skill-item" data-aos="zoom-in" data-aos-delay="{{ mul $index 80 }}">
+      <div class="skill-item" data-aos="zoom-in" data-aos-delay="{{ mul $index 80 }}" role="listitem">
         <div class="skill-icon">
           {{ if eq .name "JavaScript" }}<i class="fab fa-js-square"></i>
           {{ else if eq .name "HTML5" }}<i class="fab fa-html5"></i>
