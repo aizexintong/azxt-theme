@@ -6,7 +6,7 @@ Renders a menu for the given menu ID.
 {{- $menuID := .menuID }}
 
 {{- with index site.Menus $menuID }}
-  <ul>
+  <ul role="menubar">
     {{- range . }}
       {{- $attrs := dict "href" .URL }}
       {{- if $page.IsMenuCurrent .Menu . }}
@@ -26,7 +26,6 @@ Renders a menu for the given menu ID.
               {{- printf " %s=%q" $k $v | safeHTMLAttr }}
             {{- end }}
           {{- end -}}
-          tabindex="0"
         >
           {{- if $icon }}<i class="{{ $icon }}" aria-hidden="true"></i>{{ end }}
           <span class="nav-text">{{ $name }}</span>

@@ -402,7 +402,7 @@
 
 .post-tag {
   font-size: 0.8125rem;
-  color: var(--c-primary-500);
+  color: var(--c-primary-700);
   background: var(--c-primary-100);
   padding: 0.2rem 0.625rem;
   border-radius: var(--r-full);
@@ -602,7 +602,7 @@
 }
 
 .skill-percent {
-  color: var(--c-primary-400);
+  color: var(--c-primary-700);
   font-weight: var(--fw-semibold);
 }
 

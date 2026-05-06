@@ -998,16 +998,29 @@ const InteractionManager = {
     const menu = document.querySelector('.mobile-menu');
     const overlay = document.querySelector('.mobile-menu-overlay');
     if (!menuToggle || !menu) return;
+    const setMenuFocusable = (focusable) => {
+      const elements = menu.querySelectorAll('a, button, [tabindex]');
+      elements.forEach(el => {
+        el.setAttribute('tabindex', focusable ? '0' : '-1');
+      });
+    };
     const openMenu = () => {
       menu.classList.add('active');
+      menu.setAttribute('aria-hidden', 'false');
       overlay?.classList.add('active');
+      overlay?.setAttribute('aria-hidden', 'false');
+      setMenuFocusable(true);
       document.body.style.overflow = 'hidden';
     };
     const closeMenu = () => {
       menu.classList.remove('active');
+      menu.setAttribute('aria-hidden', 'true');
       overlay?.classList.remove('active');
+      overlay?.setAttribute('aria-hidden', 'true');
+      setMenuFocusable(false);
       document.body.style.overflow = '';
     };
+    setMenuFocusable(false);
     menuToggle.addEventListener('click', openMenu);
     menuClose?.addEventListener('click', closeMenu);
     overlay?.addEventListener('click', closeMenu);

@@ -103,7 +103,7 @@
     </div>
     
     {{/* 文章网格 */}}
-    <div class="posts-grid">
+    <div class="posts-grid" role="list">
       {{ $postCount := $posts.count | default 6 }}
       {{ range $index, $element := first $postCount (where site.RegularPages "Type" "posts") }}
       <article class="post-card" data-aos="fade-up" data-aos-delay="{{ mul $index 100 }}" role="listitem">
@@ -259,7 +259,7 @@
     </div>
     
     {{/* 技能网格 */}}
-    <div class="skills-grid">
+    <div class="skills-grid" role="list">
       {{ $skillCount := $skillsData.count | default 6 }}
       {{ $skillsList := default slice (index hugo.Data "skills").skills }}
       {{ range $index, $element := first $skillCount $skillsList }}
