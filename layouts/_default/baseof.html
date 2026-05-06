@@ -46,9 +46,11 @@
     <img src="" alt="" id="img-lightbox-img">
   </div>
 
-  <!-- 第三方库脚本 (延迟加载) -->
-  <script defer src="{{ "lib/aos/aos.js" | relURL }}"></script>
-  <script defer src="{{ "lib/typed.js/typed.js" | relURL }}"></script>
+  {{/* 第三方库脚本 CDN优先，本地回退 */}}
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" crossorigin="anonymous"
+    onerror="var a=document.createElement('script');a.defer=true;a.src='{{ "lib/aos/aos.js" | relURL }}';this.insertAdjacentElement('afterend',a)"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js" crossorigin="anonymous"
+    onerror="var t=document.createElement('script');t.defer=true;t.src='{{ "lib/typed.js/typed.js" | relURL }}';this.insertAdjacentElement('afterend',t)"></script>
 
   <!-- 主题配置 -->
   <script>
